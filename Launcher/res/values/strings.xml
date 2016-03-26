@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Launcher</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="weather_sunny">晴</string>
+    <string name="weather_sunny_night">晴-夜晚</string>
+    <string name="weather_cloudy">多云</string>
+    <string name="weather_cloudy_night">多云-夜晚</string>
+    <string name="weather_fog">雾</string>
+    <string name="weather_haze">雾霾</string>
+    <string name="weather_overcast">阴天</string>
+    <string name="weather_rain">雨</string>
+
+</resources>
