@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+        android:background="@drawable/left_bg"
+        >
+        <TextView 
+            android:id="@+id/tip"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="播放列表（3/60）"
+            />
+        <ListView
+            android:id="@+id/songList"
+            android:layout_width="481dp"
+            android:layout_height="match_parent" >
+        </ListView>
+    </LinearLayout>
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        
+        <ImageView 
+            android:id="@+id/meddleBG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/meddle_bg"
+            /> 
+	  <ImageView 
+	      	android:layout_toRightOf="@+id/meddleBG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/meddle_bg"
+            />
+  	
+	</RelativeLayout>
+
+</LinearLayout>

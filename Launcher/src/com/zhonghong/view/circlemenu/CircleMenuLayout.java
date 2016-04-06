@@ -28,7 +28,6 @@ import com.zhonghong.launcher_qz.R;
 public class CircleMenuLayout extends ViewGroup {
 
 	private static final String tag = "CircleMenuLayout";
-	
 	/**
 	 *  直径
 	 */

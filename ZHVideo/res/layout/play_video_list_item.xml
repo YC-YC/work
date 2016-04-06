@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res/com.zhonghong.zhvideo"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <!-- 缩略图 -->
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <com.zhcl.ui.widget.VideoImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:hscale="0.56" />
+          <!--  <com.zhcl.ui.widget.CustomImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            custom:type="circle"
+            custom:whscale="1.0"
+            custom:src="@drawable/danmu_bubble_itembg"/>  -->
+        <!-- android:singleLine="true" 使用会导致事件异常！触摸到是viewpage无法左右滑动 -->
+
+	 <!-- <ImageView  android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/danmu_bubble_itembg"/>  -->
+        <TextView
+            android:id="@+id/info"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:background="@drawable/danmu_bubble_itembg"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:maxLines="1"
+            android:text="时长"
+            android:visibility="gone"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:maxLines="1"
+            android:text="影片名"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</LinearLayout>

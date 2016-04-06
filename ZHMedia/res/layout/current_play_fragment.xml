@@ -1,0 +1,109 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/list_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/rightl"
+        android:orientation="horizontal" >
+
+        <com.zhcl.ui.widget.shader.CircularImageView
+            android:id="@+id/musicImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:alpha="1"
+            app:siBorderAlpha="0" />
+
+        <LinearLayout
+            android:id="@+id/musicInfoLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/musicImage"
+            android:orientation="vertical" >
+
+            <!-- 当前歌曲和歌手 -->
+
+            <TextView
+                android:id="@+id/musicName"
+                style="@style/AudioFileInfoOverlayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="未知歌曲"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/singer"
+                style="@style/AudioFileInfoOverlayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="未知歌手"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rightl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/online"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:text="在线"
+            android:textSize="23sp"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/playPause"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/minibar_btn_play_xml" />
+
+        <ImageButton
+            android:id="@+id/menu"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/minibar_btn_playlist_xml" />
+		<View 
+		    android:layout_width="1dp"
+		    android:layout_height="40dp"
+		    android:background="@color/list_line"
+		    android:layout_gravity="center_vertical"
+		    />
+        <ImageButton
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/local_search_icon_xml" />
+    </LinearLayout>
+
+</RelativeLayout>

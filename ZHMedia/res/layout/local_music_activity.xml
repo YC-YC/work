@@ -1,0 +1,33 @@
+<!-- 当成一个fragment -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <!-- 主体fragment -->
+    <FrameLayout
+        android:id="@+id/currenBody"
+        android:layout_below="@+id/topBase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/currentFragment"
+        android:background="@null" >
+    </FrameLayout>
+
+    <!-- 当前播放fragment -->
+    <FrameLayout
+        android:id="@+id/currentFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@null" >
+    </FrameLayout>
+	<!-- 最上层显示的view，有需求只允许重写此view，在次view中添加 -->
+	<com.zhcl.ui.music.ScanProgressView 
+	    android:id="@+id/gtop"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginTop="75dp"
+	    />
+</RelativeLayout>

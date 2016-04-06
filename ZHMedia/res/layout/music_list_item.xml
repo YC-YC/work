@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/songTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="标题" />
+
+    <TextView
+        android:id="@+id/songSinger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="歌手" />
+
+    <TextView
+        android:id="@+id/songAlbum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="专辑" />
+
+    <TextView
+        android:id="@+id/songPath"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="路径" />
+
+</LinearLayout>

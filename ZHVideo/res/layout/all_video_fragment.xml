@@ -1,0 +1,84 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center" >
+
+    <!--
+    <RelativeLayout
+        android:id="@+id/allVideoAll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.zhcl.ui.widget.MyGridView
+            android:id="@+id/allVideoList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="3"
+            android:padding="10dip"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp" />
+    </RelativeLayout>
+    -->
+
+
+    <!--
+         <LinearLayout
+        android:id="@+id/allVideoAll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    -->
+
+    <HorizontalScrollView
+        android:layout_width="770dp"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:id="@+id/allVideoAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <GridView
+                android:id="@+id/allVideoList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:numColumns="auto_fit" >
+            </GridView>
+        </RelativeLayout>
+    </HorizontalScrollView>
+    <!-- </LinearLayout> -->
+
+
+    <!--
+    <RelativeLayout
+        android:id="@+id/allVideoAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.zhcl.ui.widget.MyHorizontalScollView
+            android:id="@+id/id_horizontalscollview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:id="@+id/id_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </com.zhcl.ui.widget.MyHorizontalScollView>
+    </RelativeLayout>
+    -->
+
+    <ProgressBar
+        android:id="@+id/load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>

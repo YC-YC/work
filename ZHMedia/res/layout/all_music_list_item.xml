@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+	<ImageView 
+	     android:id="@+id/current"
+	     android:layout_gravity="center_vertical"
+	     android:layout_width="5dp"
+    	 android:layout_height="40dp"
+    	 android:src="@color/holo_green_light_new" 
+    	 android:visibility="gone"
+	    />
+    <LinearLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" 
+        >
+
+        <!-- 歌名 -->
+        <TextView
+            android:id="@+id/name"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:paddingLeft="4dp"
+            android:text="歌曲"
+            android:singleLine="true"
+            android:textSize="20sp" />
+
+        <!-- 歌手加专辑 -->
+        <TextView
+            android:id="@+id/info"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:text="歌手"
+            android:singleLine="true"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>

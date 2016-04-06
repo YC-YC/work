@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:lrc="http://schemas.android.com/apk/res/com.zhonghong.zhmedia"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <com.zhcl.ui.widget.LrcView
+        android:id="@+id/lrc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        lrc:currentTextColor="@color/holo_green_light_new"
+        lrc:dividerHeight="10dip"
+        lrc:normalTextColor="@android:color/white"
+        lrc:rows="20"
+        lrc:textSize="22sp" />
+
+</LinearLayout>

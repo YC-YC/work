@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/remote_widget_music_layout_zui"
+    android:minWidth="402dp"
+    android:minHeight="143dp"
+    android:previewImage="@drawable/ic_launcher"
+    android:updatePeriodMillis="0" />

@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <View
+        android:id="@+id/topBase"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@null" />
+
+    <RelativeLayout
+        android:id="@+id/allSingerAll"
+        android:layout_below="@+id/topBase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical" >
+
+            <!-- 信息 -->
+
+            <TextView
+                android:id="@+id/info"
+                style="@style/AudioFileInfoOverlayText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="38sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/list_line" />
+        </LinearLayout>
+        <!-- 歌曲列表 -->
+
+        <ListView
+            android:id="@+id/allSongList"
+            style="@style/listLineStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/bar" />
+    </RelativeLayout>
+
+</RelativeLayout>

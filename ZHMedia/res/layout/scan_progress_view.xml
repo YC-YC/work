@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+  	<View 
+  	    android:layout_width="match_parent"
+  	    android:layout_height="1dp"
+  	    android:layout_weight="1"
+  	    android:visibility="invisible"
+  	    />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+        android:layout_weight="2"
+         android:background="@color/tip_text"
+        >
+
+        <TextView
+            android:id="@+id/type"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="类型" />
+
+        <TextView
+            android:id="@+id/info"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="详细内容" />
+    </LinearLayout>
+  </LinearLayout>
+</RelativeLayout>

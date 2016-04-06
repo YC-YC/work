@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -59,16 +61,28 @@ public class MainActivity extends Activity implements OnClickListener {
 			R.drawable.usb_selector,
 			R.drawable.bt_selector, 
 			R.drawable.music_selector};
-	
+	private Map<Integer, AppInfo> apps = new HashMap<Integer, MainActivity.AppInfo>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mWeatherUtils = WeatherUtils.getInstanse(this);
+		initData();
 		initViews();
 		initWeather();
 		test();
+	}
+
+
+	/**
+	 * 
+	 */
+	private void initData() {
+		apps.clear();
+		apps.put(0, new AppInfo("com.zh.radio", "com.zh.radio.MainActivity"));
+		apps.put(2, new AppInfo("com.zhonghong.zhvideo", "com.zhcl.zhvideo.LocalVideoActivity"));
+		apps.put(4, new AppInfo("com.zh.ui", "com.zh.ui.media.activity.MediaListActivity"));
 	}
 
 
@@ -77,7 +91,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		for (int i = 0; i < str.length(); i++) {
 			Log.i(tag, "get = " + str.charAt(i));
 		}
-		
 	}
 
 
@@ -146,7 +159,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					}
 				}
 			}
-		}).start();
+		})/*.start()*/;
 		
 	}
 
@@ -173,11 +186,29 @@ public class MainActivity extends Activity implements OnClickListener {
 			
 			@Override
 			public void itemClick(View view, int pos) {
-				Toast.makeText(getApplicationContext(), mItemTexts[pos],
-						Toast.LENGTH_SHORT).show();
-
+				try {
+					startItemActivity(pos);
+				}catch (Exception e) {
+					e.printStackTrace();
+					Toast.makeText(getApplicationContext(), mItemTexts[pos],
+							Toast.LENGTH_SHORT).show();
+				}
 			}
+
 		});
+	}
+	private void startItemActivity(int pos) throws Exception {
+		Intent it = new Intent(Intent.ACTION_MAIN); 
+		String pkgName, className;
+		AppInfo appInfo = apps.get(pos);
+		if (appInfo == null)
+		{
+			throw new Exception("Not found AppInfo");
+		}
+		ComponentName cn = new ComponentName(appInfo.getPakName(), appInfo.getClassName());              
+		it.setComponent(cn);  
+		it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+		startActivity(it);
 	}
 
 	@Override
@@ -194,6 +225,24 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	private class AppInfo{
+		String pakName;
+		String className;
+		
+		public AppInfo(String pakName, String className) {
+			super();
+			this.pakName = pakName;
+			this.className = className;
+		}
+		
+		public String getPakName() {
+			return pakName;
+		}
+		public String getClassName() {
+			return className;
 		}
 	}
 

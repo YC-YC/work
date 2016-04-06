@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zhonghong.zhvideo"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" 
+        android:name="com.zhcl.service.CustomApplication"
+        >
+        
+        <activity
+            android:name="com.zhcl.zhvideo.LocalVideoActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Timetodo"
+            android:launchMode="singleInstance"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"
+            > 
+            <!-- android:screenOrientation="portrait" -->
+            <intent-filter> 
+                <action android:name="zhonghong.intent.action.VIDEO" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <!-- 视频播放 -->
+         <activity
+            android:name="com.zhcl.zhvideo.VideoPlayAcitivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.Timetodo"
+            android:configChanges="orientation|keyboardHidden"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        
+          <service
+            android:name="com.zhcl.service.VideoPlayerService"
+             >
+            <intent-filter>
+                <action android:name="com.zhcl.videoplayerservice" />
+            </intent-filter>
+        </service>
+        <service android:name="com.zhcl.service.VideoBGService" >
+            <intent-filter>
+                <action android:name="com.zhcl.videobgservice" />
+            </intent-filter>
+        </service>
+    </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
+</manifest>

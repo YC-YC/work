@@ -1,0 +1,287 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/allInfoLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <!--  阴影 -->
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="@android:color/black" />
+	 <View
+        android:id="@+id/topBase"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@null" />
+    <LinearLayout
+        android:layout_below="@+id/topBase"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="vertical" >
+
+                <!-- 歌名 -->
+
+                <TextView
+                    android:id="@+id/musicName"
+                    style="@style/AudioFileInfoOverlayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="歌名"
+                    android:textSize="50sp" />
+
+                <!-- 歌手 -->
+
+                <TextView
+                    android:id="@+id/musicSinger"
+                    style="@style/AudioFileInfoOverlayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="歌手"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <!-- id3图片 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:orientation="horizontal" >
+
+                <RelativeLayout
+                    android:id="@+id/imageLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3" >
+
+                    <com.zhcl.ui.widget.shader.CircularImageView
+                        android:id="@+id/musicPhoto"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        android:layout_centerInParent="true"
+                        android:alpha="1"
+                        app:siBorderAlpha="0"
+                        app:siBorderColor="@color/bordercolor"
+                        app:siBorderWidth="1dp" 
+                        android:src="@drawable/widget_qqmusic_default_album_large"
+                        />
+                </RelativeLayout>
+				<LinearLayout 
+				    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2" 
+                    android:orientation="vertical"
+				    >
+                <android.support.v4.view.ViewPager
+                    android:layout_weight="1"
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    />
+                <RelativeLayout 
+                    android:layout_weight="15"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    >
+                    <!-- 当前页标写死三个，如果有需求，后面改成动态的 -->
+                    <LinearLayout 
+                        android:layout_width="wrap_content"
+                  		android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_centerHorizontal="true"
+                        >
+                    <View 
+                        android:id="@+id/page1"
+                        android:layout_width="20dp"
+                        android:layout_height="3dp"
+                        android:background="@color/white"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_gravity="bottom"
+                        />
+                    <View 
+                        android:id="@+id/page2"
+                        android:layout_width="20dp"
+                        android:layout_height="3dp"
+                        android:background="@color/white"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_gravity="bottom"
+                        />
+                    <View 
+                        android:id="@+id/page3"
+                        android:layout_width="20dp"
+                        android:layout_height="3dp"
+                        android:background="@color/white"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_gravity="bottom"
+                        />
+                    </LinearLayout>
+                </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 底部 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal" >
+
+                <!-- 播放控制 -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:orientation="horizontal" >
+
+                    <!-- 上一曲 -->
+
+                    <ImageButton
+                        android:id="@+id/preBut"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:src="@drawable/landscape_player_btn_pre_xml" />
+                    <!-- 播放、暂停 -->
+
+                    <ImageButton
+                        android:id="@+id/playPauseBut"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:src="@drawable/landscape_player_btn_play_xml" />
+                    <!-- 下一曲 -->
+
+                    <ImageButton
+                        android:id="@+id/nextBut"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:src="@drawable/landscape_player_btn_next_xml" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="horizontal" >
+
+                        <!-- 收藏 -->
+
+                        <ImageButton
+                            android:id="@+id/collection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:src="@drawable/add_favor_not_already_xml" />
+                        <!-- 播放模式 -->
+
+                        <ImageButton
+                            android:id="@+id/mode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:src="@drawable/player_btn_random_xml" />
+                        <!-- 歌单 -->
+
+                        <ImageButton
+                            android:id="@+id/menuList"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:src="@drawable/player_btn_playlist_xml" />
+                    </LinearLayout>
+
+                    <!-- 进度条控制 -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal" >
+
+                        <!-- 当前时间 -->
+
+                        <TextView
+                            android:id="@+id/currentTime"
+                            style="@style/AudioFileInfoOverlayText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="00:00" />
+                        <!-- 进度条 -->
+
+                        <SeekBar
+                            android:id="@+id/seekbar"
+                            style="@style/ProgressBar_Mini"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="9"
+                            android:maxHeight="2.0dip"
+                            android:minHeight="2.0dip"
+                            android:progressDrawable="@drawable/progressbar_green"
+                            android:thumb="@drawable/player_seekbar_playback_thumb" />
+                        <!-- 总时间 -->
+
+                        <TextView
+                            android:id="@+id/allTime"
+                            style="@style/AudioFileInfoOverlayText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="00:00" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

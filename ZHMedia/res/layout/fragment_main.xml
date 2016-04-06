@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zhonghong.zhmedia.MainActivity$PlaceholderFragment" >
+
+    <TextView
+        android:id="@+id/dir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="目录" />
+
+    <TextView
+        android:id="@+id/songnum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="个数" />
+
+    <Button
+        android:id="@+id/scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始扫描" />
+
+    <Button
+        android:id="@+id/scanAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="全局扫描" />
+
+    <Button
+        android:id="@+id/openMusicList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开音乐列表" />
+
+    <Button
+        android:id="@+id/openMusicPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开音乐界面" />
+    
+    <Button
+        android:id="@+id/openAllMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开所有音乐列表" />
+    
+    <Button
+        android:id="@+id/openAllSinger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开所有歌手列表" />
+    
+    <Button
+        android:id="@+id/openAllAlbum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开所有专辑列表" />
+        
+
+</LinearLayout>

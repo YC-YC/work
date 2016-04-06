@@ -1,0 +1,163 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".MainActivity" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <View
+            android:id="@+id/surfaceBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black" />
+
+        <SurfaceView
+            android:id="@+id/videoSurface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    
+    <!-- touchLayout做触摸判断用  -->
+    <RelativeLayout
+        android:id="@+id/touchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:id="@+id/faceLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+             >
+            <!-- 还可以加其他组件，随菜单一起隐藏 -->
+
+            <LinearLayout
+                android:id="@+id/buttonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#f00a0a0a"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <!-- 全屏切换键 -->
+
+                    <ImageView
+                        android:id="@+id/screenChnage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:src="@drawable/ic_zoom_in_btn_videoplayer_xml" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <!-- 当前时间 -->
+
+                    <TextView
+                        android:id="@+id/currentTime"
+                        style="@style/AudioFileInfoOverlayText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="00:00" />
+                    <!-- 进度条 -->
+
+                    <SeekBar
+                        android:id="@+id/seekbar"
+                        style="@style/ProgressBar_Mini"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="9"
+                        android:maxHeight="2.0dip"
+                        android:minHeight="2.0dip"
+                        android:progressDrawable="@drawable/progressbar_green"
+                        android:thumb="@drawable/player_seekbar_playback_thumb" />
+                    <!-- 总时间 -->
+
+                    <TextView
+                        android:id="@+id/allTime"
+                        style="@style/AudioFileInfoOverlayText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="00:00" />
+                </LinearLayout>
+
+                <!-- 播放控制 -->
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <!-- 上一曲 -->
+
+                    <ImageButton
+                        android:id="@+id/preBut"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:src="@drawable/landscape_player_btn_pre_xml" />
+                    <!-- 播放、暂停 -->
+
+                    <ImageButton
+                        android:id="@+id/playPauseBut"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:src="@drawable/landscape_player_btn_play_xml" />
+                    <!-- 下一曲 -->
+
+                    <ImageButton
+                        android:id="@+id/nextBut"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:src="@drawable/landscape_player_btn_next_xml" />
+                    <!-- 歌单 -->
+
+                    <ImageButton
+                        android:id="@+id/menu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:src="@drawable/player_btn_playlist_xml" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

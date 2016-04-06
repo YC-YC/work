@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/allSingerAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" >
+
+            <!-- 信息 -->
+
+            <TextView
+                android:id="@+id/info"
+                style="@style/AudioFileInfoOverlayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="38sp" />
+        </LinearLayout>
+
+        <GridView
+            android:id="@+id/allVideoList"
+            android:layout_below="@+id/bar"
+          	android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:horizontalSpacing="10dp"
+			android:numColumns="3"
+			android:stretchMode="columnWidth"
+			android:verticalSpacing="10dp"
+			android:padding="10dip"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

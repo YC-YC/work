@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zhonghong.zhmedia"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:name="com.zhcl.service.CustomApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.zhonghong.zhmedia.LocalMusicActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Timetodo" >
+
+            <!-- android:screenOrientation="landscape" -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="application/ogg" />
+                <data android:mimeType="application/x-ogg" />
+                <data android:mimeType="application/itunes" />
+                <data android:scheme="file" />
+                <data android:mimeType="application/metastrean" />
+                <data android:mimeType="application/sdp" />
+                <data android:scheme="application/rtsp" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter> 
+            
+           <intent-filter>
+                <action android:name="zhonghong.intent.action.MUSIC" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter> 
+            
+        </activity>
+
+        
+        <!-- 
+           		<action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="application/ogg" />
+                <data android:mimeType="application/x-ogg" />
+                <data android:mimeType="application/itunes" />
+                <data android:scheme="file" />
+                <data android:mimeType="application/metastrean" />
+                <data android:mimeType="application/sdp" />
+                <data android:scheme="application/rtsp" />
+         -->
+        <service
+            android:name="com.zhcl.service.AudioPlayerService"
+            android:process=":audioplayer" >
+            <intent-filter>
+                <action android:name="com.zhcl.audioplayerservice" />
+            </intent-filter>
+        </service>
+        <service android:name="com.zhcl.service.AudioBGService" >
+            <intent-filter>
+                <action android:name="com.zhcl.audiobgservice" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.zh.broadcast.MediaButtonBroadcast" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 音乐小部件 -->
+        <receiver
+            android:name="com.zhcl.remote.ui.MusicWidget"
+            android:label="@string/app_name" >
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_music_provider" />
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.zhonghong.widget.DO_MUSIC" />
+                <action android:name="com.zhonghong.widget.UPDATE_MUSIC" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+</manifest>
