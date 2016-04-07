@@ -529,8 +529,8 @@ public class Utils {
 	public static final String ZH_AUDIO_PKG = "com.zh.ui";
 	public static final String ZH_AUDIO_CLZ = "com.zh.ui.media.activity.MediaListActivity";
 	/**图片包名，类名*/
-	public static final String ZH_PIC_PKG = "com.zhonghong.newphoto";
-	public static final String ZH_PIC_CLZ = "com.zhonghong.media.photo.PhotoLauncher";
+	public static final String ZH_PHOTO_PKG = "com.zhonghong.newphoto";
+	public static final String ZH_PHOTO_CLZ = "com.zhonghong.media.photo.PhotoLauncher";
 	
 	/** 打开应用方法 */
 	public void startItemActivity(Context context, String pkgName, String className){
