@@ -4,13 +4,11 @@
 package com.zhonghong.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 
-import com.zhonghong.launcher_qz.R;
+import com.zhonghong.launcher.R;
 
 /**
  * @author YC

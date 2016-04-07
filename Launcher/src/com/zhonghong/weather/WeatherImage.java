@@ -1,6 +1,6 @@
 package com.zhonghong.weather;
 
-import com.zhonghong.launcher_qz.R;
+import com.zhonghong.launcher.R;
 
 public class WeatherImage
 {

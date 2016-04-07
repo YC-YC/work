@@ -1,7 +1,6 @@
-package com.zhonghong.launcher_qz;
+package com.zhonghong.launcher;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zhonghong.utils.WeatherUtils;
-import com.zhonghong.utils.WeatherBean;
 import com.zhonghong.view.circlemenu.CircleMenuLayout;
 import com.zhonghong.view.circlemenu.CircleMenuLayout.OnMenuItemClickListener;
 import com.zhonghong.weather.ReceiveCityList;
