@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"  
+    android:orientation="horizontal"
+    android:background="@drawable/photo_bg" >
+    
+     <Button 
+        android:id="@+id/photo_back_sel"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_btn_selector"/>
+    
+    <Button 
+        android:id="@+id/photo_list_sel"
+        android:layout_marginLeft="147dp"
+        android:layout_marginTop="91dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_btn_selector"/>
+   
+    <LinearLayout 
+        android:layout_marginLeft="524dp"
+        android:layout_marginTop="41dp"
+        android:layout_width="match_parent"
+    	android:layout_height="match_parent"  
+    	android:orientation="horizontal" >
+        <ImageView 
+	        android:id="@+id/title_view"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/image_view"/> 
+
+   		<TextView 
+	        android:id="@+id/text_view"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:text="USB图片"
+	        android:textColor="#00C7D4"
+	        android:textSize="45sp"/>
+    </LinearLayout>
+    
+     <!--    android:layout_width="match_parent"
+        android:layout_height="match_parent"	 -->
+    <FrameLayout 
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="140dp"
+        android:layout_width="920dp"
+        android:layout_height="460dp"		     
+        android:longClickable="true">  
+	  	<TextView
+	        android:id="@+id/nodata"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="#00000000"
+			android:layout_gravity="center"       
+	        android:text="@string/nophoto"
+	        android:textSize="22sp"
+	        android:visibility="gone" />
+	  	<com.jess.ui.TwoWayGridView		  
+		    android:id="@+id/grid_photo"
+		    android:layout_width="fill_parent" 
+		    android:layout_height="fill_parent"		    
+		    app:cacheColorHint="#E8E8E8"
+		    app:columnWidth="176dp"
+		    app:rowHeight="204dp"
+		    app:numColumns="5"
+		    app:numRows="2"
+		    app:verticalSpacing="20dp"
+		    app:horizontalSpacing="0dp"
+		    app:stretchMode="spacingWidthUniform"
+		    app:scrollDirectionPortrait="vertical"
+		    app:scrollDirectionLandscape="horizontal"
+		    app:gravity="center"/>
+	  	<!-- <GridView 
+	        android:id="@+id/grid_photo"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:horizontalSpacing="5dp"
+	        android:numColumns="5"  
+	        android:verticalSpacing="20dp" /> -->
+    </FrameLayout> 
+    
+    <LinearLayout 
+        android:layout_marginLeft="477dp"
+        android:layout_marginTop="600dp"
+        android:layout_width="326dp"
+    	android:layout_height="118dp"  
+    	android:orientation="horizontal"
+    	android:background="@drawable/photo_btn_bg" >
+	  	
+    <!--  <Button 
+        android:id="@+id/audio_btn"
+        android:layout_marginLeft="147dp"
+        android:layout_marginTop="91dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_btn_selector"/>
+     
+     <Button 
+        android:id="@+id/video_btn"
+        android:layout_marginLeft="147dp"
+        android:layout_marginTop="91dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_btn_selector"/> -->
+       
+    </LinearLayout>
+    
+</FrameLayout>

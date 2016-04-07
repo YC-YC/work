@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/music_play"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center" >
+
+    <ImageView
+        android:id="@+id/music_pic"
+        android:layout_width="72dp"
+        android:layout_height="69dp"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:id="@+id/song_singer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/music_pic"
+        android:orientation="vertical"
+        android:paddingLeft="15dp" >
+
+        <TextView
+            android:id="@+id/songname"
+            android:layout_width="430dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxWidth="430dp"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="35dp"
+        android:textSize="25sp" />
+
+</RelativeLayout>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/photo_playbacklayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+     
+	<RelativeLayout 
+	    android:id="@+id/top_bar"
+	    android:layout_marginTop="75dp"
+	     android:visibility="invisible" 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+	    
+	   <!--  <Button 
+	        android:id="@+id/setting_btn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:background="@drawable/photo_setting_selector"
+	        android:textColor="@color/white"
+	        android:textSize="15sp"
+	        android:text="@string/setting"
+	        android:paddingRight="50dp"/> -->
+	    
+	    <Button 
+	        android:id="@+id/allphoto_btn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:background="@drawable/all_photo_selector"
+	        android:textColor="@color/white"
+	        android:textSize="15sp"
+	        android:text="@string/allphoto"
+	        android:paddingLeft="54dp"/>
+	    
+	</RelativeLayout>
+    <RelativeLayout 
+        android:id="@+id/bottom_bar"
+        android:layout_width="fill_parent"
+     	android:layout_height="wrap_content"
+     	android:layout_gravity="bottom"
+     	android:orientation="horizontal"
+     	 android:visibility="invisible" 
+     	android:background="@drawable/bottom_bar"
+     	android:gravity="center_vertical">
+
+		<Button
+		    android:id="@+id/play_picture_btn"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_alignParentTop="true"
+		    android:layout_marginLeft="91dp"
+		    android:background="@drawable/play" />
+				
+
+		<!-- <Button
+		    android:id="@+id/setwallpaper_btn"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignBaseline="@+id/del_btn"
+		    android:layout_alignBottom="@+id/del_btn"
+		    android:layout_alignParentRight="true"
+		    android:layout_marginRight="65dp"
+		    android:background="@drawable/settings_selector" /> -->
+
+		<!-- <Button
+		    android:id="@+id/del_btn"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignBaseline="@+id/rotate_right_btn"
+		    android:layout_alignBottom="@+id/rotate_right_btn"
+		    android:layout_marginRight="67dp"
+		    android:layout_toLeftOf="@+id/setwallpaper_btn"
+		    android:background="@drawable/del_selector" /> -->
+
+	   <Button
+	       android:id="@+id/zoomout_btn"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_alignBaseline="@+id/play_picture_btn"
+	       android:layout_alignBottom="@+id/play_picture_btn"
+	       android:layout_marginLeft="101dp"
+	       android:layout_toRightOf="@+id/play_picture_btn"
+	       android:background="@drawable/zoomout_selector" />
+
+	  <!--  <Button
+	       android:id="@+id/rotate_right_btn"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_alignBaseline="@+id/rotate_left_btn"
+	       android:layout_alignBottom="@+id/rotate_left_btn"
+	       android:layout_marginRight="137dp"
+	       android:layout_toLeftOf="@+id/del_btn"
+	       android:background="@drawable/right_rotate_selector" /> -->
+		<Button
+	       android:id="@+id/rotate_right_btn"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_alignBaseline="@+id/rotate_left_btn"
+	       android:layout_alignBottom="@+id/rotate_left_btn"
+	       android:layout_alignParentRight="true"
+	       android:layout_marginRight="137dp"
+	       android:background="@drawable/right_rotate_selector" />
+	   <Button
+	       android:id="@+id/rotate_left_btn"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_alignBaseline="@+id/zoomin_btn"
+	       android:layout_alignBottom="@+id/zoomin_btn"	     
+	       android:layout_toLeftOf="@+id/rotate_right_btn"
+	       android:layout_marginRight="80dp"
+	       android:background="@drawable/left_rotate_selector" />
+
+	   <Button
+	       android:id="@+id/zoomin_btn"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_alignBaseline="@+id/zoomout_btn"
+	       android:layout_alignBottom="@+id/zoomout_btn"
+	       android:layout_marginLeft="50dp"
+	       android:layout_toRightOf="@+id/zoomout_btn"
+	       android:background="@drawable/zoomin_selector" />
+
+     </RelativeLayout>
+</FrameLayout>

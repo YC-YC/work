@@ -1,0 +1,76 @@
+package com.zhonghong.mediasdk;
+
+interface IMusicAppServiceCMD{ 	
+	//zhCarUICommon
+	void NotifyAndroidUIKey(int key);						
+	void NotifyAndroidState(int StateID);				
+	void NotifyRadioCommand(String Command, int num);   
+	void NotifyRadioCommandStr(String Command, String str);
+	
+	void NotifyDVDCommand(String Command, int num);  
+	void NotifyDVDCommandStr(String Command, String str);
+	
+	void NotifyBTCommand(String Command, int num);  
+	void NotifyBTCommandStr(String Command, String str);
+	
+	void NotifyVMdiscCommand(String Command, int num);  
+	void NotifyVMdiscCommandStr(String Command, String str);
+	
+	void NotifyIpodCommand(String Command, int num);  
+	void NotifyIpodCommandStr(String Command, String str);
+	
+	void NotifySetupCommand(String Command, int num); 
+	void NotifySetupCommandStr(String Command, String str);
+	
+	//SettingInfo
+	int getYear();
+	int getMonth();
+	int getDay();
+	int getHour();
+	int getMinute();
+	int getSecond();
+	boolean is12H();
+	int getVol();
+	int getBass();
+	int getTreb();
+	int getFade();
+	int getBal();
+	int getAudioMode();
+	int getBright();
+	int getContrast();
+	int getColor();
+	int getVideoMode();
+	int getTunerSys();
+	int getTvSys();
+	int getMid();
+	int getSysFlag();
+	int getSysFlag2();
+	int getSubwoof();
+	int getLowFo();
+	int getMidFo();
+	int getHighFo();
+	int getBtVol();
+	int getGpsVol();
+	int getDefVol();
+	boolean isMute();
+	int getFreq30();
+	int getFreq60();
+	int getFreq125();
+	int getFreq250();
+	int getFreq500();
+	int getFreq1K();
+	int getFreq2K();
+	int getFreq4K();
+	int getFreq8K();
+	int getFreq16K();
+	boolean isDsp1();
+	boolean isDsp2();
+	boolean isDsp3();
+	boolean isBeep();
+	byte[] getMcuVer();
+	byte[] getDvdVer();
+	byte[] getGdcVer();
+	byte[] getRtkVer();
+	boolean isbCarRun();
+	int btconnected();
+}

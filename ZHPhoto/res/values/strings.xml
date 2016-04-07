@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Media</string>   
+    <string name="music_name">Music</string>
+	<string name="nomusic">no music</string>
+	<string name="nolyricfound">No Lyric Found.</string>
+	<string name="unknown">unknown</string>
+	<!-- eq string -->
+    <string name="eq_pop">POP</string>
+    <string name="eq_classic">CLASSIC</string>
+    <string name="eq_country">COUNTRY</string>
+    <string name="eq_jazz">JAZZ</string>
+    <string name="eq_rock">ROCK</string>
+    <string name="eq_user">USER</string>
+    <string name="eq_flat">FLAT</string>
+    <string name="eq_club">CLUB</string>
+    <string name="eq_dance">DANCE</string>
+    <string name="eq_soft">SOFT</string>
+    <string name="eq_clear">CLEAR</string>
+
+    <string name="unsong">Unknown song</string>
+    <string name="unsinger">Unknown singer</string>
+    <string name="unalbum">Unknown album</string>
+    <string name="allmusic">All Music</string>
+    <string name="playtime">00:00</string>
+    <string name="totaltime">00:00</string>
+    <string name="copy">copy</string>
+	<string name="cut">cut</string>
+	<string name="paste">paste</string>
+	<string name="delete">delete</string>
+	<string name="verprefix">Ver:</string>
+	
+    <!-- muisc widget string -->
+    <string name="widget_initial_text">Touch to select music.</string>
+    
+    <!-- video string define -->
+    <string name="video_name">Video</string>
+    <string name="novideo">no video</string>
+    <string name="warning_prohibitwatchvideo">Driving do not watch the video</string>
+    
+    <!-- photo string define -->
+    <string name="photo_name">Photo</string>
+    <string name="nophoto">no photo</string>
+    <string name="allphoto">All photos</string>
+    <string name="setting">Setting</string>
+    <string name="setwallpaperfail">set wallpaper fail</string>
+    <string name="setwallpapersucc">set wallpaper successful</string>
+	<string name="runningFaceDetection">Please wait ...</string>
+	<string name="crop_save_text">Save</string>
+    <string name="crop_rotate_text">Rotation</string>
+    <string name="crop_discard_text">Give up</string>
+    <string name="no_way_to_share_image">No application for sharing photos</string>
+    <string name="displaymode">Please select the wallpaper display ratio</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancle</string>
+    <string name="normal">Normal</string>
+    <string name="stretch">Zoom</string>
+</resources>

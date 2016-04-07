@@ -1,0 +1,127 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/zhvplaybacklayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/ll_drivecarwarning"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible" >
+
+        <!--
+             <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/warning" />
+        -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:text="@string/warning_prohibitwatchvideo"
+            android:textColor="@android:color/white"
+            android:textSize="28sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/ll_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent" >
+
+        <LinearLayout
+            android:id="@+id/videotopbar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="75dp"
+            android:visibility="invisible"
+            android:orientation="vertical" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/seekbar_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/playmode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dp"
+                    android:background="@drawable/cycleone_icon"
+                    android:scaleType="centerInside" />
+
+                <LinearLayout
+                    android:id="@+id/tooltime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_toRightOf="@+id/playmode"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/elapsetime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playtime"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp" />
+
+                    <SeekBar
+                        android:id="@+id/seekbar"
+                        android:layout_width="532dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:max="100"
+                        android:maxHeight="58dp"
+                        android:minHeight="58dp"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/seekbar_style"
+                        android:secondaryProgress="100"
+                        android:thumb="@drawable/sliding_block" />
+
+                    <TextView
+                        android:id="@+id/totaltime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/totaltime"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/videobottombar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/transparent"
+            android:visibility="invisible"
+            android:orientation="vertical" >
+            <HorizontalScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+                <include layout="@layout/video_bottom_bar" />
+            </HorizontalScrollView>
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

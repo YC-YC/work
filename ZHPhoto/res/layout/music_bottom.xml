@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_bg"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/volume_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:background="@drawable/bottom_volume_selector" />
+
+    <Button
+        android:id="@+id/random_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:background="@drawable/bottom_random_selector" />
+
+    <Button
+        android:id="@+id/btn_previous "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:background="@drawable/bottom_pre_selector" />
+
+    <Button
+        android:id="@+id/btn_playorpause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:background="@drawable/bottom_play_selector" />
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:background="@drawable/bottom_next_selector" />
+
+    <Button
+        android:id="@+id/cycle_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:background="@drawable/bottom_cycle_selector" />
+
+    <Button
+        android:id="@+id/list_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:background="@drawable/bottom_list_selector" />
+
+</LinearLayout>

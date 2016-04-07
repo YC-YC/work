@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/music_dialog_bg"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/copy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/copy_selector"
+        android:clickable="true" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="250dp"
+            android:paddingTop="20dp"
+            android:text="@string/copy"
+            android:textSize="32sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cut_selector"
+        android:clickable="true" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="250dp"
+            android:paddingTop="20dp"
+            android:text="@string/cut"
+            android:textSize="32sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/paste"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/paste_selector"
+        android:clickable="true" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="250dp"
+            android:paddingTop="20dp"
+            android:text="@string/paste"
+            android:textSize="32sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/delete_selector"
+        android:clickable="true" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="250dp"
+            android:paddingTop="20dp"
+            android:text="@string/delete"
+            android:textSize="32sp" />
+    </LinearLayout>
+
+</LinearLayout>

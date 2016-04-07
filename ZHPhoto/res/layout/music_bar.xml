@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/seekbar_bg"
+    android:gravity="center" >
+
+    <!--
+          <Button 
+        android:id="@+id/random_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/random_top"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="8dp"/>
+    -->
+
+    <ImageView
+        android:id="@+id/music_play_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/cycleall_icon" />
+
+    <TextView
+        android:id="@+id/music_play_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/music_play_mode"
+        android:text="@string/unknown"
+        android:textColor="@color/white"
+        android:textSize="22sp" />
+
+    <SeekBar
+        android:id="@+id/seekbar_music"
+        android:layout_width="532dp"
+        android:layout_height="58dp"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@id/music_play_time"
+        android:maxHeight="58dp"
+        android:minHeight="58dp"
+        android:progressDrawable="@drawable/seekbar_style"
+        android:thumb="@drawable/sliding_block" />
+
+    <TextView
+        android:id="@+id/music_total_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/seekbar_music"
+        android:text="@string/unknown"
+        android:textColor="@color/white"
+        android:textSize="22sp" />
+
+</RelativeLayout>
