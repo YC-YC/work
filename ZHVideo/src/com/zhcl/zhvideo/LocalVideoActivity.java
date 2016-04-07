@@ -19,7 +19,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.zh.uitls.L;
@@ -31,6 +33,7 @@ import com.zhcl.filescanner.FilterUtil.IDirFilter;
 import com.zhcl.filescanner.FilterUtil.IFileFilter;
 import com.zhcl.filescanner.LocalFileCacheManager.ScannerListener;
 import com.zhcl.service.PlayerCode;
+import com.zhcl.ui.video.AllVideoFragment;
 import com.zhcl.ui.video.ChildCallBack;
 import com.zhcl.ui.video.HostCallBack;
 import com.zhcl.ui.video.LocalVideoFragment;
@@ -56,6 +59,9 @@ public class LocalVideoActivity extends FragmentActivity implements HostCallBack
 	/** 显示所有页面上面的view*/
 	View gtop;
 	Handler handler;
+	
+	private Button mBtnBack, mBtnOpenPic, mBtnOpenMusic;
+	
 	@Override 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,14 +114,14 @@ public class LocalVideoActivity extends FragmentActivity implements HostCallBack
 	
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		L.i(tag, "onResume");
 		fileScanner();
 		ZuiConn.getInstance().enterPage();
 	}
 
-	@SuppressLint("NewApi")
+	
+	
 	private void initView() {
 		setContentView(R.layout.local_video_activity);
 		loadBodyFragment();
@@ -123,23 +129,46 @@ public class LocalVideoActivity extends FragmentActivity implements HostCallBack
 		gtop = findViewById(R.id.gtop);
 		topBase = (View)findViewById(R.id.topBase);
 		Utils.getInstance().updateViewHToStatusH(topBase);
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.main_bg);
+		/*Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.main_bg);
 		if(bitmap != null){
-			Utils.getInstance().blurBitmap(bitmap, 30, 6/*9*/);
+			Utils.getInstance().blurBitmap(bitmap, 30, 69);
 			bgView.setBackground(new BitmapDrawable(bitmap));
-		}
+		}*/
+		mBtnBack = (Button) findViewById(R.id.btn_back);
+		mBtnBack.setOnClickListener(mOnClickListener);
+		mBtnOpenPic = (Button) findViewById(R.id.btn_media_switch_picture);
+		mBtnOpenPic.setOnClickListener(mOnClickListener);
+		mBtnOpenMusic = (Button) findViewById(R.id.btn_media_switch_music);
+		mBtnOpenMusic.setOnClickListener(mOnClickListener);
+		
 	}
 	
+	private OnClickListener mOnClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			doClick(v);
+		}
+
+	};
+	
+	AllVideoFragment mAllVideoFragment;
 	LocalVideoFragment mLocalVideoFragment;
 	private void loadBodyFragment(){
-		if(mLocalVideoFragment == null){
-			L.e(tag, "mLocalVideoFragment == null");
-			mLocalVideoFragment = new LocalVideoFragment();
+//		if(mLocalVideoFragment == null){
+//			L.e(tag, "mLocalVideoFragment == null");
+//			mLocalVideoFragment = new LocalVideoFragment();
+//		}
+		if (mAllVideoFragment == null)
+		{
+			mAllVideoFragment = new AllVideoFragment();
 		}
 		FragmentManager mFragmentManager = getSupportFragmentManager();
 		FragmentTransaction ft = mFragmentManager.beginTransaction();
-		ft.replace(R.id.currenBody, mLocalVideoFragment, mLocalVideoFragment.hashCode() + "");
-//		ft.addToBackStack(null);
+//		ft.replace(R.id.currenBody, mLocalVideoFragment, mLocalVideoFragment.hashCode() + "");
+		ft.replace(R.id.currenBody, mAllVideoFragment, mAllVideoFragment.hashCode() + "");
+
+		//		ft.addToBackStack(null);
 		ft.commit(); 
 	} 
 	
@@ -178,7 +207,30 @@ public class LocalVideoActivity extends FragmentActivity implements HostCallBack
 				return true;
 			}
 		});
-	}  
+	} 
+	
+	private void doClick(View v) {
+		// TODO doClick
+		switch (v.getId()) {
+		case R.id.btn_back:
+			onBackPressed();
+			break;
+		case R.id.btn_list:
+			break;
+		case R.id.btn_eq:
+
+			break;
+		case R.id.btn_media_switch_music:
+			Utils.getInstance().startItemActivity(this, Utils.ZH_AUDIO_PKG, Utils.ZH_AUDIO_CLZ);
+			break;
+		case R.id.btn_media_switch_picture:
+			Utils.getInstance().startItemActivity(this, Utils.ZH_PIC_PKG, Utils.ZH_PIC_CLZ);
+			break;
+		}
+	}
+
+	
+	
 	/**   
 	 * 扫描目录、文件
 	 * 扫描模式：FileScanner.getInstance(MainActivity.this).setScanMode(FileScanner.SCANMODE_DEFUALT);
@@ -202,7 +254,6 @@ public class LocalVideoActivity extends FragmentActivity implements HostCallBack
 				
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 //					CurrentPlayManager.getInstance().showScanProgress(context);
 					gtop.setVisibility(View.VISIBLE);
 				}
@@ -216,14 +267,12 @@ public class LocalVideoActivity extends FragmentActivity implements HostCallBack
 //				try {
 //					Thread.sleep(20);
 //				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
 //			}
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			VideoManager.getIntance(context).updataAllVideoInfo();	//同步歌曲信息到数据库
@@ -283,14 +332,12 @@ public class LocalVideoActivity extends FragmentActivity implements HostCallBack
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
 		//不执行如下这名，否则会有返回后再加载时出现加载不出的问题
 //		super.onSaveInstanceState(outState);
 	}
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		L.w(tag, "onDestroy");
 		FileScanner.getInstance(this).setScanListener(null);
@@ -298,7 +345,6 @@ public class LocalVideoActivity extends FragmentActivity implements HostCallBack
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-		// TODO Auto-generated method stub
 		super.onNewIntent(intent);
 		L.e(tag, "onNewIntent");
 		if(!isResumePlay()){

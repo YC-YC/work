@@ -13,8 +13,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 
 import com.zh.uitls.L;
@@ -28,6 +31,7 @@ import com.zhonghong.zhvideo.R;
  * @author ChenLi
  */
 public class LocalVideoFragment extends Fragment implements ChildCallBack{
+	protected String TAG = getClass().getSimpleName();
 	/** 宿主回调对象 */
 	protected HostCallBack mHostCallBack;
 	/** 列表List Fragment */
@@ -66,6 +70,7 @@ public class LocalVideoFragment extends Fragment implements ChildCallBack{
 		return view;
 	}
 	MyAdapter mMyAdapter;
+	
 	private void initView(View view){ 
 		dm = getResources().getDisplayMetrics();
 		pager = (ViewPager) view.findViewById(R.id.pager);
@@ -77,6 +82,14 @@ public class LocalVideoFragment extends Fragment implements ChildCallBack{
 		
 		pager.setAdapter(mMyAdapter);
 		tabs.setViewPager(pager);
+		/*pager.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Log.i(TAG, "onTouch");
+				return true;
+			}
+		});*/
 	} 
 	
 	

@@ -50,7 +50,7 @@ public class CurrentListFragment extends VideoListFragmentABS {
 		}
 		view = inflater.inflate(R.layout.current_list_fragment, container, false);
 		initView(view); 
-		mAllVideoListAdapter = new AllVideoListAdapter(context, R.layout.all_video_list_item);
+		mAllVideoListAdapter = new AllVideoListAdapter(context);
 		allVideoList.setOnItemClickListener(mOnItemClickListener);
 		loadAllVideo("go");
 		return view;

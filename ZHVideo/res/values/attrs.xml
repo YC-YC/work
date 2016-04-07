@@ -37,4 +37,5 @@
         <attr name="src"></attr> <!-- 图片 -->
     </declare-styleable>
  <!-- 圆角图片 End -->
+ 
 </resources>

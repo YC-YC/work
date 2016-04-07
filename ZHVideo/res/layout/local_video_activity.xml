@@ -2,32 +2,144 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bg"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg" >
 
     <View
         android:id="@+id/topBase"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@null" />
-    <!-- 主体fragment -->
+   
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="26dp"
+        android:orientation="horizontal" >
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/app_decorator" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_title"
+            android:textColor="@color/main_text_color"
+            android:textSize="30sp" />
+    </LinearLayout>
+    
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/vidio_list_back_left"
+        android:layout_marginTop="@dimen/vidio_list_back_top"
+        android:background="@drawable/back_selector" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/vidio_list_list_left"
+        android:layout_marginTop="@dimen/vidio_list_list_top"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/list"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/vidio_list_eq_left"
+        android:layout_marginTop="@dimen/vidio_list_eq_top"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_eq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/eq_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/eq"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+ <!-- 主体fragment -->
     <FrameLayout
         android:id="@+id/currenBody"
-        android:layout_below="@+id/topBase"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
     </FrameLayout>
-    
+
     <!-- 最上层显示的view，有需求只允许重写此view，在次view中添加 -->
-	<com.zhcl.ui.video.ScanProgressView 
-	    android:id="@+id/gtop"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentRight="true"
-	    android:layout_marginTop="75dp"
-	    android:visibility="gone"
-	    />
+
+    <com.zhcl.ui.video.ScanProgressView
+        android:id="@+id/gtop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="75dp"/>
+    <LinearLayout 
+	        android:id="@+id/media_switch_layout"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_marginBottom="8dp"
+	        android:layout_centerHorizontal="true"
+	        android:orientation="horizontal">
+	        <Button 
+	            android:id="@+id/btn_media_switch_music"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="41dp"
+	            android:background="@drawable/media_switch_music_selector"/>
+	        <Button 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="-12dp"
+	             android:layout_marginTop="21dp"
+	            android:background="@drawable/media_switch_left"/>
+	        
+	        <Button 
+	            android:id="@+id/btn_media_switch_picture"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="-12dp"
+	            android:background="@drawable/media_switch_pic_selector"/>
+	        <Button 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	             android:layout_marginTop="21dp"
+	             android:layout_marginLeft="-12dp"
+	            android:background="@drawable/media_switch_right"/>
+	        <Button 
+	            android:id="@+id/btn_media_switch_video"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="-12dp"
+	            android:layout_marginTop="41dp"
+	            android:clickable="false"
+	            android:background="@drawable/media_switch_video_press"/>
+	    </LinearLayout>
 
 </RelativeLayout>

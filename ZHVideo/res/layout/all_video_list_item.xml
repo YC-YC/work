@@ -4,21 +4,18 @@
     xmlns:custom="http://schemas.android.com/apk/res/com.zhonghong.zhvideo"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:padding="5dp"
+     android:background="@drawable/item_click_selector"
     android:orientation="vertical" >
 
     <!-- 缩略图 -->
 
+
+    <!--
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
-        <!-- <com.zhcl.ui.widget.VideoImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            app:hscale="0.56" /> -->
            <com.zhcl.ui.widget.CustomImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
@@ -28,12 +25,7 @@
             custom:type="circle"
             custom:whscale="1.0"
             custom:src="@drawable/danmu_bubble_itembg"/> 
-        <!-- android:singleLine="true" 使用会导致事件异常！触摸到是viewpage无法左右滑动 -->
 
-	 <!-- <ImageView  android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/danmu_bubble_itembg"/>  -->
         <TextView
             android:id="@+id/info"
             style="@style/AudioFileInfoOverlayText"
@@ -47,6 +39,42 @@
             android:text="时长"
             android:visibility="gone"
             android:textSize="15sp" />
+    </RelativeLayout>-->
+
+    <RelativeLayout
+        android:layout_width="@dimen/item_width"
+        android:layout_height="@dimen/item_width"
+        android:gravity="center" >
+
+        <com.zhcl.ui.widget.CustomImageView
+            android:id="@+id/image"
+            android:layout_width="@dimen/item_width"
+            android:layout_height="@dimen/item_width"
+            custom:src="@drawable/danmu_bubble_itembg"
+            custom:type="circle" >
+        </com.zhcl.ui.widget.CustomImageView>
+
+        <ImageView
+            android:id="@+id/itemplaypause"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/item_play_selector" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/info"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:background="@drawable/danmu_bubble_itembg"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingLeft="20dp"
+            android:text="时长"
+            android:textSize="15sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
@@ -60,9 +88,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:padding="5dp"
             android:maxLines="1"
+            android:padding="5dp"
             android:text="影片名"
+            android:textColor="@color/itemtextcolor"
+            android:singleLine="true"
             android:textSize="20sp" />
     </LinearLayout>
 

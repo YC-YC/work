@@ -20,4 +20,7 @@
     <color name="green">#22AA22</color>
     <color name="black">#000000</color>
     <color name="selector">#55000000</color>
+    
+    <color name="main_text_color">#17E6FF</color><!-- 主题颜色 -->
+   
 </resources>

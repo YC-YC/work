@@ -39,7 +39,7 @@ import com.zhonghong.zhvideo.R;
  * 所有歌曲列表adapter
  * @author ChenLi
  */
-public class AllVideoListAdapter extends BaseAdapter {
+public class HorizontalListAdapter extends BaseAdapter {
 	private static final String tag = "AllVideoListAdapter";
 	private final String TAG = getClass().getSimpleName();
 	Vector<VideoInfo> allVideo;
@@ -54,9 +54,8 @@ public class AllVideoListAdapter extends BaseAdapter {
 	Handler handler;
 	/**
 	 * @param context
-	 * @param listItemId 需要要有一个ImageView和两个text
 	 */
-	public AllVideoListAdapter(Context context){
+	public HorizontalListAdapter(Context context){
 		this.context = context;
 		this.mInflater = LayoutInflater.from(context);
 		handler = new Handler(Looper.getMainLooper());
@@ -101,25 +100,19 @@ public class AllVideoListAdapter extends BaseAdapter {
 		}
 		  ViewHolder holder;
           if (convertView == null) {
-              convertView = mInflater.inflate(R.layout.play_video_list_item, null);
+              convertView = mInflater.inflate(R.layout.all_video_list_item, null);
         	  holder = new ViewHolder();
               /*得到各个控件的对象*/
               holder.title = (TextView) convertView.findViewById(R.id.name);
               holder.info = (TextView) convertView.findViewById(R.id.info);
               
               holder.image = (ImageView) convertView.findViewById(R.id.image);
+              holder.mState = (ImageView) convertView.findViewById(R.id.itemplaypause);
               convertView.setTag(holder); //绑定ViewHolder对象
           } else {
               holder = (ViewHolder) convertView.getTag(); //取出ViewHolder对象
           }
           
-          if(viewGroup instanceof MyGridView){
-        	  MyGridView mMyGridView = (MyGridView)viewGroup;
-        	  if(mMyGridView.isOnMeasure()){
-        		  Log.i(TAG, "MyGridView OnMeasure");
-        		  return convertView;
-        	  }
-          }
         	  
     	  VideoInfo videoInfo = allVideo.get(position);
           /*设置TextView显示的内容，即我们存放在动态数组中的数据*/
@@ -145,6 +138,7 @@ public class AllVideoListAdapter extends BaseAdapter {
         public TextView title;
         public TextView info;
         public ImageView image;
+        public ImageView mState;
     }
     
   private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();

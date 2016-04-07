@@ -46,7 +46,7 @@ public class CurrentVideoListView extends RelativeLayout{
 	private void init(Context context){
 		 LayoutInflater.from(context).inflate(R.layout.current_play_list, this);
 		 initView();
-		 mAllVideoListAdapter = new AllVideoListAdapter(context, R.layout.play_video_list_item);
+		 mAllVideoListAdapter = new AllVideoListAdapter(context);
 	}
 	
 	private void initView(){

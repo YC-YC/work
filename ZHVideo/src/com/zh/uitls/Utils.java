@@ -14,10 +14,11 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
@@ -25,18 +26,14 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.os.StatFs;
 import android.os.SystemClock;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.MeasureSpec;
 import android.widget.TextView;
 
 /**
@@ -525,5 +522,27 @@ public class Utils {
     	return new int[]{rect.width(), rect.height()};
 	}
 	
+	/**视频包名，类名*/
+	public static final String ZH_VIDEO_PKG = "com.zhonghong.zhvideo";
+	public static final String ZH_VIDEO_CLZ = "com.zhcl.zhvideo.LocalVideoActivity";
+	/**音乐包名，类名*/
+	public static final String ZH_AUDIO_PKG = "com.zh.ui";
+	public static final String ZH_AUDIO_CLZ = "com.zh.ui.media.activity.MediaListActivity";
+	/**图片包名，类名*/
+	public static final String ZH_PIC_PKG = "com.zhonghong.newphoto";
+	public static final String ZH_PIC_CLZ = "com.zhonghong.media.photo.PhotoLauncher";
+	
+	/** 打开应用方法 */
+	public void startItemActivity(Context context, String pkgName, String className){
+		try {
+			Intent it = new Intent(Intent.ACTION_MAIN); 
+			ComponentName cn = new ComponentName(pkgName, className);              
+			it.setComponent(cn);  
+			it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+			context.startActivity(it);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
