@@ -10,29 +10,17 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
-
-
-import android.app.Activity;
 import android.app.Application;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
 import android.os.StatFs;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
@@ -42,14 +30,6 @@ import com.jrm.localmm.business.data.BaseData;
 import com.jrm.localmm.business.data.FolderData;
 import com.jrm.localmm.util.Constants;
 */
-import android.view.View;
-import android.webkit.WebChromeClient.CustomViewCallback;
-import android.widget.TextView;
-
-import com.zhonghong.mediasdk.BaseData;
-import com.zhonghong.mediasdk.Constants;
-import com.zhonghong.mediasdk.FolderData;
-import com.zhonghong.mediasdk.Tools;
 
 /**
  * Container of media data.

@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -21,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.zhonghong.mcuservice.SystemProxy;
 
 import com.zh.uitls.L;
 import com.zh.uitls.Utils;
@@ -36,6 +38,7 @@ import com.zhonghong.zui.ZuiConn;
 public class VideoPlayAcitivity extends Activity {
 
 	private static final String tag = "VideoPlayAcitivity";
+	private String TAG = getClass().getSimpleName();
 	/** 视频层 */
 	private static SurfaceView videoSurface;
 	/** 当前状态 */
@@ -64,6 +67,7 @@ public class VideoPlayAcitivity extends Activity {
 	/** 指定多少秒后一定隐藏 */
 	private final int HIDE_TIME = 5000;
 	private View buttonLayout;
+	private SystemProxy mSystemProxy;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -125,6 +129,7 @@ public class VideoPlayAcitivity extends Activity {
 		}
 	};
 	
+	
 	@Override
 	protected void onNewIntent(Intent intent) {
 		// TODO Auto-generated method stub
@@ -139,6 +144,12 @@ public class VideoPlayAcitivity extends Activity {
 		super.onResume();
 		CurrentPlayManager.getInstance().setAllowRecordVideoInfo(true);
 		ZuiConn.getInstance().enterPage();
+		if (mSystemProxy == null)
+		{
+			mSystemProxy = new SystemProxy();
+		}
+		mSystemProxy.setMcuSource(16);
+		Log.i(TAG, "setMcuSource video");
 	}
 
 	

@@ -221,10 +221,10 @@ public class LocalVideoActivity extends FragmentActivity implements HostCallBack
 
 			break;
 		case R.id.btn_media_switch_music:
-			Utils.getInstance().startItemActivity(this, Utils.ZH_AUDIO_PKG, Utils.ZH_AUDIO_CLZ);
+			Utils.getInstance().startOtherActivity(this, Utils.ZH_AUDIO_PKG, Utils.ZH_AUDIO_CLZ);
 			break;
 		case R.id.btn_media_switch_photo:
-			Utils.getInstance().startItemActivity(this, Utils.ZH_PHOTO_PKG, Utils.ZH_PHOTO_CLZ);
+			Utils.getInstance().startOtherActivity(this, Utils.ZH_PHOTO_PKG, Utils.ZH_PHOTO_CLZ);
 			break;
 		}
 	}

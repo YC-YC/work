@@ -47,10 +47,10 @@ public class PhotoLauncher extends PhotoActivity {
 		setContentView(R.layout.activity_photo_main);		
 		switchFragment(LOADING_FRAGMENT);	
 		
-		View decorView = getWindow().getDecorView(); //获取顶层窗口
-		int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
-		decorView.setSystemUiVisibility(uiOptions);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//		View decorView = getWindow().getDecorView(); //获取顶层窗口
+//		int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+//		decorView.setSystemUiVisibility(uiOptions);
+//		getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		
 	}
 	

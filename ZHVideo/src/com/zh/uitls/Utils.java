@@ -533,7 +533,7 @@ public class Utils {
 	public static final String ZH_PHOTO_CLZ = "com.zhonghong.media.photo.PhotoLauncher";
 	
 	/** 打开应用方法 */
-	public void startItemActivity(Context context, String pkgName, String className){
+	public void startOtherActivity(Context context, String pkgName, String className){
 		try {
 			Intent it = new Intent(Intent.ACTION_MAIN); 
 			ComponentName cn = new ComponentName(pkgName, className);              

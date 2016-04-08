@@ -10,7 +10,7 @@
      <Button 
         android:id="@+id/photo_back_sel"
         android:layout_marginLeft="26dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="41dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/back_btn_selector"/>
@@ -24,10 +24,11 @@
         android:background="@drawable/list_btn_selector"/>
    
     <LinearLayout 
-        android:layout_marginLeft="524dp"
-        android:layout_marginTop="41dp"
-        android:layout_width="match_parent"
-    	android:layout_height="match_parent"  
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"  
+    	android:layout_gravity="center_horizontal"
+    	android:gravity="center"
     	android:orientation="horizontal" >
         <ImageView 
 	        android:id="@+id/title_view"
@@ -42,7 +43,7 @@
 	        android:gravity="center"
 	        android:text="USB图片"
 	        android:textColor="#00C7D4"
-	        android:textSize="45sp"/>
+	        android:textSize="40sp"/>
     </LinearLayout>
     
      <!--    android:layout_width="match_parent"
@@ -86,7 +87,7 @@
 	        android:verticalSpacing="20dp" /> -->
     </FrameLayout> 
     
-    <LinearLayout 
+   <!--  <LinearLayout 
         android:layout_marginLeft="477dp"
         android:layout_marginTop="600dp"
         android:layout_width="326dp"
@@ -94,22 +95,48 @@
     	android:orientation="horizontal"
     	android:background="@drawable/photo_btn_bg" >
 	  	
-    <!--  <Button 
-        android:id="@+id/audio_btn"
-        android:layout_marginLeft="147dp"
-        android:layout_marginTop="91dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/list_btn_selector"/>
-     
-     <Button 
-        android:id="@+id/video_btn"
-        android:layout_marginLeft="147dp"
-        android:layout_marginTop="91dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/list_btn_selector"/> -->
        
-    </LinearLayout>
+    </LinearLayout> -->
+    
+    <LinearLayout 
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"  
+	        android:orientation="horizontal">
+	        <Button 
+	            android:id="@+id/btn_media_switch_music"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="41dp"
+	            android:background="@drawable/media_switch_music_selector"/>
+	        <Button 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="-12dp"
+	             android:layout_marginTop="21dp"
+	            android:background="@drawable/media_switch_left"/>
+	        
+	        <Button 
+	            android:id="@+id/btn_media_switch_photo"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="-12dp"
+	            android:clickable="false"
+	            android:background="@drawable/media_switch_photo_press"/>
+	        <Button 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	             android:layout_marginTop="21dp"
+	             android:layout_marginLeft="-12dp"
+	            android:background="@drawable/media_switch_right"/>
+	        <Button 
+	            android:id="@+id/btn_media_switch_video"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="-12dp"
+	            android:layout_marginTop="41dp"
+	            android:background="@drawable/media_switch_video_selector"/>
+	    </LinearLayout>
     
 </FrameLayout>

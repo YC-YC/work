@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.jess.ui.TwoWayAdapterView;
 import com.jess.ui.TwoWayGridView;
 import com.zhonghong.media.photo.adapter.PFileGridBaseAdapter;
+import com.zhonghong.media.util.Utils;
 import com.zhonghong.mediasdk.Constants;
 import com.zhonghong.newphoto.R;
 
@@ -31,7 +32,8 @@ public class PhotoBrowserFragment extends Fragment {
 /*	private Button usb = null;
 	private Button sd = null;
 	private Button hdd = null;*/
-	private Button list_sel_btn = null;
+//	private Button list_sel_btn = null;
+	private Button mBtnBack, mBtnOpenVideo, mBtnOpenMusic;
 	//cut by hj
 	private TwoWayGridView photo_gridview = null;
 /*	private ListView folder_list = null;
@@ -73,7 +75,9 @@ public class PhotoBrowserFragment extends Fragment {
         photo_gridview.setSelector(new ColorDrawable(Color.GRAY));
         photo_gridview.setAdapter(new PFileGridBaseAdapter(getActivity()));
         nodata_prompt = (TextView)mPhotoListFragment.findViewById(R.id.nodata);
-        list_sel_btn = (Button)mPhotoListFragment.findViewById(R.id.photo_list_sel);
+        mBtnBack = (Button)mPhotoListFragment.findViewById(R.id.photo_back_sel);
+        mBtnOpenVideo = (Button)mPhotoListFragment.findViewById(R.id.btn_media_switch_video);
+        mBtnOpenMusic = (Button)mPhotoListFragment.findViewById(R.id.btn_media_switch_music);
         
 	}
 	private void setListener(){
@@ -83,7 +87,11 @@ public class PhotoBrowserFragment extends Fragment {
 		hdd.setOnClickListener(new DeviceListener());		
 		folder_list.setOnItemClickListener(m_FolderListClickListener);
 		photo_gridview.setOnItemClickListener(m_FileListClickListener);*/
-		list_sel_btn.setOnClickListener(new DeviceListener());
+		
+		mBtnBack.setOnClickListener(mOnClickListener);
+		mBtnOpenVideo.setOnClickListener(mOnClickListener);
+		mBtnOpenMusic.setOnClickListener(mOnClickListener);
+		
 		//photo_gridview.setOnItemClickListener(m_FileListClickListener);
 		
 		photo_gridview.setOnItemClickListener(new TwoWayAdapterView.OnItemClickListener() {
@@ -93,6 +101,29 @@ public class PhotoBrowserFragment extends Fragment {
 		});
 	}
 	
+private OnClickListener mOnClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			doClick(v);
+		}
+
+	};
+	
+	private void doClick(View v) {
+		// TODO doClick
+		switch (v.getId()) {
+		case R.id.photo_back_sel:
+			getActivity().onBackPressed();
+			break;
+		case R.id.btn_media_switch_music:
+			Utils.getInstance().startOtherActivity(getActivity(), Utils.ZH_AUDIO_PKG, Utils.ZH_AUDIO_CLZ);
+			break;
+		case R.id.btn_media_switch_video:
+			Utils.getInstance().startOtherActivity(getActivity(), Utils.ZH_VIDEO_PKG, Utils.ZH_VIDEO_CLZ);
+			break;
+		}
+	}
     /***
      * @author victorchen
      */
