@@ -27,6 +27,7 @@ import com.zhonghong.launcher.item.RadioCommand;
 import com.zhonghong.launcher.item.VideoCommand;
 import com.zhonghong.utils.FontsUtils;
 import com.zhonghong.utils.T;
+import com.zhonghong.utils.Utils;
 import com.zhonghong.utils.WeatherUtils;
 import com.zhonghong.view.circlemenu.CircleMenuLayout;
 import com.zhonghong.view.circlemenu.CircleMenuLayout.OnMenuItemClickListener;
@@ -39,7 +40,6 @@ import com.zhonghong.weather.WeatherLoc;
 public class MainActivity extends Activity implements OnClickListener {
 
 	private final String TAG = getClass().getSimpleName();
-	
 	private LinearLayout mLayoutBg;	//背景图层
 	private Button mBtnNavi, mBtnPhone, mBtnBtMusic;
 	
@@ -83,7 +83,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		mItemControl.setCommand(0, new RadioCommand());
 		mItemControl.setCommand(2, new VideoCommand());
 		mItemControl.setCommand(4, new AudioCommand());
-		
 		CanManager.getInstace().setHandle(mUpdateUiHandler);
 	}
 
@@ -248,7 +247,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			
 			@Override
 			public void itemClick(View view, int pos) {
-				if (!mItemControl.onItemKeyDown(getApplicationContext(), pos))
+				if (!mItemControl.onItemKeyDown(MainActivity.this, pos))
 				{
 					Toast.makeText(getApplicationContext(), mItemControl.getItemTexts()[pos],
 							Toast.LENGTH_SHORT).show();	
@@ -264,6 +263,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.btn_navi:
 			Toast.makeText(this, "导航", 1).show();
+//			Utils.startOtherActivity(this, Utils.ZH_AUDIO_PKG, Utils.ZH_AUDIO_CLZ);
 			break;
 		case R.id.btn_phone:
 			Toast.makeText(this, "电话", 1).show();

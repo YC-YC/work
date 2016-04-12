@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:visibility="gone"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
+        android:textColor="@color/main_text_color"
         android:text="保险"
         android:textSize="25sp" />
 

@@ -432,7 +432,8 @@ public class HorizontalList extends ViewGroup {
 	/** 后退处理，防止停止时滚动太快 */
 	private boolean isMoveBack;
 	private MoveBackRunnable mMoveBackRunnable;
-	
+	/** 移动的最大位移 */
+	private static final int MOVE_MIN_DIFF = 20;
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
 		//TODO dispatchTouchEvent
@@ -457,6 +458,10 @@ public class HorizontalList extends ViewGroup {
 			break;
 		case MotionEvent.ACTION_MOVE:
 			int x = (int) event.getX();
+			if (Math.abs(mDownX - x) <= MOVE_MIN_DIFF){
+				mLastX = x;
+				break;
+			}
 			mMidItemOffset += (x - mLastX);
 			checkOffset();
 			checkBorder();

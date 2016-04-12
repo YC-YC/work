@@ -17,93 +17,58 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhonghong.launcher.R;
+import com.zhonghong.utils.FontsUtils;
 
 
 /**
  * @author YC
  * @time 2016-3-21 上午11:19:11
  */
-@SuppressLint("NewApi")
 public class CircleMenuLayout extends ViewGroup {
 
 	private static final String tag = "CircleMenuLayout";
-	/**
-	 *  直径
-	 */
+	private Context mContext;
+	/** 直径 */
 	private int mRadius;
-	
-	/**
-	 * 上、左偏移(需要做补偿)
-	 */
-	private int mTopPadding;
-	private int mLeftPadding;
-	/**
-	 *  根据menu item的个数，计算角度
-	 */
+	/** 上、左偏移(需要做补偿) */
+	private int mTopPadding, mLeftPadding;
+	/** 根据menu item的个数，计算角度 */
 	private	float mPerItemAngle;
 	
-	/**
-	 * 该容器的内边距,无视padding属性，如需边距请用该变量
-	 */
+	/** 该容器的内边距,无视padding属性，如需边距请用该变量 */
 	private float mPadding;
 
-	/**
-	 * 该容器内child item的默认尺寸(无用)
-	 */
+	/** 该容器内child item的默认尺寸(无用) */
 	private static final float RADIO_DEFAULT_CHILD_DIMENSION = 1 / 4f;
-	/**
-	 * 菜单的中心child的默认尺寸
-	 */
+	/** 菜单的中心child的默认尺寸 */
 	private float RADIO_DEFAULT_CENTERITEM_DIMENSION = 1 / 3f;
-	/**
-	 * 该容器的内边距,无视padding属性，如需边距请用该变量，到外部的距离
-	 */
+	/** 该容器的内边距,无视padding属性，如需边距请用该变量，到外部的距离  */
 	private static final float RADIO_PADDING_LAYOUT = 0 / 12f;
-	/**
-	 * 用于计算开始角度
-	 */
+	/** 用于计算开始角度 */
 	private double mStartAngle = 0;
 	
-	/**
-	 * 设置显示的开始角度
-	 */
+	/** 设置显示的开始角度 */
 	private double mStartAngleIndex = 0;
 
-	/**
-	 * 总显示角度
-	 */
+	/** 总显示角度 */
 	private double mTotalAngle = 0;
 	
-	/**
-	 * 最小的缩放值
-	 */
+	/** 最小的缩放值 */
 	private static final float MIN_SCALE = 0.6f;
-	/**
-	 * 菜单的个数
-	 */
+	/** 菜单的个数 */
 	private int mMenuItemCount;
 
-	/**
-	 * 菜单项的文本
-	 */
+	/** 菜单项的文本 */
 	private String[] mItemTexts;
-	/**
-	 * 菜单项的图标
-	 */
+	/** 菜单项的图标 */
 	private int[] mItemImgs;
 
-	/**
-	 * child的w,h
-	 */
-	private int mChildWidth;
-	private int mChildHeight;
+	/** child的w,h */
+	private int mChildWidth,mChildHeight;
 	
-	/**
-	 * @param context
-	 * @param attrs
-	 */
 	public CircleMenuLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		mContext = context;
 		//无视xml中的padding的布局
 		setPadding(0, 0, 0, 0);
 	}
@@ -174,6 +139,7 @@ public class CircleMenuLayout extends ViewGroup {
 			if (tv != null) {
 				tv.setVisibility(View.VISIBLE);
 				tv.setText(mItemTexts[i]);
+				tv.setTypeface(FontsUtils.getRuiZiBiGerTypeface(mContext));
 			}
 
 			// 添加view到容器中
@@ -217,80 +183,6 @@ public class CircleMenuLayout extends ViewGroup {
 		return Math.min(outMetrics.widthPixels, outMetrics.heightPixels);
 	}
 
-/*	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-		int resWidth = 0;
-		int resHeight = 0;
-		Log.i(tag, "onMeasure");
-		*//**
-		 * 根据传入的参数，分别获取测量模式和测量值
-		 *//*
-		int width = MeasureSpec.getSize(widthMeasureSpec);
-		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-
-		int height = MeasureSpec.getSize(heightMeasureSpec);
-		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-
-		*//**
-		 * 如果宽或者高的测量模式非精确值
-		 *//*
-		if (widthMode != MeasureSpec.EXACTLY
-				|| heightMode != MeasureSpec.EXACTLY) {
-			// 主要设置为背景图的高度
-			resWidth = getSuggestedMinimumWidth();
-			// 如果未设置背景图片，则设置为屏幕宽高的默认值
-			resWidth = resWidth == 0 ? getDefaultWidth() : resWidth;
-
-			resHeight = getSuggestedMinimumHeight();
-			// 如果未设置背景图片，则设置为屏幕宽高的默认值
-			resHeight = resHeight == 0 ? getDefaultWidth() : resHeight;
-			resWidth = (int) (Math.cos(mStartAngleIndex)*2);
-			resHeight = (int) Math.sin(mStartAngleIndex);
-		} else {
-			// 如果都设置为精确值，则直接取小值；
-//			resWidth = resHeight = Math.min(width, height);
-			resWidth = width;
-			resHeight = height;
-		}
-
-		// 设置view的w,h
-		setMeasuredDimension(resWidth, resHeight);
-
-		// 获得半径
-		mRadius = Math.max(getMeasuredWidth(), getMeasuredHeight());
-		// menu item数量
-		final int count = getChildCount();
-		// menu item尺寸
-		int childSize = (int) (mRadius * RADIO_DEFAULT_CHILD_DIMENSION);
-		// menu item测量模式
-		int childMode = MeasureSpec.EXACTLY;
-
-		// 迭代测量
-		for (int i = 0; i < count; i++) {
-			final View child = getChildAt(i);
-
-			if (child.getVisibility() == GONE) {
-				continue;
-			}
-
-			// 计算menu item的尺寸；以及和设置好的模式，去对item进行测量
-			int makeMeasureSpec = -1;
-
-			if (child.getId() == R.id.id_circle_menu_item_center) {
-				makeMeasureSpec = MeasureSpec.makeMeasureSpec(
-						(int) (mRadius * RADIO_DEFAULT_CENTERITEM_DIMENSION),
-						childMode);
-			} else {
-				makeMeasureSpec = MeasureSpec.makeMeasureSpec(childSize,
-						childMode);
-			}
-			child.measure(makeMeasureSpec, makeMeasureSpec);
-		}
-
-		mPadding = RADIO_PADDING_LAYOUT * mRadius;
-	}*/
-
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
@@ -322,11 +214,7 @@ public class CircleMenuLayout extends ViewGroup {
 				makeMeasureSpec = MeasureSpec.makeMeasureSpec(childSize,
 						childMode);
 			}
-//					child.measure(makeMeasureSpec, makeMeasureSpec);
-//					Log.i(tag, "child.width = " + child.getWidth() + "child.height = " + child.getHeight());
 			child.measure(0, 0);
-//					Log.i(tag, "child.width = " + child.getWidth() + "child.height = " + child.getHeight());
-//					Log.i(tag, "child.getMeasuredWidth = " + child.getMeasuredWidth() + "child.getMeasuredHeight = " + child.getMeasuredHeight());
 			mChildWidth = child.getMeasuredWidth();
 			mChildHeight = child.getMeasuredHeight();
 		}
@@ -384,67 +272,6 @@ public class CircleMenuLayout extends ViewGroup {
 		mPadding = RADIO_PADDING_LAYOUT * mRadius;
 	}
 	
-/*	@Override
-	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-
-		int angle = 180;
-		
-		int layoutRadius = mRadius;
-
-		// Laying out the child views
-		final int childCount = getChildCount();
-
-		int left, top;
-		// menu item 的尺寸
-		int cWidth = (int) (layoutRadius * RADIO_DEFAULT_CHILD_DIMENSION);
-		// 根据menu item的个数，计算角度
-		mAngleDelay = angle / (getChildCount()-1);
-		
-		Log.i(tag, "getCount = " + childCount + ", per angle = " + mAngleDelay);
-		// 遍历去设置menuitem的位置
-		for (int i = 0; i < childCount; i++) {
-			final View child = getChildAt(i);
-
-			if (child.getId() == R.id.id_circle_menu_item_center)
-				continue;
-
-			if (child.getVisibility() == GONE) {
-				continue;
-			}
-
-//			mStartAngle /= 1;
-//			if (mStartAngle > angle)
-//			{
-//				mStartAngle %= angle;
-//			}
-			mStartAngle %= angle+mAngleDelay;
-			Log.i(tag, "mStartAngle = " + mStartAngle);
-
-			// 计算，中心点到menu item中心的距离
-			float tmp = layoutRadius / 2f - cWidth / 2 - mPadding;
-
-			// tmp cosa 即menu item中心点的横坐标
-			left = layoutRadius/ 2
-					+ (int) Math.round(tmp
-							* Math.cos(Math.toRadians(mStartAngle)) - 1 / 2f
-							* cWidth);
-			// tmp sina 即menu item的纵坐标
-			top = layoutRadius/ 2
-					+ (int) Math.round(tmp
-							* Math.sin(Math.toRadians(mStartAngle)) - 1 / 2f
-							* cWidth);
-
-			float level = getLevel(mStartAngle);
-			Log.i(tag, "getLevel = " + level);
-			child.layout(left, top, left + cWidth, top + cWidth);
-			child.setScaleX(level);
-			child.setScaleY(level);
-			child.setAlpha(level);
-			// 叠加尺寸
-			mStartAngle += mAngleDelay;
-		}
-
-	}*/
 	
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -530,53 +357,33 @@ public class CircleMenuLayout extends ViewGroup {
 		return result;
 	}
 
-	/**
-	 * 检测按下到抬起时旋转的角度
-	 */
+	/** 检测按下到抬起时旋转的角度 */
 	private float mTmpAngle;
-	/**
-	 * 检测按下到抬起时使用的时间
-	 */
+	/** 检测按下到抬起时使用的时间 */
 	private long mDownTime;
-	/**
-	 * 记录上一次的x，y坐标
-	 */
-	private float mLastX;
-	private float mLastY;
-	/**
-	 * 判断是否正在自动滚动
-	 */
+	/** 记录上一次的x，y坐标 */
+	private float mLastX,mLastY;
+	/** 记录按下的x，y坐标 */
+	private float mDownX;
+	/** 判断是否正在自动滚动 */
 	private boolean isFling;
-	/**
-	 * 自动滚动的Runnable
-	 */
+	/** 自动滚动的Runnable */
 	private AutoFlingRunnable mFlingRunnable;
-	
-	/**
-	 * 后退处理，防止停止时滚动太快
-	 */
+	/** 后退处理，防止停止时滚动太快 */
 	private boolean isMoveBack;
 	private MoveBackRunnable mMoveBackRunnable;
 	
-	/**
-	 * 当每秒移动角度达到该值时，认为是快速移动
-	 */
+	/** 当每秒移动角度达到该值时，认为是快速移动 */
 	private static final int FLINGABLE_VALUE = 100;
-	/**
-	 * 当每秒移动角度达到该值时，认为是快速移动
-	 */
+	/** 当每秒移动角度达到该值时，认为是快速移动  */
 	private int mFlingableValue = FLINGABLE_VALUE;
-	/**
-	 * 如果移动角度达到该值，则屏蔽点击
-	 */
+	/** 如果移动角度达到该值，则屏蔽点击 */
 	private static final int NOCLICK_VALUE = 3;
-	/**
-	 * 根据触摸的位置，计算角度
-	 * 
-	 * @param xTouch
-	 * @param yTouch
-	 * @return
-	 */
+	
+	/** 移动的最大位移 */
+	private static final int MOVE_MIN_DIFF = 20;
+	
+	/** 根据触摸的位置，计算角度 */
 	private float getAngle(float xTouch, float yTouch)
 	{
 		double x = xTouch - (mRadius / 2d);
@@ -584,13 +391,7 @@ public class CircleMenuLayout extends ViewGroup {
 		return (float) (Math.asin(y / Math.hypot(x, y)) * 180 / Math.PI);
 	}
 	
-	/**
-	 * 根据当前位置计算象限
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
-	 */
+	/** 根据当前位置计算象限 */
 	private int getQuadrant(float x, float y)
 	{
 		int tmpX = (int) (x - mRadius / 2);
@@ -614,6 +415,7 @@ public class CircleMenuLayout extends ViewGroup {
 		case MotionEvent.ACTION_DOWN://按下
 			mLastX = x;
 			mLastY = y;
+			mDownX = x;
 			mDownTime = SystemClock.elapsedRealtime();
 			mTmpAngle = 0;
 			if (isMoveBack)// 如果当前已经在回退  
@@ -629,29 +431,18 @@ public class CircleMenuLayout extends ViewGroup {
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:
-			/*float start = getAngle(mLastX, mLastY);//开始时角度
-			float end = getAngle(x, y);	//当前角度
-	         Log.e(tag, "start = " + start + " , end =" + end);  
-            // 如果是一、四象限，则直接end-start，角度值都是正值  
-            if (getQuadrant(x, y) == 1 || getQuadrant(x, y) == 4)  
-            {  
-                mStartAngle += end - start;  
-                mTmpAngle += end - start;  
-            } else  
-            // 二、三象限，色角度值是付值  
-            {  
-                mStartAngle += start - end;  
-                mTmpAngle += start - end;  
-            }  */
-			float angle = (float) ((mLastX - x)/(2*mRadius*Math.cos(mStartAngleIndex*Math.PI/180))*180);
+			float angle = (float) ((mLastX - x)/(2*mRadius*Math.cos(mStartAngleIndex*Math.PI/180))*180/2);
+			mLastX = x;  
+			mLastY = y;
+			if (Math.abs(mDownX - x) <= MOVE_MIN_DIFF){
+				break;
+			}
 			mStartAngle += angle;  
             mTmpAngle += angle; 
 //            Log.i(tag, "move angle = " + angle);
             // 重新布局  
             requestLayout();  
   
-            mLastX = x;  
-            mLastY = y;
 			break;
 		case MotionEvent.ACTION_UP:
 			 // 计算，每秒移动的角度  
