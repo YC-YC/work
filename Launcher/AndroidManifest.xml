@@ -14,20 +14,27 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:name="com.zhonghong.launcher.BaseApplication"
         android:theme="@android:style/Theme.Wallpaper.NoTitleBar"
          >
         <activity
             android:name="com.zhonghong.launcher.MainActivity"
             android:label="@string/app_name" 
             android:screenOrientation="landscape"
-            android:launchMode="singleTask">
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.HOME" />  <!-- 主界面属性-->
+				<!-- <category android:name="android.intent.category.HOME" /> -->  <!-- 主界面属性-->
 				<category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
+        <!-- Can服务启动接收 -->
+        <receiver android:name="com.zhonghong.launcher.can.CanBootReceiver" >
+            <intent-filter>
+                <action android:name="com.zhonghong.ACTION_CAN_START_OK" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

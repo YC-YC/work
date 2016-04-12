@@ -1,0 +1,142 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Air Control"
+                android:textSize="35sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/windid"
+                android:background="@drawable/windpress" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/windpowerid"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/windpower" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:id="@+id/ocid"
+                android:background="@drawable/ocpress" />
+			<LinearLayout android:layout_width="230dp"
+			    android:layout_height="wrap_content"
+			    android:gravity="right"
+			    android:orientation="horizontal">
+	            <com.zhonghong.cancusom.numView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:id="@+id/numid"
+	                android:background="@drawable/num9press" />
+	
+	            <ImageView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:scaleType="center"
+	                android:id="@+id/cid"
+	                android:background="@drawable/cfocus" />
+			</LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:id="@+id/blowmodeid"
+                android:background="@drawable/blowheadpress" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="吹面模式"
+                android:textSize="35sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/airdownbg"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/airmode"
+                    android:background="@drawable/airautopress" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/aircirclemode"
+                    android:background="@drawable/aircircledispress" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/blowlittlemode"
+                    android:background="@drawable/blowheadlittlepress" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/windwindow"
+                    android:background="@drawable/windwindowpress" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/airflashpress" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/kmtx"
+                    android:text="1.5"
+                    android:textSize="35sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/airkwprss" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

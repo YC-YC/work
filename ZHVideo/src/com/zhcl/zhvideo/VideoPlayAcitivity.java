@@ -148,7 +148,7 @@ public class VideoPlayAcitivity extends Activity {
 		{
 			mSystemProxy = new SystemProxy();
 		}
-		mSystemProxy.setMcuSource(16);
+		mSystemProxy.setMcuSource(15);
 		Log.i(TAG, "setMcuSource video");
 	}
 

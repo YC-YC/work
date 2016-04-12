@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zhonghong.aidl.CanInfoParcel;
+import com.zhonghong.launcher.can.CanManager;
+import com.zhonghong.launcher.item.AudioCommand;
+import com.zhonghong.launcher.item.ItemControl;
+import com.zhonghong.launcher.item.RadioCommand;
+import com.zhonghong.launcher.item.VideoCommand;
+import com.zhonghong.utils.FontsUtils;
+import com.zhonghong.utils.T;
 import com.zhonghong.utils.WeatherUtils;
 import com.zhonghong.view.circlemenu.CircleMenuLayout;
 import com.zhonghong.view.circlemenu.CircleMenuLayout.OnMenuItemClickListener;
@@ -31,7 +38,7 @@ import com.zhonghong.weather.WeatherLoc;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-	private static final String tag = "Launcher";
+	private final String TAG = getClass().getSimpleName();
 	
 	private LinearLayout mLayoutBg;	//背景图层
 	private Button mBtnNavi, mBtnPhone, mBtnBtMusic;
@@ -40,65 +47,56 @@ public class MainActivity extends Activity implements OnClickListener {
 	private TextView mTvWeather;
 	private TextView mTvDegree;
 	
+	private TextView mTvCanAuto, mTvCanPower, mTvLeftTemperature, mTvAirWindLevel;
+	private ImageView mImgAirCircurlationMode, mImgBlowMode;
 	private CircleMenuLayout mCircleMenuLayout;
 	
 	private WeatherUtils mWeatherUtils;
 	
 	private WeatherInterface mWeatherInterface;
 	
-	private String[] mItemTexts = new String[] { 
-			"收音机", 
-			"设置", 
-			"USB",
-			"电话", 
-			"音乐 "};
-	private int[] mItemImgs = new int[] { 
-			R.drawable.radio_selector,
-			R.drawable.setup_selector, 
-			R.drawable.usb_selector,
-			R.drawable.bt_selector, 
-			R.drawable.music_selector};
-	private Map<Integer, AppInfo> apps = new HashMap<Integer, MainActivity.AppInfo>();
+	private ItemControl mItemControl;
+	
+	private final Handler mHandler = new Handler();
+	private final Handler mUpdateUiHandler = new UiHandle();
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		mWeatherUtils = WeatherUtils.getInstanse(this);
+		
 		initData();
-		initViews();
+		initMainViews();
 		initWeather();
-		test();
+		initCanViews();
+		
 	}
 
 
-	/**
-	 * 
-	 */
+	/**初始化数据*/
 	private void initData() {
-		apps.clear();
-		apps.put(0, new AppInfo("com.zh.radio", "com.zh.radio.MainActivity"));
-		apps.put(2, new AppInfo("com.zhonghong.zhvideo", "com.zhcl.zhvideo.LocalVideoActivity"));
-		apps.put(4, new AppInfo("com.zh.ui", "com.zh.ui.media.activity.MediaListActivity"));
+		
+		mWeatherUtils = WeatherUtils.getInstanse(this);
+		
+		mItemControl = new ItemControl();
+		mItemControl.setCommand(0, new RadioCommand());
+		mItemControl.setCommand(2, new VideoCommand());
+		mItemControl.setCommand(4, new AudioCommand());
+		
+		CanManager.getInstace().setHandle(mUpdateUiHandler);
 	}
 
 
-	private void test() {
-		String str = "我是abc123";
-		for (int i = 0; i < str.length(); i++) {
-			Log.i(tag, "get = " + str.charAt(i));
-		}
-	}
 
 
-	/**
-	 * 天气相关
-	 */
+	/** 天气相关 */
 	private void initWeather() {
 		mImgWeather = (ImageView) findViewById(R.id.img_weather);
 		mTvWeather = (TextView) findViewById(R.id.tv_weather);
+		mTvWeather.setTypeface(FontsUtils.getRuiZiBiGerTypeface(this));
 		mTvDegree = (TextView) findViewById(R.id.tv_degree);
-		
+		mTvDegree.setTypeface(FontsUtils.getExpansivaTypeface(this));
 //		WeatherBean info = mWeatherUtils.getWeatherInfo(WeatherUtils.WEATHER_CLOUDY);
 //		if (info != null)
 //		{
@@ -160,12 +158,79 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 	}
 
-	private final Handler mHandler = new Handler();
+	/**Can相关*/
+	private void initCanViews() {
+		mTvCanAuto = (TextView) findViewById(R.id.tv_auto);
+		mTvCanAuto.setTypeface(FontsUtils.getExpansivaTypeface(this));
+		mTvCanAuto.setSelected(false);
+		
+		mTvCanPower = (TextView) findViewById(R.id.tv_power);
+		mTvCanPower.setTypeface(FontsUtils.getExpansivaTypeface(this));
+		
+		mTvLeftTemperature = (TextView) findViewById(R.id.tv_air_left_temperature);
+		mTvLeftTemperature.setTypeface(FontsUtils.getExpansivaTypeface(this));
+		
+		mTvAirWindLevel = (TextView) findViewById(R.id.tv_air_wind_level);
+		mTvAirWindLevel.setTypeface(FontsUtils.getExpansivaTypeface(this));
+		
+		mImgAirCircurlationMode = (ImageView) findViewById(R.id.img_air_circurlation_mode);
+		mImgBlowMode = (ImageView) findViewById(R.id.img_blow_mode);
+		
+	}
 	
-	/**
-	 * 
-	 */
-	private void initViews() {
+	/**更新Can相关UI*/
+	private void updateCanViews() {
+		CanInfoParcel canInfo = CanManager.getInstace().getCanInfo();
+		mTvCanAuto.setSelected(canInfo.isAutoHighWind());
+		
+		mTvLeftTemperature.setText("" + canInfo.getLeftTemperature());
+		mTvAirWindLevel.setText("" + canInfo.getMwindSpeed());
+		mTvAirWindLevel.setText("" + canInfo.getMwindSpeed());
+		mImgAirCircurlationMode.setBackgroundResource(getAirCircurlationModeImgId(canInfo.getAirCircurlationMode()));
+		mImgBlowMode.setBackgroundResource(getBlowModeImgId(canInfo.getMblowMode()));
+	}
+	
+		// 车内空气循环模式
+//		public final static List list = Arrays.asList("elment1", "element2");    
+		
+		/**吹风模式*/
+		private final Map<Integer, Integer> mBlowMode = new HashMap<Integer, Integer>(){
+			//匿名构造函数
+			{
+				put(0, R.drawable.blow_mode_head);
+				put(1, R.drawable.blow_mode_all);
+				put(2, R.drawable.blow_mode_foot);
+			}
+		};
+		
+		/**车内空气循环模式*/
+		private final Map<Integer, Integer> AirCircurlationMode = new HashMap<Integer, Integer>(){
+			//匿名构造函数
+			{
+				put(0, R.drawable.air_circurlation_mode_in);
+				put(1, R.drawable.air_circurlation_mode_out);
+			}
+		};
+	
+	private int getAirCircurlationModeImgId(int circurlationMode) {
+		Integer value = AirCircurlationMode.get(circurlationMode);
+		if (value != null){
+			return value;
+		}
+		return R.drawable.air_circurlation_mode_in;
+	}
+	
+	private int getBlowModeImgId(int blowMode) {
+		Integer value = mBlowMode.get(blowMode);
+		if (value != null){
+			return value;
+		}
+		return R.drawable.blow_mode_head;
+	}
+
+
+	/**初始化Activity Views*/
+	private void initMainViews() {
 		
 		mLayoutBg = (LinearLayout) findViewById(R.id.layout_bg);
 		mLayoutBg.setSelected(false);
@@ -178,34 +243,20 @@ public class MainActivity extends Activity implements OnClickListener {
 		mBtnBtMusic.setOnClickListener(this);
 		
 		mCircleMenuLayout = (CircleMenuLayout) findViewById(R.id.id_menulayout);
-		mCircleMenuLayout.setMenuAttr(mItemImgs, mItemTexts, 60, 600);
+		mCircleMenuLayout.setMenuAttr(mItemControl.getItemImgIds(), mItemControl.getItemTexts(), 60, 600);
 		mCircleMenuLayout.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			
 			@Override
 			public void itemClick(View view, int pos) {
-				try {
-					startItemActivity(pos);
-				}catch (Exception e) {
-					e.printStackTrace();
-					Toast.makeText(getApplicationContext(), mItemTexts[pos],
-							Toast.LENGTH_SHORT).show();
+				if (!mItemControl.onItemKeyDown(getApplicationContext(), pos))
+				{
+					Toast.makeText(getApplicationContext(), mItemControl.getItemTexts()[pos],
+							Toast.LENGTH_SHORT).show();	
+					
 				}
 			}
 
 		});
-	}
-	private void startItemActivity(int pos) throws Exception {
-		Intent it = new Intent(Intent.ACTION_MAIN); 
-		String pkgName, className;
-		AppInfo appInfo = apps.get(pos);
-		if (appInfo == null)
-		{
-			throw new Exception("Not found AppInfo");
-		}
-		ComponentName cn = new ComponentName(appInfo.getPakName(), appInfo.getClassName());              
-		it.setComponent(cn);  
-		it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-		startActivity(it);
 	}
 
 	@Override
@@ -224,23 +275,17 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		}
 	}
-	
-	private class AppInfo{
-		String pakName;
-		String className;
-		
-		public AppInfo(String pakName, String className) {
-			super();
-			this.pakName = pakName;
-			this.className = className;
-		}
-		
-		public String getPakName() {
-			return pakName;
-		}
-		public String getClassName() {
-			return className;
+
+	class UiHandle extends Handler{
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case T.UpdateUiCmd.UPDATE_ALL:
+				Log.i(TAG, "Launcher更新Can信息" + CanManager.getInstace().getCanInfo());
+				updateCanViews();
+				break;
+			}
 		}
 	}
-
+	
 }

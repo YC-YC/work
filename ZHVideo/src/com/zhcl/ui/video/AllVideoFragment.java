@@ -185,7 +185,8 @@ public class AllVideoFragment extends VideoListFragmentABS{
 		{
 			mHorizontalListAdapter.setAllVideo(allVideo);
 			allVideoList.setAdapter(mHorizontalListAdapter);
-			allVideoList.setPlayPauseState(new int[]{2}, new boolean[]{true});
+//			allVideoList.setPlayPauseState(new int[]{2}, new boolean[]{true});
+			allVideoList.setPlayPauseState(null, null);
 			allVideoList.setItemOnClickListener(mItemOnClickListener);
 			allVideoList.setItemPlayPauseOnClickListener(mItemPlayPauseOnClickListener);
 		}

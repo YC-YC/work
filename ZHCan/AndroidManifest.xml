@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zhonghong.zhcan"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="19" />
+    <!-- 开机广播 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <application
+        android:name="com.zhonghong.base.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <!-- <activity
+            android:name="com.zhonghong.zhcan.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> -->
+
+        <!-- Can服务 -->
+        <service
+            android:name="com.zhonghong.cancusom.CustomService"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.zhonghong.cancusom.CustomService" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
+
+        <!-- Can Aidl服务 -->
+        <service
+            android:name="com.zhonghong.aidl.CanAidlService"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.zhonghong.aidl.CanAidlService" />
+            </intent-filter>
+        </service>
+        
+        <receiver android:name="com.zhonghong.base.BootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
