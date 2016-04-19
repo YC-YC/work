@@ -116,7 +116,7 @@ public class AllVideoFragment extends VideoListFragmentABS{
 		
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position) {
-			CurrentPlayManager.getInstance().play(allVideo.get(position), allVideo, PlayerCode.VIDEO_PLAY_TYPE_FIRST);
+			CurrentPlayManager.getInstance().play(context, allVideo.get(position), allVideo, PlayerCode.VIDEO_PLAY_TYPE_FIRST);
 		}
 	};
 	

@@ -16,7 +16,7 @@ public class CanInfoParcel implements Parcelable {
 	private int mwindSpeed;// 风速
 	private int mblowMode; // 风向模式
 	private int AirCircurlationMode;//车内空气循环模式
-	private byte leftTemperature;
+	private int Temperature; //温度
 	private boolean AutoHighWind;
 	
 	
@@ -37,8 +37,8 @@ public class CanInfoParcel implements Parcelable {
 	}
 
 
-	public byte getLeftTemperature() {
-		return leftTemperature;
+	public int getTemperature() {
+		return Temperature;
 	}
 
 
@@ -54,8 +54,8 @@ public class CanInfoParcel implements Parcelable {
 		AirCircurlationMode = airCircurlationMode;
 	}
 
-	public void setLeftTemperature(byte leftTemperature) {
-		this.leftTemperature = leftTemperature;
+	public void setTemperature(int Temperature) {
+		this.Temperature = Temperature;
 	}
 
 
@@ -68,12 +68,12 @@ public class CanInfoParcel implements Parcelable {
 	}
 
 	public CanInfoParcel(int mwindSpeed, int mblowMode,
-			int airCircurlationMode, byte leftTemperature, boolean autoWind) {
+			int airCircurlationMode, byte Temperature, boolean autoWind) {
 		super();
 		this.mwindSpeed = mwindSpeed;
 		this.mblowMode = mblowMode;
 		AirCircurlationMode = airCircurlationMode;
-		this.leftTemperature = leftTemperature;
+		this.Temperature = Temperature;
 		AutoHighWind = autoWind;
 	}
 
@@ -86,7 +86,7 @@ public class CanInfoParcel implements Parcelable {
 		mwindSpeed = in.readInt();
 		mblowMode = in.readInt();
 		AirCircurlationMode = in.readInt();
-		leftTemperature = in.readByte();
+		Temperature = in.readInt();
 		AutoHighWind = (in.readByte()!=0);
 	}
 
@@ -94,7 +94,7 @@ public class CanInfoParcel implements Parcelable {
 	public String toString() {
 		return "CanInfoParcel [mwindSpeed=" + mwindSpeed + ", mblowMode="
 				+ mblowMode + ", AirCircurlationMode=" + AirCircurlationMode
-				+ ", leftTemperature=" + leftTemperature + ", AutoHighWind="
+				+ ", leftTemperature=" + Temperature + ", AutoHighWind="
 				+ AutoHighWind + "]";
 	}
 
@@ -122,7 +122,7 @@ public class CanInfoParcel implements Parcelable {
 		dest.writeInt(mwindSpeed);
 		dest.writeInt(mblowMode);
 		dest.writeInt(AirCircurlationMode);
-		dest.writeByte(leftTemperature);
+		dest.writeInt(Temperature);
 		dest.writeByte((byte)(AutoHighWind?1:0));
 	}
 

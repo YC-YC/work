@@ -148,7 +148,7 @@ public class CurrentPlayManager {
 			L.i(tag, "state = " + state + " content = " + content);
 			switch (state) {
 			case InitListener.STATE_SUCCESS: // 收到初始化成功才可执行控制命令（如，挂断电话）
-				initRecord();
+//				initRecord();
 				break;
 			}   
 		}   
@@ -215,7 +215,7 @@ public class CurrentPlayManager {
 	public void initRecord(){
 		Utils.getInstance().startTime("读断点");
 		if(readRecord()){
-			play(videoInfo, videoMenu, PlayerCode.VIDEO_PLAY_TYPE_RECORD);
+//			play(videoInfo, videoMenu, PlayerCode.VIDEO_PLAY_TYPE_RECORD);
 		}else{  
 			L.e(tag, "断点读取异常");  
 		}
@@ -281,8 +281,7 @@ public class CurrentPlayManager {
 	 * @param videoMenu
 	 * @param videoPlayType
 	 */
-	@SuppressLint("NewApi")
-	public void play(VideoInfo video, Vector<VideoInfo> videoMenu, int videoPlayType){
+	public void play(Context context, VideoInfo video, Vector<VideoInfo> videoMenu, int videoPlayType){
 		playFromVideoMenu(video, videoMenu);
 		switch(videoPlayType){
 		case PlayerCode.VIDEO_PLAY_TYPE_FIRST:

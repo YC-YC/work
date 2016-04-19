@@ -182,7 +182,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		CanInfoParcel canInfo = CanManager.getInstace().getCanInfo();
 		mTvCanAuto.setSelected(canInfo.isAutoHighWind());
 		
-		mTvLeftTemperature.setText("" + canInfo.getLeftTemperature());
+		mTvLeftTemperature.setText("" + canInfo.getTemperature());
 		mTvAirWindLevel.setText("" + canInfo.getMwindSpeed());
 		mTvAirWindLevel.setText("" + canInfo.getMwindSpeed());
 		mImgAirCircurlationMode.setBackgroundResource(getAirCircurlationModeImgId(canInfo.getAirCircurlationMode()));

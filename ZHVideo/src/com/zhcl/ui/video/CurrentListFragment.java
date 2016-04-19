@@ -76,7 +76,7 @@ public class CurrentListFragment extends VideoListFragmentABS {
 	private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			CurrentPlayManager.getInstance().play(allVideoInfo.get(arg2), allVideoInfo, PlayerCode.VIDEO_PLAY_TYPE_FIRST);
+			CurrentPlayManager.getInstance().play(context, allVideoInfo.get(arg2), allVideoInfo, PlayerCode.VIDEO_PLAY_TYPE_FIRST);
 		}
 	};
 	

@@ -32,6 +32,7 @@ public class BaseApplication extends Application {
 		Log.i(TAG , "onCreate");
 		super.onCreate();
 		instanse = this;
+		bindCanService();
 	}
 	
 	

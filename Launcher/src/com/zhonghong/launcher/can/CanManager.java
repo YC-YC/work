@@ -43,6 +43,7 @@ public class CanManager {
 	}
 	
 	public void bindCanService(Context context){
+		Log.i(TAG, "bindCanService");
 		Intent it = new Intent("com.zhonghong.aidl.CanAidlService");
 		context.bindService(it, conn, Context.BIND_AUTO_CREATE);
 	}

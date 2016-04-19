@@ -75,7 +75,7 @@ public class CurrentVideoListView extends RelativeLayout{
 	private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			CurrentPlayManager.getInstance().play(currentPlayVideoList.get(arg2), currentPlayVideoList, PlayerCode.VIDEO_PLAY_TYPE_FIRST);
+			CurrentPlayManager.getInstance().play(context, currentPlayVideoList.get(arg2), currentPlayVideoList, PlayerCode.VIDEO_PLAY_TYPE_FIRST);
 		}
 	};
 	

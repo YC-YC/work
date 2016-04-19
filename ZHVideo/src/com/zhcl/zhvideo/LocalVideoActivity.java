@@ -353,7 +353,7 @@ public class LocalVideoActivity extends FragmentActivity implements HostCallBack
 		Intent it = new Intent(context, VideoPlayAcitivity.class);
 		it.putExtra("playstate", PlayerCode.VIDEO_PLAY_TYPE_RESUME);		//通知播放断点
 		it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION); 
-		context.startActivity(it);
+		startActivity(it);
 		overridePendingTransition(0, 0);  
 	}
 	
