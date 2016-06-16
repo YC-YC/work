@@ -13,9 +13,20 @@ import com.zhonghong.utils.Utils;
  */
 public class AudioCommand implements Command {
 
+	private boolean mFlag = false;
+	
 	@Override
 	public boolean execute(Context context) {
-		return Utils.startOtherActivity(context, Utils.ZH_AUDIO_PKG, Utils.ZH_AUDIO_CLZ);
+//		if (mFlag)
+		{
+			mFlag = false;
+			return Utils.startOtherActivity(context, Utils.ZH_AUDIO_PKG, Utils.ZH_AUDIO_CLZ);
+		}
+//		else
+//		{
+//			mFlag = true;
+//			return Utils.startOtherActivity(context, Utils.ZH_AUDIO2_PKG, Utils.ZH_AUDIO2_CLZ);
+//		}
 	}
 
 }

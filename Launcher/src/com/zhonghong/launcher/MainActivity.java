@@ -263,13 +263,13 @@ public class MainActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.btn_navi:
 			Toast.makeText(this, "导航", 1).show();
-//			Utils.startOtherActivity(this, Utils.ZH_AUDIO_PKG, Utils.ZH_AUDIO_CLZ);
 			break;
 		case R.id.btn_phone:
 			Toast.makeText(this, "电话", 1).show();
 			break;
 		case R.id.btn_bt_musice:
-			Toast.makeText(this, "蓝牙音乐", 1).show();
+//			Toast.makeText(this, "蓝牙音乐", 1).show();
+			Utils.startOtherActivity(this, Utils.ZH_BTMUSIC_PKG, Utils.ZH_BTMUSIC_CLZ);
 			break;
 		default:
 			break;

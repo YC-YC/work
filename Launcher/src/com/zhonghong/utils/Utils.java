@@ -24,9 +24,16 @@ public class Utils {
 	/**音乐包名，类名*/
 	public static final String ZH_AUDIO_PKG = "com.zh.ui";
 	public static final String ZH_AUDIO_CLZ = "com.zh.ui.media.activity.MediaListActivity";
+	/**音乐2包名，类名*/
+	public static final String ZH_AUDIO2_PKG = "com.zhonghong.music2";
+	public static final String ZH_AUDIO2_CLZ = "com.zh.ui.media.activity.MediaListActivity";
+	
 	/**图片包名，类名*/
 	public static final String ZH_PHOTO_PKG = "com.zhonghong.newphoto";
 	public static final String ZH_PHOTO_CLZ = "com.zhonghong.media.photo.PhotoLauncher";
+	/**蓝牙音乐包名，类名*/
+	public static final String ZH_BTMUSIC_PKG = "com.zhonghong.bt";
+	public static final String ZH_BTMUSIC_CLZ = "com.zhonghong.bt.ui.BtAudioActivity";
 	
 	/** 打开应用方法 */
 	public static boolean startOtherActivity(Context context, String pkgName, String className){

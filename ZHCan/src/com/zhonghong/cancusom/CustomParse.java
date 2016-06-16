@@ -4,6 +4,11 @@ import android.content.Context;
 
 import com.zhonghong.canbase.service.CanParserBase;
 
+/**
+ * 
+ * @author YC
+ * @time 2016-4-28 上午9:30:49
+ */
 public class CustomParse extends CanParserBase{
 	
 	private CustomUI mCustomUI;
@@ -12,6 +17,7 @@ public class CustomParse extends CanParserBase{
 		mCustomUI = new CustomUI(context);
 		mCustomUI.dialoghandler.sendEmptyMessageDelayed(CanConstance.MSG_SHOW_AIR_DIALOG, 2000);
 	}
+	
 	@Override
 	public void parsePacket(short[] caninfo) {
 		//解析can的数据

@@ -135,7 +135,7 @@ public class CustomUI {
 	 * @param num
 	 */
 	private void setpowerui(int num){
-		if(num>=0&&num<=7){
+		if(num >= 0&& num <= 7){
 			windpowerview.setBackgroundResource(windpowerpress[num]);
 		}
 	}
