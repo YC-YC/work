@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.zhonghong.aidl.CanInfoParcel;
 import com.zhonghong.launcher.can.CanManager;
 import com.zhonghong.launcher.item.AudioCommand;
+import com.zhonghong.launcher.item.BtCommand;
+import com.zhonghong.launcher.item.BtMusicCommand;
 import com.zhonghong.launcher.item.ItemControl;
 import com.zhonghong.launcher.item.RadioCommand;
 import com.zhonghong.launcher.item.VideoCommand;
@@ -29,13 +31,13 @@ import com.zhonghong.utils.FontsUtils;
 import com.zhonghong.utils.T;
 import com.zhonghong.utils.Utils;
 import com.zhonghong.utils.WeatherUtils;
-import com.zhonghong.view.circlemenu.CircleMenuLayout;
-import com.zhonghong.view.circlemenu.CircleMenuLayout.OnMenuItemClickListener;
 import com.zhonghong.weather.ReceiveCityList;
 import com.zhonghong.weather.ReceiveJson;
 import com.zhonghong.weather.WeatherInfo;
 import com.zhonghong.weather.WeatherInterface;
 import com.zhonghong.weather.WeatherLoc;
+import com.zhonghong.widget.CircleMenu;
+import com.zhonghong.widget.CircleMenu.OnMenuItemClickListener;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -49,7 +51,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	private TextView mTvCanAuto, mTvCanPower, mTvLeftTemperature, mTvAirWindLevel;
 	private ImageView mImgAirCircurlationMode, mImgBlowMode;
-	private CircleMenuLayout mCircleMenuLayout;
+	private CircleMenu mCircleMenuLayout;
 	
 	private WeatherUtils mWeatherUtils;
 	
@@ -70,7 +72,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		initMainViews();
 		initWeather();
 		initCanViews();
-		
 	}
 
 
@@ -80,14 +81,13 @@ public class MainActivity extends Activity implements OnClickListener {
 		mWeatherUtils = WeatherUtils.getInstanse(this);
 		
 		mItemControl = new ItemControl();
-		mItemControl.setCommand(0, new RadioCommand());
-		mItemControl.setCommand(2, new VideoCommand());
-		mItemControl.setCommand(4, new AudioCommand());
+		
+		mItemControl.setCommand(1, new BtMusicCommand());
+		mItemControl.setCommand(2, new RadioCommand());
+		mItemControl.setCommand(3, new VideoCommand());
+		mItemControl.setCommand(4, new BtCommand());
 		CanManager.getInstace().setHandle(mUpdateUiHandler);
 	}
-
-
-
 
 	/** 天气相关 */
 	private void initWeather() {
@@ -241,8 +241,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		mBtnBtMusic = (Button) findViewById(R.id.btn_bt_musice);
 		mBtnBtMusic.setOnClickListener(this);
 		
-		mCircleMenuLayout = (CircleMenuLayout) findViewById(R.id.id_menulayout);
-		mCircleMenuLayout.setMenuAttr(mItemControl.getItemImgIds(), mItemControl.getItemTexts(), 60, 600);
+		mCircleMenuLayout = (CircleMenu) findViewById(R.id.id_menulayout);
+		mCircleMenuLayout.setMenuAttr(mItemControl.getItemImgIds(), mItemControl.getItemTexts(), 40, 350);
 		mCircleMenuLayout.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			
 			@Override
@@ -251,7 +251,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				{
 					Toast.makeText(getApplicationContext(), mItemControl.getItemTexts()[pos],
 							Toast.LENGTH_SHORT).show();	
-					
 				}
 			}
 
@@ -265,7 +264,8 @@ public class MainActivity extends Activity implements OnClickListener {
 			Toast.makeText(this, "导航", 1).show();
 			break;
 		case R.id.btn_phone:
-			Toast.makeText(this, "电话", 1).show();
+//			Toast.makeText(this, "电话", 1).show();
+			Utils.startOtherActivity(this, Utils.ZH_BTPHONE_PKG, Utils.ZH_BTPHONE_CLZ);
 			break;
 		case R.id.btn_bt_musice:
 //			Toast.makeText(this, "蓝牙音乐", 1).show();

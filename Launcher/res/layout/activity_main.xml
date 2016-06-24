@@ -46,7 +46,7 @@
 
         <!-- 中间 -->
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:gravity="left"
@@ -64,19 +64,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
                 android:gravity="center"
+                android:layout_marginBottom="120dp"
                 android:orientation="horizontal" >
                 <!-- android:background="@drawable/test"> -->
 
                 <!-- 通过layout_marginLeft和 layout_marginTop改变位置-->
-                <com.zhonghong.view.circlemenu.CircleMenuLayout
+                <com.zhonghong.widget.CircleMenu
                     android:id="@+id/id_menulayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <!-- android:background="@drawable/test" -->
-                </com.zhonghong.view.circlemenu.CircleMenuLayout>
+                </com.zhonghong.widget.CircleMenu>
             </LinearLayout>
-        </LinearLayout>
+        </FrameLayout>
         <!-- 右侧 -->
 
         <LinearLayout

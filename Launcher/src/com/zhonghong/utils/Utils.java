@@ -35,6 +35,10 @@ public class Utils {
 	public static final String ZH_BTMUSIC_PKG = "com.zhonghong.bt";
 	public static final String ZH_BTMUSIC_CLZ = "com.zhonghong.bt.ui.BtAudioActivity";
 	
+	/**蓝牙包名，类名*/
+	public static final String ZH_BTPHONE_PKG = "com.zhonghong.bluetooth.phone";
+	public static final String ZH_BTPHONE_CLZ = "com.zhonghong.bluetooth.phone.ui.activity.MainActivity";
+	
 	/** 打开应用方法 */
 	public static boolean startOtherActivity(Context context, String pkgName, String className){
 		try {
