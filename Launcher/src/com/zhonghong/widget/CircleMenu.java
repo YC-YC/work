@@ -3,6 +3,8 @@
  */
 package com.zhonghong.widget;
 
+import java.util.List;
+
 import android.content.Context;
 import android.os.SystemClock;
 import android.util.AttributeSet;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhonghong.launcher.R;
+import com.zhonghong.menuitem.ItemInfoBean;
 import com.zhonghong.utils.FontsUtils;
 
 
@@ -41,24 +44,18 @@ public class CircleMenu extends ViewGroup {
 	private double mMoveAngle = 0;
 	/**开始显示在UI上的第一个Item*/
 	private int mFirstShowItem = 0;
+	/**上一次显示页第一个Item*/
+	private int mLastFirstShowItem = 0;
 	/**圆心X,Y*/
 	private int mCircleX, mCircleY;
-	
-	
-	
 	/** 设置显示的开始角度 */
 	private double mStartAngleIndex = 0;
-
 	/** 总显示角度 */
 	private double mTotalAngle = 0;
-	
 	/** 菜单的个数 */
 	private int mMenuItemCount;
-
-	/** 菜单项的文本 */
-	private String[] mItemTexts;
-	/** 菜单项的图标 */
-	private int[] mItemImgs;
+	/**菜单信息*/
+	private List<ItemInfoBean> mItemInfos;
 
 	/** child的w,h */
 	private int mChildWidth,mChildHeight;
@@ -73,29 +70,22 @@ public class CircleMenu extends ViewGroup {
 	/**
 	 * 设置菜单属性
 	 * 设置菜单条目的图标和文本
-	 * @param resIds 图标
-	 * @param texts	文本
+	 * @param items Item信息
 	 * @param startAngle 开始角度（理论值为（-90到90），但越接近90效果越不好）
 	 * @param radio	半径 需要根据startAngle调整,startAngle越小，半径越小
 	 */
-	public void setMenuAttr(int[] resIds, String[] texts, float startAngle, int radio) {
-		mItemImgs = resIds;
-		mItemTexts = texts;
+	public void setMenuAttr(List<ItemInfoBean> items, float startAngle, int radio) {
+		mItemInfos = items;
 		mRadius = radio;
 		mStartAngleIndex = startAngle;
 		mMoveAngle = 0;
 		mTotalAngle = 180 - 2*startAngle;
 		// 参数检查
-		if (resIds == null && texts == null) {
+		if (items == null) {
 			throw new IllegalArgumentException("菜单项文本和图片至少设置其一");
 		}
-
 		// 初始化mMenuCount
-		mMenuItemCount = resIds == null ? texts.length : resIds.length;
-
-		if (resIds != null && texts != null) {
-			mMenuItemCount = Math.min(resIds.length, texts.length);
-		}
+		mMenuItemCount = items.size();
 
 		mPerItemAngle = (float) (mTotalAngle/(PER_PAGE_NUM-1));
 		addMenuItems();
@@ -117,9 +107,8 @@ public class CircleMenu extends ViewGroup {
 					.findViewById(R.id.id_circle_menu_item_text);
 
 			if (iv != null) {
-				iv.setVisibility(View.VISIBLE);
-				iv.setImageResource(mItemImgs[i]);
-				if (mItemTexts[i] != ""){
+				iv.setImageResource(mItemInfos.get(i).getItemImgId());
+				if (mItemInfos.get(i).getItemText() != ""){
 					iv.setClickable(true);
 					iv.setOnClickListener(new OnClickListener() {
 						@Override
@@ -136,8 +125,7 @@ public class CircleMenu extends ViewGroup {
 				}
 			}
 			if (tv != null) {
-				tv.setVisibility(View.VISIBLE);
-				tv.setText(mItemTexts[i]);
+				tv.setText(mItemInfos.get(i).getItemText());
 				tv.setTypeface(FontsUtils.getRuiZiBiGerTypeface(mContext));
 			}
 
@@ -147,18 +135,33 @@ public class CircleMenu extends ViewGroup {
 	}
 
 	/**MenuItem的点击事件接口*/
+	private OnMenuItemClickListener mOnMenuItemClickListener;
 	public interface OnMenuItemClickListener {
 		void itemClick(View view, int pos);
 	}
-
-	/**MenuItem的点击事件接口*/
-	private OnMenuItemClickListener mOnMenuItemClickListener;
-
-	/**设置MenuItem的点击事件接口*/
-	public void setOnMenuItemClickListener(
-			OnMenuItemClickListener mOnMenuItemClickListener) {
-		this.mOnMenuItemClickListener = mOnMenuItemClickListener;
+	public void setOnMenuItemClickListener(OnMenuItemClickListener listener) {
+		this.mOnMenuItemClickListener = listener;
 	}
+	
+	/**MenuItem的长点击事件接口*/
+/*	private OnMenuItemLongClickListener mOnMenuItemLongClickListener;
+	public interface OnMenuItemLongClickListener {
+		void onItemLongClick(View view, int pos);
+	}
+	public void setOnMenuItemLongClickListener(OnMenuItemLongClickListener listener) {
+		this.mOnMenuItemLongClickListener = listener;
+	}*/
+	
+	/**Menu页面监听*/
+	private OnPageChangeListener mPageChangeListener;
+	public interface OnPageChangeListener {
+		void onPageSelected(int page);
+	}
+	public void setOnPageChangeListener(OnPageChangeListener listener) {
+		this.mPageChangeListener = listener;
+		this.mPageChangeListener.onPageSelected(getPageFirstItem(mFirstShowItem)/PER_PAGE_NUM);
+	}
+	
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -234,9 +237,9 @@ public class CircleMenu extends ViewGroup {
 		mCircleY = getMeasuredHeight() - (mRadius+mChildHeight/2);
 	}
 	
-	//TODO 布局每个View的位置
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		//TODO 布局每个View的位置
 
 		//移动时根据mMoveAngle，更新mFirstShowItem
 		if (Math.abs(mMoveAngle) > mPerItemAngle){
@@ -245,7 +248,15 @@ public class CircleMenu extends ViewGroup {
 			mMoveAngle %= mPerItemAngle;
 		}
 		mFirstShowItem = checkItem(mFirstShowItem);
+		
 		layoutChildView();
+		
+		if (getPageFirstItem(mLastFirstShowItem) != getPageFirstItem(mFirstShowItem)){
+			if (mPageChangeListener != null){
+				mPageChangeListener.onPageSelected(getPageFirstItem(mFirstShowItem)/PER_PAGE_NUM);
+			}
+		}
+		mLastFirstShowItem = mFirstShowItem;
 	}
 
 	/**Laying out the child views*/

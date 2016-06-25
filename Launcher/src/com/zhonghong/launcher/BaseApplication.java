@@ -3,7 +3,7 @@
  */
 package com.zhonghong.launcher;
 
-import com.zhonghong.launcher.can.CanManager;
+import com.zhonghong.can.CanManager;
 
 import android.app.Application;
 import android.content.ComponentName;

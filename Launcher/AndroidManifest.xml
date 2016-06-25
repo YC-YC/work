@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <!-- Can服务启动接收 -->
-        <receiver android:name="com.zhonghong.launcher.can.CanBootReceiver" >
+        <receiver android:name="com.zhonghong.can.CanBootReceiver" >
             <intent-filter>
                 <action android:name="com.zhonghong.ACTION_CAN_START_OK" />
             </intent-filter>

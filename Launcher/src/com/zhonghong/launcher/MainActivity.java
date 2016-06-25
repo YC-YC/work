@@ -1,6 +1,9 @@
 package com.zhonghong.launcher;
 
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zhonghong.aidl.CanInfoParcel;
-import com.zhonghong.launcher.can.CanManager;
-import com.zhonghong.launcher.item.AudioCommand;
-import com.zhonghong.launcher.item.BtCommand;
-import com.zhonghong.launcher.item.BtMusicCommand;
-import com.zhonghong.launcher.item.ItemControl;
-import com.zhonghong.launcher.item.RadioCommand;
-import com.zhonghong.launcher.item.VideoCommand;
+import com.zhonghong.can.CanManager;
+import com.zhonghong.leftitem.LeftItemsCtrl;
+import com.zhonghong.menuitem.BtCommand;
+import com.zhonghong.menuitem.BtMusicCommand;
+import com.zhonghong.menuitem.ItemControl;
+import com.zhonghong.menuitem.RadioCommand;
+import com.zhonghong.menuitem.VideoCommand;
 import com.zhonghong.utils.FontsUtils;
 import com.zhonghong.utils.T;
 import com.zhonghong.utils.Utils;
@@ -38,13 +41,14 @@ import com.zhonghong.weather.WeatherInterface;
 import com.zhonghong.weather.WeatherLoc;
 import com.zhonghong.widget.CircleMenu;
 import com.zhonghong.widget.CircleMenu.OnMenuItemClickListener;
+import com.zhonghong.widget.CircleMenu.OnPageChangeListener;
 
 public class MainActivity extends Activity implements OnClickListener {
 
 	private final String TAG = getClass().getSimpleName();
 	private LinearLayout mLayoutBg;	//背景图层
-	private Button mBtnNavi, mBtnPhone, mBtnBtMusic;
-	
+	private List<ImageView> mLeftItems = new ArrayList<ImageView>();
+	private LeftItemsCtrl mLeftItemCtrl;
 	private ImageView mImgWeather;
 	private TextView mTvWeather;
 	private TextView mTvDegree;
@@ -52,6 +56,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	private TextView mTvCanAuto, mTvCanPower, mTvLeftTemperature, mTvAirWindLevel;
 	private ImageView mImgAirCircurlationMode, mImgBlowMode;
 	private CircleMenu mCircleMenuLayout;
+	private List<ImageView> mImgPageIndexs = new ArrayList<ImageView>();
+	
+	private TextView mTvTimeData, mTvTimeTime;
 	
 	private WeatherUtils mWeatherUtils;
 	
@@ -71,21 +78,23 @@ public class MainActivity extends Activity implements OnClickListener {
 		initData();
 		initMainViews();
 		initWeather();
+		initTimeView();
 		initCanViews();
 	}
-
 
 	/**初始化数据*/
 	private void initData() {
 		
 		mWeatherUtils = WeatherUtils.getInstanse(this);
 		
-		mItemControl = new ItemControl();
+		mLeftItemCtrl= new LeftItemsCtrl(this);
 		
+		mItemControl = new ItemControl();
 		mItemControl.setCommand(1, new BtMusicCommand());
 		mItemControl.setCommand(2, new RadioCommand());
 		mItemControl.setCommand(3, new VideoCommand());
 		mItemControl.setCommand(4, new BtCommand());
+		
 		CanManager.getInstace().setHandle(mUpdateUiHandler);
 	}
 
@@ -156,7 +165,36 @@ public class MainActivity extends Activity implements OnClickListener {
 		})/*.start()*/;
 		
 	}
-
+	
+	private void initTimeView() {
+		mTvTimeData = (TextView) findViewById(R.id.time_data);
+		mTvTimeData.setTypeface(FontsUtils.getExpansivaTypeface(this));
+		mTvTimeTime = (TextView) findViewById(R.id.time_time);
+		mTvTimeTime.setTypeface(FontsUtils.getExpansivaTypeface(this));
+		refreshTimeView();
+		mUpdateUiHandler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				refreshTimeView();
+				mUpdateUiHandler.postDelayed(this, 1000);
+			}
+		}, 1000);
+	}
+	
+	/**刷新时间*/
+	private void refreshTimeView(){
+		SimpleDateFormat formatter = new SimpleDateFormat ("yyyy.MM.dd-HH:mm");       
+		Date curDate = new Date(System.currentTimeMillis());//获取当前时间       
+		String str = formatter.format(curDate);
+		String[] strs = str.split("-");
+		if (mTvTimeData != null){
+			mTvTimeData.setText(strs[0]);
+		}
+		if (mTvTimeTime != null){
+			mTvTimeTime.setText(strs[1]);
+		}
+	}
+	
 	/**Can相关*/
 	private void initCanViews() {
 		mTvCanAuto = (TextView) findViewById(R.id.tv_auto);
@@ -178,7 +216,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 	
 	/**更新Can相关UI*/
-	private void updateCanViews() {
+	private void refreshCanViews() {
 		CanInfoParcel canInfo = CanManager.getInstace().getCanInfo();
 		mTvCanAuto.setSelected(canInfo.isAutoHighWind());
 		
@@ -234,43 +272,94 @@ public class MainActivity extends Activity implements OnClickListener {
 		mLayoutBg = (LinearLayout) findViewById(R.id.layout_bg);
 		mLayoutBg.setSelected(false);
 		
-		mBtnNavi = (Button) findViewById(R.id.btn_navi);
-		mBtnNavi.setOnClickListener(this);
-		mBtnPhone = (Button) findViewById(R.id.btn_phone);
-		mBtnPhone.setOnClickListener(this);
-		mBtnBtMusic = (Button) findViewById(R.id.btn_bt_musice);
-		mBtnBtMusic.setOnClickListener(this);
+		mLeftItems.add((ImageView) findViewById(R.id.left_item1));
+		mLeftItems.add((ImageView) findViewById(R.id.left_item2));
+		mLeftItems.add((ImageView) findViewById(R.id.left_item3));
+		for (int i = 0; i < mLeftItems.size();i ++){
+			mLeftItems.get(i).setOnClickListener(this);
+		}
+		refreshLeftItemViews();
+		
+		mImgPageIndexs.add((ImageView) findViewById(R.id.page_index1));
+		mImgPageIndexs.add((ImageView) findViewById(R.id.page_index2));
+		mImgPageIndexs.add((ImageView) findViewById(R.id.page_index3));
 		
 		mCircleMenuLayout = (CircleMenu) findViewById(R.id.id_menulayout);
-		mCircleMenuLayout.setMenuAttr(mItemControl.getItemImgIds(), mItemControl.getItemTexts(), 40, 350);
+		mCircleMenuLayout.setMenuAttr(mItemControl.getItemInfos(), 40, 350);
 		mCircleMenuLayout.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			
 			@Override
 			public void itemClick(View view, int pos) {
 				if (!mItemControl.onItemKeyDown(MainActivity.this, pos))
 				{
-					Toast.makeText(getApplicationContext(), mItemControl.getItemTexts()[pos],
+					Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(pos).getItemText(),
 							Toast.LENGTH_SHORT).show();	
 				}
 			}
 
 		});
+		mCircleMenuLayout.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int page) {
+				refreshPageIndexViews(page);
+			}
+		});
+		
 	}
 
+	/**更新页码指示*/
+	private void refreshPageIndexViews(int page){
+		if (mImgPageIndexs == null){
+			return;
+		}
+		ImageView view;
+		for (int i = 0; i < mImgPageIndexs.size(); i++) {
+			view = mImgPageIndexs.get(i);
+			if (i == page){
+				view.setSelected(true);
+			}else{
+				view.setSelected(false);
+			}
+		}
+	}
+	
+	/**更新左边按键图标*/
+	private void refreshLeftItemViews(){
+		List<Integer> itemInfo = mLeftItemCtrl.getLeftItemInfo();
+		for(int i = 0; i < mLeftItems.size(); i++){
+			mLeftItems.get(i).setImageResource(
+					mItemControl.getItemInfos().get(itemInfo.get(i)).getItemImgId());
+		}
+	}
+	
 	@Override
 	public void onClick(View v) {
+		int item = 0;
 		switch (v.getId()) {
-		case R.id.btn_navi:
-			Toast.makeText(this, "导航", 1).show();
+		case R.id.left_item1:
+			item = mLeftItemCtrl.getLeftItemInfo().get(0);
+			if (!mItemControl.onItemKeyDown(MainActivity.this, item))
+			{
+				Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(item).getItemText(),
+						Toast.LENGTH_SHORT).show();	
+			}
 			break;
-		case R.id.btn_phone:
-//			Toast.makeText(this, "电话", 1).show();
-			Utils.startOtherActivity(this, Utils.ZH_BTPHONE_PKG, Utils.ZH_BTPHONE_CLZ);
+		case R.id.left_item2:
+			item = mLeftItemCtrl.getLeftItemInfo().get(1);
+			if (!mItemControl.onItemKeyDown(MainActivity.this, item))
+			{
+				Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(item).getItemText(),
+						Toast.LENGTH_SHORT).show();	
+			}
 			break;
-		case R.id.btn_bt_musice:
-//			Toast.makeText(this, "蓝牙音乐", 1).show();
-			Utils.startOtherActivity(this, Utils.ZH_BTMUSIC_PKG, Utils.ZH_BTMUSIC_CLZ);
-			break;
+		case R.id.left_item3:
+			item = mLeftItemCtrl.getLeftItemInfo().get(2);
+			if (!mItemControl.onItemKeyDown(MainActivity.this, item))
+			{
+				Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(item).getItemText(),
+						Toast.LENGTH_SHORT).show();	
+			}
 		default:
 			break;
 		}
@@ -282,7 +371,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			switch (msg.what) {
 			case T.UpdateUiCmd.UPDATE_ALL:
 				Log.i(TAG, "Launcher更新Can信息" + CanManager.getInstace().getCanInfo());
-				updateCanViews();
+				refreshCanViews();
 				break;
 			}
 		}

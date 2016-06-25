@@ -19,63 +19,77 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/btn_navi"
+            <ImageView
+                android:id="@+id/left_item1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="47dp"
-                android:layout_marginTop="92dp"
-                android:background="@drawable/navi_selector" />
+                android:layout_marginLeft="65dp"
+                android:layout_marginTop="75dp"
+                android:background="@drawable/left_item_selector" />
 
-            <Button
-                android:id="@+id/btn_phone"
+            <ImageView
+                android:id="@+id/left_item2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="28dp"
-                android:layout_marginTop="72dp"
-                android:background="@drawable/phone_selector" />
+                android:layout_marginLeft="55dp"
+                android:layout_marginTop="55dp"
+                android:background="@drawable/left_item_selector" />
 
-            <Button
-                android:id="@+id/btn_bt_musice"
+            <ImageView
+                android:id="@+id/left_item3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="66dp"
-                android:layout_marginTop="78dp"
-                android:background="@drawable/bt_music_selector" />
+                android:layout_marginLeft="105dp"
+                android:layout_marginTop="45dp"
+                android:background="@drawable/left_item_selector" />
         </LinearLayout>
 
         <!-- 中间 -->
 
         <FrameLayout
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="35dp"
             android:layout_weight="1"
             android:gravity="left"
-            android:layout_height="match_parent"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="vertical" 
-                android:gravity="bottom|center_horizontal">
-               <include layout="@layout/weather"/>
+                android:layout_height="170dp"
+                android:gravity="bottom|center_horizontal"
+                android:orientation="vertical" >
+
+                <include
+                    layout="@layout/weather"
+                    android:visibility="gone" />
+
+                <include layout="@layout/time" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
+                android:layout_marginBottom="90dp"
                 android:gravity="center"
-                android:layout_marginBottom="120dp"
-                android:orientation="horizontal" >
-                <!-- android:background="@drawable/test"> -->
+                android:orientation="vertical" >
 
-                <!-- 通过layout_marginLeft和 layout_marginTop改变位置-->
+                <!-- 通过layout_marginLeft和 layout_marginTop改变位置 -->
+
                 <com.zhonghong.widget.CircleMenu
                     android:id="@+id/id_menulayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content" >
                 </com.zhonghong.widget.CircleMenu>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp" >
+
+                    <include layout="@layout/page_index" />
+                </LinearLayout>
             </LinearLayout>
         </FrameLayout>
         <!-- 右侧 -->
