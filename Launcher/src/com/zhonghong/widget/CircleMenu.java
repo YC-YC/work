@@ -140,8 +140,6 @@ public class CircleMenu extends ViewGroup {
 									case DragEvent.ACTION_DRAG_ENDED:
 										procUp(0);
 										break;
-									default:
-										break;
 									}
 									return true;
 								}
