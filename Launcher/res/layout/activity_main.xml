@@ -1,114 +1,112 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_bg"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_selector"
-    android:orientation="vertical" >
-
-    <LinearLayout
+     android:id="@+id/layout_bg"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
-
-        <!-- 左侧 -->
-
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_selector"
+        android:orientation="vertical"  >
         <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:id="@+id/left_item1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="65dp"
-                android:layout_marginTop="75dp"
-                android:background="@drawable/left_item_selector" />
-
-            <ImageView
-                android:id="@+id/left_item2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="55dp"
-                android:layout_marginTop="55dp"
-                android:background="@drawable/left_item_selector" />
-
-            <ImageView
-                android:id="@+id/left_item3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="105dp"
-                android:layout_marginTop="45dp"
-                android:background="@drawable/left_item_selector" />
-        </LinearLayout>
-
-        <!-- 中间 -->
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="left"
-            android:orientation="vertical" >
+            android:orientation="horizontal" >
+
+            <!-- 左侧 -->
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:gravity="bottom|center_horizontal"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
                 android:orientation="vertical" >
 
-                <include
-                    layout="@layout/weather"
-                    android:visibility="gone" />
-
-                <include layout="@layout/time" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:layout_marginBottom="90dp"
-                android:gravity="center"
-                android:orientation="vertical" >
-
-                <!-- 通过layout_marginLeft和 layout_marginTop改变位置 -->
-
-                <com.zhonghong.widget.CircleMenu
-                    android:id="@+id/id_menulayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-                </com.zhonghong.widget.CircleMenu>
-
-                <LinearLayout
+                <com.zhonghong.widget.OverlapLayout
+                    android:id="@+id/left_item1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp" >
+                    android:layout_marginLeft="65dp"
+                    android:layout_marginTop="75dp"
+                    android:background="@drawable/left_item_selector" />
 
-                    <include layout="@layout/page_index" />
-                </LinearLayout>
+                <com.zhonghong.widget.OverlapLayout
+                    android:id="@+id/left_item2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="55dp"
+                    android:layout_marginTop="55dp"
+                    android:background="@drawable/left_item_selector" />
+
+                <com.zhonghong.widget.OverlapLayout
+                    android:id="@+id/left_item3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="105dp"
+                    android:layout_marginTop="45dp"
+                    android:padding="17dp"
+                    android:background="@drawable/left_item_selector" />
             </LinearLayout>
-        </FrameLayout>
-        <!-- 右侧 -->
 
-        <LinearLayout
-            android:layout_width="170dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            <!-- 中间 -->
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="422dp"
-                android:background="@drawable/contract_selector" />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="35dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:gravity="bottom|center_horizontal"
+                    android:orientation="vertical" >
+
+                    <include
+                        layout="@layout/weather"
+                        android:visibility="gone" />
+
+                    <include layout="@layout/time" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:layout_marginBottom="90dp"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+                    <!-- 通过layout_marginLeft和 layout_marginTop改变位置 -->
+                    <com.zhonghong.widget.CircleMenu
+                        android:id="@+id/id_menulayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </com.zhonghong.widget.CircleMenu>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp" >
+
+                        <include layout="@layout/page_index" />
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+            
+            <!-- 右侧 -->
+            <LinearLayout
+                android:layout_width="170dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="422dp"
+                    android:background="@drawable/contract_selector" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+        
+        <!-- 下栏 -->
+        <include layout="@layout/bottom" />
 
-    <!-- 下栏 -->
-
-    <include layout="@layout/bottom" />
 
 </LinearLayout>

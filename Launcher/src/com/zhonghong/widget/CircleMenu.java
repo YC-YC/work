@@ -5,17 +5,19 @@ package com.zhonghong.widget;
 
 import java.util.List;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Context;
 import android.os.SystemClock;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhonghong.launcher.R;
@@ -30,6 +32,7 @@ import com.zhonghong.utils.FontsUtils;
 public class CircleMenu extends ViewGroup {
 
 	private static final String TAG = "CircleMenuLayout";
+	private static final String TAG1 = "Drag";
 	private static final int PER_PAGE_NUM = 5;	//每页个数
 	private Context mContext;
 	/**半径 */
@@ -91,7 +94,7 @@ public class CircleMenu extends ViewGroup {
 		addMenuItems();
 
 	}
-
+	
 	/**添加菜单项*/
 	private void addMenuItems() {
 		LayoutInflater mInflater = LayoutInflater.from(getContext());
@@ -119,6 +122,36 @@ public class CircleMenu extends ViewGroup {
 							}
 						}
 					});
+					iv.setOnLongClickListener(new OnLongClickListener() {
+						
+						@Override
+						public boolean onLongClick(View v) {
+							ClipData.Item item = new ClipData.Item("debug");
+							String[] mimiType = {ClipDescription.MIMETYPE_TEXT_PLAIN};
+							ClipData clipData = new ClipData("debug", mimiType, item);
+							View.DragShadowBuilder shadowBuilder = new DragShadowBuilder(v);
+							v.startDrag(clipData, shadowBuilder, null, 0);
+							//startDrag后，每个setOnDragListener都可以监听到
+							v.setOnDragListener(new OnDragListener() {
+								
+								@Override
+								public boolean onDrag(View v, DragEvent event) {
+									switch (event.getAction()) {
+									case DragEvent.ACTION_DRAG_ENDED:
+										procUp(0);
+										break;
+									default:
+										break;
+									}
+									return true;
+								}
+							});
+							if (mOnMenuItemLongClickListener != null){
+								mOnMenuItemLongClickListener.onItemLongClick(v, j);
+							}
+							return true;
+						}
+					});
 				}
 				else{
 					iv.setClickable(false);
@@ -144,13 +177,13 @@ public class CircleMenu extends ViewGroup {
 	}
 	
 	/**MenuItem的长点击事件接口*/
-/*	private OnMenuItemLongClickListener mOnMenuItemLongClickListener;
+	private OnMenuItemLongClickListener mOnMenuItemLongClickListener;
 	public interface OnMenuItemLongClickListener {
 		void onItemLongClick(View view, int pos);
 	}
 	public void setOnMenuItemLongClickListener(OnMenuItemLongClickListener listener) {
 		this.mOnMenuItemLongClickListener = listener;
-	}*/
+	}
 	
 	/**Menu页面监听*/
 	private OnPageChangeListener mPageChangeListener;

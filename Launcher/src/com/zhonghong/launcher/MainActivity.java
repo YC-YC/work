@@ -14,9 +14,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.View.OnDragListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +33,6 @@ import com.zhonghong.menuitem.RadioCommand;
 import com.zhonghong.menuitem.VideoCommand;
 import com.zhonghong.utils.FontsUtils;
 import com.zhonghong.utils.T;
-import com.zhonghong.utils.Utils;
 import com.zhonghong.utils.WeatherUtils;
 import com.zhonghong.weather.ReceiveCityList;
 import com.zhonghong.weather.ReceiveJson;
@@ -41,13 +41,16 @@ import com.zhonghong.weather.WeatherInterface;
 import com.zhonghong.weather.WeatherLoc;
 import com.zhonghong.widget.CircleMenu;
 import com.zhonghong.widget.CircleMenu.OnMenuItemClickListener;
+import com.zhonghong.widget.CircleMenu.OnMenuItemLongClickListener;
 import com.zhonghong.widget.CircleMenu.OnPageChangeListener;
+import com.zhonghong.widget.OverlapLayout;
 
 public class MainActivity extends Activity implements OnClickListener {
 
 	private final String TAG = getClass().getSimpleName();
 	private LinearLayout mLayoutBg;	//背景图层
-	private List<ImageView> mLeftItems = new ArrayList<ImageView>();
+	/**左边三个图标*/
+	private List<OverlapLayout> mLeftItems = new ArrayList<OverlapLayout>();
 	private LeftItemsCtrl mLeftItemCtrl;
 	private ImageView mImgWeather;
 	private TextView mTvWeather;
@@ -65,6 +68,13 @@ public class MainActivity extends Activity implements OnClickListener {
 	private WeatherInterface mWeatherInterface;
 	
 	private ItemControl mItemControl;
+	
+	/**记录长按时Menu项*/
+	private int mLongClickItem;
+	/**记录左边三个按键的状态*/
+	private boolean[] mLeftItemActives = new boolean[]{
+		false, false, false	
+	};
 	
 	private final Handler mHandler = new Handler();
 	private final Handler mUpdateUiHandler = new UiHandle();
@@ -265,18 +275,53 @@ public class MainActivity extends Activity implements OnClickListener {
 		return R.drawable.blow_mode_head;
 	}
 
-
 	/**初始化Activity Views*/
 	private void initMainViews() {
 		
 		mLayoutBg = (LinearLayout) findViewById(R.id.layout_bg);
 		mLayoutBg.setSelected(false);
 		
-		mLeftItems.add((ImageView) findViewById(R.id.left_item1));
-		mLeftItems.add((ImageView) findViewById(R.id.left_item2));
-		mLeftItems.add((ImageView) findViewById(R.id.left_item3));
+		mLeftItems.add((OverlapLayout) findViewById(R.id.left_item1));
+		mLeftItems.add((OverlapLayout) findViewById(R.id.left_item2));
+		mLeftItems.add((OverlapLayout) findViewById(R.id.left_item3));
 		for (int i = 0; i < mLeftItems.size();i ++){
+			final int position = i;
 			mLeftItems.get(i).setOnClickListener(this);
+			mLeftItems.get(i).setOnDragListener(new OnDragListener() {
+				
+				@Override
+				public boolean onDrag(View v, DragEvent event) {
+					
+//					Log.i(TAG1, "event.getAction() = " + event.getAction());
+					switch (event.getAction()) {
+					case DragEvent.ACTION_DRAG_STARTED:	//开始drag的时候
+//						Log.i(TAG1, "DragEvent.ACTION_DRAG_STARTED");
+						break;
+					case DragEvent.ACTION_DRAG_ENTERED:	//drag进入时
+						mLeftItemActives[position] = true;
+						break;
+					case DragEvent.ACTION_DRAG_EXITED:	//drag退出时
+						mLeftItemActives[position] = false;
+						break;
+					case DragEvent.ACTION_DRAG_ENDED:	//完成drag时
+						if (mLeftItemActives[position]){
+							mLeftItemCtrl.setItemPosition(position, mLongClickItem);
+							refreshLeftItemViews();
+						}
+//						Log.i(TAG1, "DragEvent.ACTION_DRAG_ENDED");
+						break;
+					/*case DragEvent.ACTION_DRAG_LOCATION: //drag在View里移动时
+						break;
+					case DragEvent.ACTION_DROP:
+//						Log.i(TAG1, "DragEvent.ACTION_DRAG_ENDED");
+						break;*/
+					default:
+						break;
+					}
+					return true;
+					
+				}
+			});
 		}
 		refreshLeftItemViews();
 		
@@ -303,6 +348,17 @@ public class MainActivity extends Activity implements OnClickListener {
 			@Override
 			public void onPageSelected(int page) {
 				refreshPageIndexViews(page);
+			}
+		});
+		
+		mCircleMenuLayout.setOnMenuItemLongClickListener(new OnMenuItemLongClickListener() {
+			
+			@Override
+			public void onItemLongClick(View view, int pos) {
+				mLongClickItem = pos;
+				for (int i = 0; i < mLeftItemActives.length; i++){
+					mLeftItemActives[i] = false;
+				}
 			}
 		});
 		
