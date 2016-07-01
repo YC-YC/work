@@ -139,7 +139,7 @@ public class CircleMenu extends ViewGroup {
 									switch (event.getAction()) {
 									case DragEvent.ACTION_DRAG_ENDED:
 										procUp(0);
-										break;
+										return false;
 									}
 									return true;
 								}

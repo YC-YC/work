@@ -27,6 +27,11 @@ public class Utils {
 	/**音乐2包名，类名*/
 	public static final String ZH_AUDIO2_PKG = "com.zhonghong.music2";
 	public static final String ZH_AUDIO2_CLZ = "com.zh.ui.media.activity.MediaListActivity";
+	/**USB包名，类名*/
+	public static final String ZH_USB_PKG = "com.zhonghong.usb.media";
+	public static final String ZH_USB_CLZ = "com.zhonghong.usb.media.UsbMainActivity";
+	
+	
 	
 	/**图片包名，类名*/
 	public static final String ZH_PHOTO_PKG = "com.zhonghong.newphoto";
@@ -38,6 +43,10 @@ public class Utils {
 	/**蓝牙包名，类名*/
 	public static final String ZH_BTPHONE_PKG = "com.zhonghong.bluetooth.phone";
 	public static final String ZH_BTPHONE_CLZ = "com.zhonghong.bluetooth.phone.ui.activity.MainActivity";
+	
+	/**蓝牙包名，类名*/
+	public static final String ZH_SETTINGS_PKG = "com.zhonghong.settings";
+	public static final String ZH_SETTINGS_CLZ = "com.zhonghong.settings.MainActivity";
 	
 	/** 打开应用方法 */
 	public static boolean startOtherActivity(Context context, String pkgName, String className){

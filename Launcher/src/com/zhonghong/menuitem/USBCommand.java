@@ -11,7 +11,7 @@ import com.zhonghong.utils.Utils;
  * @author YC
  * @time 2016-4-11 上午9:57:49
  */
-public class AudioCommand implements Command {
+public class USBCommand implements Command {
 
 	private boolean mFlag = false;
 	
@@ -20,7 +20,7 @@ public class AudioCommand implements Command {
 //		if (mFlag)
 		{
 			mFlag = false;
-			return Utils.startOtherActivity(context, Utils.ZH_AUDIO_PKG, Utils.ZH_AUDIO_CLZ);
+			return Utils.startOtherActivity(context, Utils.ZH_USB_PKG, Utils.ZH_USB_CLZ);
 		}
 //		else
 //		{

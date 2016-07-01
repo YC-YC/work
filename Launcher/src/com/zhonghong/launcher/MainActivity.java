@@ -18,6 +18,7 @@ import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,7 +31,8 @@ import com.zhonghong.menuitem.BtCommand;
 import com.zhonghong.menuitem.BtMusicCommand;
 import com.zhonghong.menuitem.ItemControl;
 import com.zhonghong.menuitem.RadioCommand;
-import com.zhonghong.menuitem.VideoCommand;
+import com.zhonghong.menuitem.SettingsCommand;
+import com.zhonghong.menuitem.USBCommand;
 import com.zhonghong.utils.FontsUtils;
 import com.zhonghong.utils.T;
 import com.zhonghong.utils.WeatherUtils;
@@ -85,6 +87,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		//设置不受状态栏，导航栏影响
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+		
 		initData();
 		initMainViews();
 		initWeather();
@@ -102,8 +108,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		mItemControl = new ItemControl();
 		mItemControl.setCommand(1, new BtMusicCommand());
 		mItemControl.setCommand(2, new RadioCommand());
-		mItemControl.setCommand(3, new VideoCommand());
+		mItemControl.setCommand(3, new USBCommand());
 		mItemControl.setCommand(4, new BtCommand());
+		mItemControl.setCommand(11, new SettingsCommand());
 		
 		CanManager.getInstace().setHandle(mUpdateUiHandler);
 	}
