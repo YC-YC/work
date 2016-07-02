@@ -46,7 +46,7 @@ public class Utils {
 	
 	/**蓝牙包名，类名*/
 	public static final String ZH_SETTINGS_PKG = "com.zhonghong.settings";
-	public static final String ZH_SETTINGS_CLZ = "com.zhonghong.settings.MainActivity";
+	public static final String ZH_SETTINGS_CLZ = "com.zhonghong.settings.SettingsActivity";
 	
 	/** 打开应用方法 */
 	public static boolean startOtherActivity(Context context, String pkgName, String className){

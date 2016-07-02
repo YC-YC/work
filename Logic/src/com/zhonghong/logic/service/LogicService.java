@@ -3,25 +3,25 @@
  */
 package com.zhonghong.logic.service;
 
-import com.zhonghong.logic.record.RecordAppManager;
-import com.zhonghong.logic.record.RecordInfoBean;
-import com.zhonghong.logic.utils.AppUtils;
-
-import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.zhonghong.logic.IMain;
+import com.zhonghong.logic.MainLogic;
+
 /**
  * @author YC
  * @time 2016-6-22 上午10:16:31
- * Logic服务
+ * Logic服务,通过服务启动整个Logic逻辑控制
  */
 public class LogicService extends Service {
 
 	private static final String TAG = "LogicService";
 
+	private IMain mMain;
+	
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -32,11 +32,15 @@ public class LogicService extends Service {
 	public void onCreate() {
 		Log.i(TAG, "onCreate");
 		super.onCreate();
-		RecordInfoBean appCellInfo = RecordAppManager.getInstaces(this).getRecordInfo();
-		RunningTaskInfo topAppInfo = AppUtils.getTopAppInfo(this);
-		if (topAppInfo.topActivity.getPackageName() != appCellInfo.getLastPkgName() ||
-				topAppInfo.topActivity.getClassName() != appCellInfo.getLastClassName())
-		AppUtils.startOtherActivity(this, appCellInfo.getLastPkgName(), appCellInfo.getLastClassName());
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				mMain = new MainLogic(LogicService.this);
+				mMain.onCreate();
+			}
+		}).start();
 	}
 
 	//每次调用StartService都会调用
@@ -51,6 +55,8 @@ public class LogicService extends Service {
 	public void onDestroy() {
 		Log.i(TAG, "onDestroy");
 		super.onDestroy();
+		if (mMain != null)
+			mMain.onDestroy();
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.zhonghong.logic.utils;
+package com.zhonghong.utils;
 
 import java.util.List;
 

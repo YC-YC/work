@@ -1,9 +1,9 @@
 package com.zhonghong.logic;
 
 import com.zhonghong.logic.data.GlobalData;
-import com.zhonghong.logic.record.RecordAppManager;
-import com.zhonghong.logic.record.RecordInfoBean;
-import com.zhonghong.logic.utils.AppUtils;
+import com.zhonghong.recordinfo.RecordAppManager;
+import com.zhonghong.recordinfo.RecordInfoBean;
+import com.zhonghong.utils.AppUtils;
 
 import android.app.Activity;
 import android.app.ActivityManager.RunningTaskInfo;

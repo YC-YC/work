@@ -4,9 +4,9 @@
 package com.zhonghong.logic.receiver;
 
 import com.zhonghong.logic.data.GlobalData;
-import com.zhonghong.logic.record.RecordAppManager;
-import com.zhonghong.logic.record.RecordInfoBean;
-import com.zhonghong.logic.utils.AppUtils;
+import com.zhonghong.recordinfo.RecordAppManager;
+import com.zhonghong.recordinfo.RecordInfoBean;
+import com.zhonghong.utils.AppUtils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

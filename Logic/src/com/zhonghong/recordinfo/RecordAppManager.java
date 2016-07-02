@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.zhonghong.logic.record;
+package com.zhonghong.recordinfo;
 
 import android.content.Context;
 import android.util.Log;
