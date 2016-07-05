@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="32dp"
+    android:layout_marginBottom="15dp"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="190dp"
+        android:background="@drawable/bottom_left"
+        android:gravity="bottom|left"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp" >
+
+        <TextView
+            android:id="@+id/tv_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:text="AUTO"
+            android:textColor="@color/cantextcolorselector"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/img_air_circurlation_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/can_item_padding"
+            android:background="@drawable/air_circurlation_mode_in" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/can_item_padding"
+            android:background="@drawable/temperature" />
+
+        <!-- 电耗 -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/can_item_padding"
+            android:gravity="bottom"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/power" />
+
+            <TextView
+                android:id="@+id/tv_power"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.5KW"
+                android:textColor="@color/can_text_color_sel"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="375dp"
+        android:background="@drawable/bottom_right"
+        android:gravity="bottom|right"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp" >
+
+        <!-- 空调温度 -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal" 
+            android:layout_marginRight="@dimen/can_item_padding">
+
+            <TextView
+                android:id="@+id/tv_air_left_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="23"
+                android:textColor="@color/can_text_color_sel"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/temperature_unit" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_air_wind_level"
+            android:layout_width="20sp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/can_item_padding"
+            android:gravity="center"
+            android:text="6"
+            android:textColor="@color/can_text_color_sel"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/img_blow_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/blow_mode_all" />
+    </LinearLayout>
+
+</LinearLayout>

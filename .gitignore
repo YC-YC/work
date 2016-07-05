@@ -1,4 +1,7 @@
 # Built application files
+*.svn
+
+# Built application files
 *.apk
 *.ap_
 

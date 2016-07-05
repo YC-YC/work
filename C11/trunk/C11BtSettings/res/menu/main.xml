@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"  
+	tools:context="com.nforetek.bt.demo.ui.HidPageActivity" >  
+    
+    <item
+        android:id="@+id/action_connect"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_connect"/>
+    <item
+        android:id="@+id/action_disconnect"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_disconnect"/> 
+</menu>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="2" >
+
+        <TextView
+            android:id="@+id/title_source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#666"
+            android:paddingLeft="5dp"
+            android:text="Log"
+            android:textColor="#fff"
+            android:visibility="visible" />
+
+        <ListView
+            android:id="@+id/list_log"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:stackFromBottom="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="GattS State : " />
+
+            <TextView
+                android:id="@+id/text_state_gatt_server"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_add_service"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Add Service" >
+        </Button>
+
+        <Button
+            android:id="@+id/button_clean_service"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Clean Service" >
+        </Button>
+
+        <Button
+            android:id="@+id/button_listen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Listen" >
+        </Button>
+
+        <Button
+            android:id="@+id/button_unlisten"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Stop listen" >
+        </Button>
+
+        <Button
+            android:id="@+id/button_clean_log"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Clean log" >
+        </Button>
+
+        <Button
+            android:id="@+id/button_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Back" >
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>
