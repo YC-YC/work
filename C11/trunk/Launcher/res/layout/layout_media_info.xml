@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="530dp"
+    android:layout_height="138dp"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/layout_radio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/widget_radio" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_music"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/widget_music" />
+    </LinearLayout>
+
+</LinearLayout>

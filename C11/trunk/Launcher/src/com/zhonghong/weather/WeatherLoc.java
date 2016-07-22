@@ -21,7 +21,7 @@ import com.zhonghong.weather.WeatherInfo.WeatherObject;
  * @author YC
  * @time 2016-3-24 上午11:38:32
  */
-public class WeatherLoc implements WeatherInterface {
+public class WeatherLoc implements WeatherAbs {
 
 	private static final String tag = "WeatherLoc";
 	

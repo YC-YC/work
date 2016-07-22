@@ -5,17 +5,17 @@
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_width="1280dp"
+        android:visibility="visible"
+        android:layout_height="match_parent">
 
         <include layout="@layout/activity_main" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_width="1280dp"
+        android:visibility="visible"
+        android:layout_height="match_parent">
 
         <include layout="@layout/activity_main_sub" />
     </LinearLayout>

@@ -15,7 +15,7 @@ public class LEDCommand implements Command {
 
 	@Override
 	public boolean execute(Context context) {
-		return Utils.startOtherActivity(context, Utils.ZH_BTPHONE_PKG, Utils.ZH_BTPHONE_CLZ);
+		return Utils.startOtherActivity(context, Utils.ZH_LED_PKG, Utils.ZH_LED_CLZ);
 	}
 
 }

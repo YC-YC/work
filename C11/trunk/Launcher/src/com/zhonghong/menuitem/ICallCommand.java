@@ -11,11 +11,11 @@ import com.zhonghong.utils.Utils;
  * @author YC
  * @time 2016-4-11 上午9:57:49
  */
-public class ExtendCommand implements Command {
+public class ICallCommand implements Command {
 
 	@Override
 	public boolean execute(Context context) {
-		return Utils.startOtherActivity(context, Utils.ZH_EXTEND_PKG, Utils.ZH_EXTEND_CLZ);
+		return Utils.startOtherActivity(context, Utils.ZH_ICALL_PKG, Utils.ZH_ICALL_CLZ);
 	}
 
 }

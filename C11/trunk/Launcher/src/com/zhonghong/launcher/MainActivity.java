@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,22 +31,33 @@ import android.widget.Toast;
 import com.zhonghong.aidl.CanInfoParcel;
 import com.zhonghong.can.CanManager;
 import com.zhonghong.leftitem.LeftItemsCtrl;
+import com.zhonghong.lock.LockWndHelper;
+import com.zhonghong.lock.LockWndHelper.OnLockClickListener;
+import com.zhonghong.menuitem.AppstoreCommand;
 import com.zhonghong.menuitem.BtCommand;
 import com.zhonghong.menuitem.BtMusicCommand;
+import com.zhonghong.menuitem.CarlifeCommand;
+import com.zhonghong.menuitem.ExtendCommand;
+import com.zhonghong.menuitem.ICallCommand;
 import com.zhonghong.menuitem.ItemControl;
+import com.zhonghong.menuitem.LEDCommand;
+import com.zhonghong.menuitem.MusicCommand;
+import com.zhonghong.menuitem.NaviCommand;
 import com.zhonghong.menuitem.RadioCommand;
+import com.zhonghong.menuitem.RecorderCommand;
 import com.zhonghong.menuitem.SettingsCommand;
 import com.zhonghong.menuitem.USBCommand;
+import com.zhonghong.sdk.android.utils.PreferenceUtils;
 import com.zhonghong.sublauncher.Page1Fragment;
 import com.zhonghong.sublauncher.Page2Fragment;
 import com.zhonghong.sublauncher.PageFragmentAdapter;
 import com.zhonghong.utils.FontsUtils;
-import com.zhonghong.utils.T;
+import com.zhonghong.utils.GlobalData;
 import com.zhonghong.utils.WeatherUtils;
 import com.zhonghong.weather.ReceiveCityList;
 import com.zhonghong.weather.ReceiveJson;
+import com.zhonghong.weather.WeatherAbs;
 import com.zhonghong.weather.WeatherInfo;
-import com.zhonghong.weather.WeatherInterface;
 import com.zhonghong.weather.WeatherLoc;
 import com.zhonghong.widget.CircleMenu;
 import com.zhonghong.widget.CircleMenu.OnMenuItemClickListener;
@@ -61,6 +74,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	/**左边三个图标*/
 	private List<OverlapLayout> mLeftItems = new ArrayList<OverlapLayout>();
 	private LeftItemsCtrl mLeftItemCtrl;
+	
 	private ImageView mImgWeather;
 	private TextView mTvWeather;
 	private TextView mTvDegree;
@@ -68,17 +82,27 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private TextView mTvCanAuto, mTvCanPower, mTvLeftTemperature, mTvAirWindLevel;
 	private ImageView mImgAirCircurlationMode, mImgBlowMode;
 	private CircleMenu mCircleMenuLayout;
-	private List<ImageView> mImgPageIndexs = new ArrayList<ImageView>();
-	private List<ImageView> mSubMainPageIndexs = new ArrayList<ImageView>();
+	/**主屏页面索引*/
+	private List<ImageView> mMainScreenPageIndexs = new ArrayList<ImageView>();
 	
-	private TextView mTvTimeData, mTvTimeTime;
+	/**时间*/
+	private TextView mTimeData, mTimeTime;
 	
-	private ViewPager mPager;
-	private List<Fragment> mFragments;
+	/**加锁、解锁*/
+	private Button mLock;
+	
+	/**副屏*/
+	private List<ImageView> mSubScreenPageIndexs = new ArrayList<ImageView>();
+	private ViewPager mSubScreenPager;
+	private List<Fragment> mSubScreenFragments;
+	
+	/**媒体信息widget*/
+	private LinearLayout mLayoutRadio, mLayoutMusic;
+	private TextView mRadioTitle, mRadioCurFreq;
+	private TextView mMusicTitle, mMusicArtist;
 	
 	private WeatherUtils mWeatherUtils;
-	
-	private WeatherInterface mWeatherInterface;
+	private WeatherAbs mWeatherInterface;
 	
 	private ItemControl mItemControl;
 	
@@ -90,7 +114,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	};
 	
 	private final Handler mHandler = new Handler();
-	private final Handler mUpdateUiHandler = new UiHandle();
+	private final Handler mCanHandler = new UiHandle();
 	
 	
 	@Override
@@ -104,11 +128,20 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		
 		initData();
 		initMainViews();
+		initWidgetViews();
 		initSubMainViews();
+		initLockViews();
 		initWeather();
 		initTimeView();
 		initCanViews();
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setLockState(PreferenceUtils.getBoolean(GlobalData.KEY_LOCK, false), false);
+	}
+	
 
 	/**初始化数据*/
 	private void initData() {
@@ -116,15 +149,22 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		mWeatherUtils = WeatherUtils.getInstanse(this);
 		
 		mLeftItemCtrl= new LeftItemsCtrl(this);
-		
+	//TODO 添加按键项处理	
 		mItemControl = new ItemControl();
+		mItemControl.setCommand(0, new NaviCommand());
 		mItemControl.setCommand(1, new BtMusicCommand());
 		mItemControl.setCommand(2, new RadioCommand());
 		mItemControl.setCommand(3, new USBCommand());
 		mItemControl.setCommand(4, new BtCommand());
+		mItemControl.setCommand(5, new LEDCommand());
+		mItemControl.setCommand(6, new ExtendCommand());
+		mItemControl.setCommand(7, new CarlifeCommand());
+		mItemControl.setCommand(8, new AppstoreCommand());
+		mItemControl.setCommand(9, new RecorderCommand());
+		mItemControl.setCommand(10, new ICallCommand());
 		mItemControl.setCommand(11, new SettingsCommand());
 		
-		CanManager.getInstace().setHandle(mUpdateUiHandler);
+		CanManager.getInstace().setHandle(mCanHandler);
 	}
 
 	/** 天气相关 */
@@ -196,16 +236,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	}
 	
 	private void initTimeView() {
-		mTvTimeData = (TextView) findViewById(R.id.time_data);
-		mTvTimeData.setTypeface(FontsUtils.getExpansivaTypeface(this));
-		mTvTimeTime = (TextView) findViewById(R.id.time_time);
-		mTvTimeTime.setTypeface(FontsUtils.getExpansivaTypeface(this));
+		mTimeData = (TextView) findViewById(R.id.time_data);
+		mTimeData.setTypeface(FontsUtils.getExpansivaTypeface(this));
+		mTimeTime = (TextView) findViewById(R.id.time_time);
+		mTimeTime.setTypeface(FontsUtils.getExpansivaTypeface(this));
 		refreshTimeView();
-		mUpdateUiHandler.postDelayed(new Runnable() {
+		mCanHandler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				refreshTimeView();
-				mUpdateUiHandler.postDelayed(this, 1000);
+				mCanHandler.postDelayed(this, 1000);
 			}
 		}, 1000);
 	}
@@ -216,11 +256,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		Date curDate = new Date(System.currentTimeMillis());//获取当前时间       
 		String str = formatter.format(curDate);
 		String[] strs = str.split("-");
-		if (mTvTimeData != null){
-			mTvTimeData.setText(strs[0]);
+		if (mTimeData != null){
+			mTimeData.setText(strs[0]);
 		}
-		if (mTvTimeTime != null){
-			mTvTimeTime.setText(strs[1]);
+		if (mTimeTime != null){
+			mTimeTime.setText(strs[1]);
 		}
 	}
 	
@@ -344,9 +384,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		}
 		refreshLeftItemViews();
 		
-		mImgPageIndexs.add((ImageView) findViewById(R.id.page_index1));
-		mImgPageIndexs.add((ImageView) findViewById(R.id.page_index2));
-		mImgPageIndexs.add((ImageView) findViewById(R.id.page_index3));
+		mMainScreenPageIndexs.add((ImageView) findViewById(R.id.page_index1));
+		mMainScreenPageIndexs.add((ImageView) findViewById(R.id.page_index2));
+		mMainScreenPageIndexs.add((ImageView) findViewById(R.id.page_index3));
 		
 		mCircleMenuLayout = (CircleMenu) findViewById(R.id.id_menulayout);
 		mCircleMenuLayout.setMenuAttr(mItemControl.getItemInfos(), 40, 350);
@@ -366,7 +406,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			
 			@Override
 			public void onPageSelected(int page) {
-				refreshPageIndexViews(page);
+				refreshMainScreenPageIndexViews(page);
 			}
 		});
 		
@@ -382,29 +422,94 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		});
 		
 	}
+	
+	private void initWidgetViews(){
+		mLayoutRadio = (LinearLayout) findViewById(R.id.layout_radio);
+		mLayoutRadio.setOnClickListener(this);
+		mRadioTitle = (TextView) findViewById(R.id.radio_title);
+		mRadioCurFreq = (TextView) findViewById(R.id.radio_curfreq);
+		
+		mLayoutMusic = (LinearLayout) findViewById(R.id.layout_music);
+		mLayoutMusic.setOnClickListener(this);
+		mMusicTitle = (TextView) findViewById(R.id.music_title);
+		mMusicArtist = (TextView) findViewById(R.id.music_artist);
+		
+	}
 
 	/**初始化副屏 Views*/
 	private void initSubMainViews() {
 		
-		mSubMainPageIndexs.add((ImageView) findViewById(R.id.sub_main_page_index1));
-		mSubMainPageIndexs.add((ImageView) findViewById(R.id.sub_main_page_index2));
+		mSubScreenPageIndexs.add((ImageView) findViewById(R.id.sub_main_page_index1));
+		mSubScreenPageIndexs.add((ImageView) findViewById(R.id.sub_main_page_index2));
 		
-		refreshSubMainPageIndexViews(0);
+		refreshSubScreenPageIndexViews(0);
 		
-		mPager = (ViewPager) findViewById(R.id.viewpager_sub);
-		mFragments = new ArrayList<Fragment>();
-		mFragments.add(new Page1Fragment());
-		mFragments.add(new Page2Fragment());
+		mSubScreenPager = (ViewPager) findViewById(R.id.viewpager_sub);
+		mSubScreenFragments = new ArrayList<Fragment>();
+		mSubScreenFragments.add(new Page1Fragment());
+		mSubScreenFragments.add(new Page2Fragment());
 		
-		mPager.setAdapter(new PageFragmentAdapter(getSupportFragmentManager(), mFragments));
-		mPager.setOnPageChangeListener(mPageChangeListener);
+		mSubScreenPager.setAdapter(new PageFragmentAdapter(getSupportFragmentManager(), mSubScreenFragments));
+		mSubScreenPager.setOnPageChangeListener(mPageChangeListener);
+	}
+	
+	/**锁屏*/
+	private void initLockViews() {
+		mLock = (Button) findViewById(R.id.lock);
+		setLockState(PreferenceUtils.getBoolean(GlobalData.KEY_LOCK, false), true);
+		
+		mLock.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				toggleLock();
+			}
+		});
+//		LockWndHelper.getInstaces().createDrawerLayoutView(this);
+//		LockWndHelper.getInstaces().setOnLockClickListener(new OnLockClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				toggleLock();
+//			}
+//		});
+	}
+	
+	private void toggleLock(){
+		if (mLock.isSelected()){
+			setLockState(false, true);
+		}
+		else{
+			setLockState(true, true);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param lockState	加锁状态
+	 * @param save 是否保存（加广播）
+	 */
+	private void setLockState(boolean lockState, boolean save){
+		if (mLock != null){
+			mLock.setSelected(lockState);
+		}
+		if (save){
+			PreferenceUtils.putBoolean(GlobalData.KEY_LOCK, lockState);
+			sendLockBroadcast(lockState);
+		}
+	}
+	private void sendLockBroadcast(boolean lock){
+		Intent it = new Intent();
+		it.setAction(GlobalData.ACTION_LOCK);
+		it.putExtra("lock", lock);
+		this.sendBroadcast(it);
 	}
 	
 	private android.support.v4.view.ViewPager.OnPageChangeListener mPageChangeListener = new android.support.v4.view.ViewPager.OnPageChangeListener() {
 		
 		@Override
 		public void onPageSelected(int page) {
-			refreshSubMainPageIndexViews(page);
+			refreshSubScreenPageIndexViews(page);
 		}
 		
 		@Override
@@ -420,13 +525,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	
 	/**更新页码指示*/
-	private void refreshPageIndexViews(int page){
-		if (mImgPageIndexs == null){
+	private void refreshMainScreenPageIndexViews(int page){
+		if (mMainScreenPageIndexs == null){
 			return;
 		}
 		ImageView view;
-		for (int i = 0; i < mImgPageIndexs.size(); i++) {
-			view = mImgPageIndexs.get(i);
+		for (int i = 0; i < mMainScreenPageIndexs.size(); i++) {
+			view = mMainScreenPageIndexs.get(i);
 			if (i == page){
 				view.setSelected(true);
 			}else{
@@ -435,14 +540,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		}
 	}
 	
-	/**更新页码指示*/
-	private void refreshSubMainPageIndexViews(int page){
-		if (mSubMainPageIndexs == null){
+	/**更新副屏页码指示*/
+	private void refreshSubScreenPageIndexViews(int page){
+		if (mSubScreenPageIndexs == null){
 			return;
 		}
 		ImageView view;
-		for (int i = 0; i < mSubMainPageIndexs.size(); i++) {
-			view = mSubMainPageIndexs.get(i);
+		for (int i = 0; i < mSubScreenPageIndexs.size(); i++) {
+			view = mSubScreenPageIndexs.get(i);
 			if (i == page){
 				view.setSelected(true);
 			}else{
@@ -462,6 +567,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
+		//TODO 按键处理
 		int item = 0;
 		switch (v.getId()) {
 		case R.id.left_item1:
@@ -487,6 +593,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 				Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(item).getItemText(),
 						Toast.LENGTH_SHORT).show();	
 			}
+		case R.id.layout_radio:
+			new RadioCommand().execute(this);
+			break;
+		case R.id.layout_music:
+			new MusicCommand().execute(this);
+			break;
 		default:
 			break;
 		}
@@ -496,7 +608,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case T.UpdateUiCmd.UPDATE_ALL:
+			case GlobalData.REFRESH_CAN_UI:
 				Log.i(TAG, "Launcher更新Can信息" + CanManager.getInstace().getCanInfo());
 				refreshCanViews();
 				break;

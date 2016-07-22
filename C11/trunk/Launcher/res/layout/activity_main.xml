@@ -58,14 +58,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:gravity="bottom|center_horizontal"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
                 android:orientation="vertical" >
 
                 <include
                     layout="@layout/weather"
                     android:visibility="gone" />
 
-                <include layout="@layout/time" />
+                <include layout="@layout/widget_time" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,6 +93,17 @@
                     <include layout="@layout/page_index" />
                 </LinearLayout>
             </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="160dp"
+                android:orientation="vertical" >
+
+                <include
+                    layout="@layout/layout_media_info"/>
+            </LinearLayout>
         </FrameLayout>
 
         <!-- 右侧 -->
@@ -102,10 +114,21 @@
             android:orientation="vertical" >
 
             <Button
+                android:id="@+id/user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="422dp"
-                android:background="@drawable/contract_selector" />
+                android:layout_marginTop="60dp"
+                android:layout_marginLeft="58dp"
+                android:background="@drawable/user_selector" />
+            
+             <Button
+                 android:id="@+id/lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="65dp"
+                android:background="@drawable/lock_selector" />
+            
         </LinearLayout>
     </LinearLayout>
 

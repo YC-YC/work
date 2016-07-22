@@ -6,7 +6,7 @@ package com.zhonghong.can;
 import com.zhonghong.aidl.CanInfoParcel;
 import com.zhonghong.aidl.ICanDataChangeCallback;
 import com.zhonghong.aidl.ITaskBinder;
-import com.zhonghong.utils.T;
+import com.zhonghong.utils.GlobalData;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -88,7 +88,7 @@ public class CanManager {
 						Log.i(TAG, "notifyDataChange");
 						if (mHandler != null)
 						{
-							mHandler.sendEmptyMessage(T.UpdateUiCmd.UPDATE_ALL);
+							mHandler.sendEmptyMessage(GlobalData.REFRESH_CAN_UI);
 						}
 					}
 				});
@@ -97,7 +97,7 @@ public class CanManager {
 			}
 			if (mHandler != null)
 			{
-				mHandler.sendEmptyMessage(T.UpdateUiCmd.UPDATE_ALL);
+				mHandler.sendEmptyMessage(GlobalData.REFRESH_CAN_UI);
 			}
 		}
 

@@ -3,7 +3,7 @@
  */
 package com.zhonghong.can;
 
-import com.zhonghong.launcher.BaseApplication;
+import com.zhonghong.base.BaseApplication;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

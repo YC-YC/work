@@ -3,10 +3,15 @@
  */
 package com.zhonghong.utils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,48 +33,79 @@ import android.util.Log;
  */
 public class HttpUtils {
 
-	private static final String tag = "HttpUtils";
+	private static final String TAG = "HttpUtils";
 	
 	public void post(String url, HttpCallback callback)
 	{
-		new HttpThread(url, callback).start();
+		new HttpThread(url, callback, true).start();
+	}
+	
+	public void get(String url, HttpCallback callback)
+	{
+		new HttpThread(url, callback, false).start();
 	}
 	
 	private class HttpThread extends Thread{
 		private HttpCallback mCallback;
 		private String mUrl;
+		private boolean bPost;
 		
-		public HttpThread(String url, HttpCallback callback) {
+		public HttpThread(String url, HttpCallback callback, boolean bPost) {
 			mCallback = callback;
 			mUrl = url;
+			this.bPost = bPost;
 		}
 		@Override
 		public void run() {
-			try {
-				//创建HttpClient
-				HttpClient httpClient = new DefaultHttpClient();
-				//创建HttpPost
-				HttpPost httpPost = new HttpPost(mUrl);
-				//建立一个NameValuePair数组，用于存储欲传递的参数
-				List<NameValuePair> param = new ArrayList<NameValuePair>();
-				HttpEntity entity = new UrlEncodedFormEntity(param, "gb2312");
-				//设置传输参数
-				httpPost.setEntity(entity);	
-				//访问
-				HttpResponse response = httpClient.execute(httpPost);
+			//Post方式
+			if (bPost){
+				try {
+					//创建HttpClient
+					HttpClient httpClient = new DefaultHttpClient();
+					//创建HttpPost
+					HttpPost httpPost = new HttpPost(mUrl);
+					//建立一个NameValuePair数组，用于存储欲传递的参数
+					List<NameValuePair> param = new ArrayList<NameValuePair>();
+					HttpEntity entity = new UrlEncodedFormEntity(param, "gb2312");
+					//设置传输参数
+					httpPost.setEntity(entity);	
+					//访问
+					HttpResponse response = httpClient.execute(httpPost);
 //				Log.i(tag, "response Code = " + response.getStatusLine().getStatusCode());
-				if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
-				{
-					String result = EntityUtils.toString(response.getEntity());
+					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
+					{
+						String result = EntityUtils.toString(response.getEntity());
 //					Log.i(tag, "response result = " + result);
+						if (mCallback != null)
+						{
+							mCallback.onReceive(result);
+						}
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			else{
+				try {
+					URL url = new URL(mUrl);
+					HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+					InputStreamReader reader = new InputStreamReader(conn.getInputStream());
+					BufferedReader buffer = new BufferedReader(reader);
+					String inputline;
+					String result = "";
+					while((inputline = buffer.readLine()) != null){
+						result += inputline + "\r\n";
+					}
+					reader.close();
+					conn.disconnect();
 					if (mCallback != null)
 					{
 						mCallback.onReceive(result);
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 	}

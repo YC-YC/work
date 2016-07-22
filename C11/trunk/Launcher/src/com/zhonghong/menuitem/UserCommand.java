@@ -15,7 +15,7 @@ public class UserCommand implements Command {
 
 	@Override
 	public boolean execute(Context context) {
-		return Utils.startOtherActivity(context, Utils.ZH_BTPHONE_PKG, Utils.ZH_BTPHONE_CLZ);
+		return Utils.startOtherActivity(context, Utils.ZH_USER_PKG, Utils.ZH_USER_CLZ);
 	}
 
 }
