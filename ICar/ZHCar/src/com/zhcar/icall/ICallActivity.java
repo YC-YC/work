@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.zhcar.R;
+import com.zhcar.base.UpdateUiBaseActivity;
 import com.zhcar.data.GlobalData;
 import com.zhcar.provider.CarProviderData;
 import com.zhcar.utils.BtUtils;
@@ -29,10 +30,11 @@ import com.zhcar.utils.UpdateUiManager.UpdateViewCallback;
  * @time 2016-7-12 上午11:58:50
  * TODO: 呼叫凯翼
  */
-public class ICallActivity extends Activity implements OnClickListener{
+public class ICallActivity extends UpdateUiBaseActivity implements OnClickListener{
 
 	private static final String TAG = "ICall";
 	private Button mCallservice;
+	
 	
 	private ContentResolver resolver;
 	private final Uri uri = Uri.parse("content://cn.com.semisky.carProvider/phonenum");
@@ -51,20 +53,20 @@ public class ICallActivity extends Activity implements OnClickListener{
 		mCallservice.setOnClickListener(this);
 	}
 
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		UpdateUiManager.getInstances().regUpdateViewCallback(mUpdateViewCallback);
 		refreshDialKey();
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
-		UpdateUiManager.getInstances().unRegUpdateViewCallback(mUpdateViewCallback);
 		
 	}
+	
+
 	
 	private UpdateViewCallback mUpdateViewCallback = new UpdateViewCallback() {
 		
@@ -103,24 +105,30 @@ public class ICallActivity extends Activity implements OnClickListener{
 		if (BtUtils.isBtConnected() && !BtUtils.isBtCalling()){
 			HashMap<String, String> extras = new HashMap<String, String>();
 			extras.clear();
-			extras.put(BtUtils.BT_CALL_PHONE_KEY, getServiceNum());
+			extras.put(BtUtils.BT_CALL_PHONE_KEY, getKaiYiNum());
 			Log.i(TAG, "拨打客服电话");
 			Utils.sendBroadcast(this, BtUtils.BT_CONTROL_ACTION, extras);
 		}
 	}
 	
-	private String getServiceNum() {
+	private String getKaiYiNum() {
 		Cursor cursor = resolver.query(uri, null, null, null, null);
 		if(cursor != null && cursor.moveToNext()){
-			String service_num = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_SHOTCUT_SERVICE_NUM));
-			Log.i(TAG, "查询结果为：service_num = " + service_num);
-			return service_num;
+			String kaiyiNum = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_PHONENUM_KAIYI_NUM));
+			Log.i(TAG, "查询结果为：service_num = " + kaiyiNum);
+			return kaiyiNum;
 			}
 		else{
 			Log.i(TAG, "无查询结果");
 			return null;
 		}
 	}
+
+	@Override
+	protected UpdateViewCallback getUpdateViewCallback() {
+		return mUpdateViewCallback;
+	}
+
 	
 	
 	

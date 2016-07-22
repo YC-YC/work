@@ -9,16 +9,13 @@ package com.zhcar.data;
  * TODO:共用的数据
  */
 public class GlobalData {
-	/**没获取到相关信息*/
-	public static final int PERMISSION_STATUS_NO_STATUS = 0;
-	/**鉴权中...*/
-	public static final int PERMISSION_STATUS_RUNNING = 1;
-	/**鉴权成功*/
-	public static final int PERMISSION_STATUS_SUCCEED = 2;
-	/**鉴权失败*/
-	public static final int PERMISSION_STATUS_FAILED = 3;
-	
 	/**鉴权状态*/
-	public static int permissionStatus = PERMISSION_STATUS_NO_STATUS;
+	public static boolean bPermissionStatus = false;
+	
+	public static final String AppKey = "9909756346";
+	public static final String SecretKey = "9fd4b70a1892bec00906d5dedf5ebea6";
 
+	/**流量信息*/
+	public static FlowInfoBean flowInfo = new FlowInfoBean();
+	
 }

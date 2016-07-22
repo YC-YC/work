@@ -5,11 +5,16 @@
     <string name="call_service">呼叫凯翼</string>
     <string name="app_check">自动检测</string>
     <string name="call_tips">拨打客服电话</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">设置</string>
+    <string name="hello_world">你好</string>
     <string name="checking">车辆自检中...</string>
     <string name="checked_tips_warn">请及时去服务站检修。</string>
     <string name="checked_tips_normal">请注意车辆保养。</string>
     <string name="checked_tips_well">车况良好，请安全驾驶。</string>
+    <string name="carflow_tip_title">当月剩余流量超限提醒</string>
+    <string name="carflow_tip_content1">您的当月可用流量还剩</string>
+    <string name="carflow_tip_content2">，可至T服务套餐购买APP购买相关套餐增加流量。如流量超限造成断网，请连接WIFI或登录车主网站购买。</string>
+    <string name="carflow_confirm">购买流量</string>
+    <string name="carflow_cancle">我知道了</string>
 
 </resources>

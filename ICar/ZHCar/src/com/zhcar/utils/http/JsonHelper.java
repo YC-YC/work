@@ -5,7 +5,9 @@ package com.zhcar.utils.http;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -20,11 +22,13 @@ public class JsonHelper {
 	private static final String TAG = "JsonHelper";
 
 	private String cacheJsonStr = "";
-
 	private HashMap<String, String> resultMap = new HashMap<String, String>();
 
+	
+	private HashMap<String, String> cacheMaps;
+	private String resultJsonStr = "";
 	/** 将JSON字符串解释成Map */
-	public HashMap<String, String> parserToMap(String jsonStr) {
+	public HashMap<String, String> json2Map(String jsonStr) {
 		if (jsonStr == null || "".equals(jsonStr.trim())) {
 			Log.i(TAG, "数据为空");
 			return null;
@@ -112,5 +116,29 @@ public class JsonHelper {
 		
 		Log.i(TAG, "Get result = " + resultMap.toString());
 		return resultMap;
+	}
+	
+	public String map2Json(HashMap<String, String> maps){
+		if (maps == null || maps.isEmpty()){
+			return null;
+		}
+		if (maps.equals(cacheMaps)){
+			return resultJsonStr;
+		}
+		cacheMaps = maps;
+		JSONObject jsonObject = new JSONObject();
+		Iterator<String> iterator = maps.keySet().iterator();
+		while(iterator.hasNext()){
+			String key = iterator.next();
+			String val = maps.get(key);
+			try {
+				jsonObject.put(key, val);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		resultJsonStr = jsonObject.toString();
+		return resultJsonStr;
 	}
 }

@@ -15,7 +15,7 @@ import com.zhcar.utils.http.HttpStatusCallback;
 public abstract interface GetFlowAbs {
 
 	 /**设置请求参数*/
-	 public abstract void SetInfo(String appKey, String sign, String iccid, String token);
+	 public abstract void SetInfo(String iccid, String token);
 	 /** 刷新 */
 	 public abstract int Refresh();
 	 /** 请求结果回调 */

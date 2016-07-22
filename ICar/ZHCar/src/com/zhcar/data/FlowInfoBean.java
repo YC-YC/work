@@ -11,26 +11,26 @@ package com.zhcar.data;
 public class FlowInfoBean {
 
 	String name;
-	int id;
-	int remindValue;
+	String id;
+	String remindValue;
 	String vin;
 	String mobile;
 	String phoneNum;
-	boolean remind;
+	String remind;
 	/**已用流量*/
-	float useFlow;
+	String useFlow;
 	/**剩余流量*/
-	float surplusFlow;
+	String surplusFlow;
 	/**总流量*/
-	float currFlowTotal;
+	String currFlowTotal;
 
 	public FlowInfoBean() {
 		super();
 	}
 
-	public FlowInfoBean(String name, int id, int remindValue, String vin,
-			String mobile, String phoneNum, boolean remind, int useFlow,
-			int surplusFlow, int currFlowTotal) {
+	public FlowInfoBean(String name, String id, String remindValue, String vin,
+			String mobile, String phoneNum, String remind, String useFlow,
+			String surplusFlow, String currFlowTotal) {
 		super();
 		this.name = name;
 		this.id = id;
@@ -48,11 +48,11 @@ public class FlowInfoBean {
 		this.name = name;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public void setRemindValue(int remindValue) {
+	public void setRemindValue(String remindValue) {
 		this.remindValue = remindValue;
 	}
 
@@ -68,22 +68,22 @@ public class FlowInfoBean {
 		this.phoneNum = phoneNum;
 	}
 
-	public void setRemind(boolean remind) {
+	public void setRemind(String remind) {
 		this.remind = remind;
 	}
 
 	/**已用流量*/
-	public void setUseFlow(float useFlow) {
+	public void setUseFlow(String useFlow) {
 		this.useFlow = useFlow;
 	}
 
 	/**剩余流量*/
-	public void setSurplusFlow(float surplusFlow) {
+	public void setSurplusFlow(String surplusFlow) {
 		this.surplusFlow = surplusFlow;
 	}
 	
 	/**总流量*/
-	public void setCurrFlowTotal(float currFlowTotal) {
+	public void setCurrFlowTotal(String currFlowTotal) {
 		this.currFlowTotal = currFlowTotal;
 	}
 
@@ -91,11 +91,11 @@ public class FlowInfoBean {
 		return name;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public int getRemindValue() {
+	public String getRemindValue() {
 		return remindValue;
 	}
 
@@ -111,22 +111,22 @@ public class FlowInfoBean {
 		return phoneNum;
 	}
 
-	public boolean isRemind() {
+	public String getRemind() {
 		return remind;
 	}
 
 	/**已用流量*/
-	public float getUseFlow() {
+	public String getUseFlow() {
 		return useFlow;
 	}
 
 	/**剩余流量*/
-	public float getSurplusFlow() {
+	public String getSurplusFlow() {
 		return surplusFlow;
 	}
 
 	/**总流量*/
-	public float getCurrFlowTotal() {
+	public String getCurrFlowTotal() {
 		return currFlowTotal;
 	}
 

@@ -25,13 +25,18 @@ public class CarProvider extends ContentProvider {
 	private static final int CARINFO = 1;
 	private static final int PHONEINFO = 2;
 	private static final int PERMISSION = 3;
-	
+	private static final int SIDS = 4;
+	private static final int FLOWINFO = 5;
+	private static final int ACCOUNT = 6;
 //	常量UriMatcher.NO_MATCH表示不匹配任何路径的返回码
 	private static final UriMatcher MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 	static{
 		MATCHER.addURI(AUTHORITIES, "carInfo", CARINFO);
 		MATCHER.addURI(AUTHORITIES, "phonenum", PHONEINFO);
 		MATCHER.addURI(AUTHORITIES, "permission", PERMISSION);
+		MATCHER.addURI(AUTHORITIES, "sids", SIDS);
+		MATCHER.addURI(AUTHORITIES, "flowInfo", FLOWINFO);
+		MATCHER.addURI(AUTHORITIES, "accounts", ACCOUNT);
 	}
 	
 	private DBHelper mDbHelper;
@@ -59,6 +64,15 @@ public class CarProvider extends ContentProvider {
 		case PERMISSION:
 			return db.query(CarProviderData.PERMISSION_TABLE, projection, selection, selectionArgs, 
 					null, null, sortOrder);
+		case SIDS:
+			return db.query(CarProviderData.SIDS_TABLE, projection, selection, selectionArgs, 
+					null, null, sortOrder);
+		case FLOWINFO:
+			return db.query(CarProviderData.FLOW_TABLE, projection, selection, selectionArgs, 
+					null, null, sortOrder);
+		case ACCOUNT:
+			return db.query(CarProviderData.ACCOUNT_TABLE, projection, selection, selectionArgs, 
+					null, null, sortOrder);
 			default:
 				throw new IllegalArgumentException("Unknow Uri:" + uri.toString());
 		}
@@ -73,6 +87,12 @@ public class CarProvider extends ContentProvider {
 			return "vnd.android.cursor.item/phonenum"; 
 		case PERMISSION:
 			return "vnd.android.cursor.item/premission"; 
+		case SIDS:
+			return "vnd.android.cursor.item/sids"; 
+		case FLOWINFO:
+			return "vnd.android.cursor.item/flowinfo"; 
+		case ACCOUNT:
+			return "vnd.android.cursor.item/accounts"; 
 			default:
 				throw new IllegalArgumentException("Unknow Uri:" + uri.toString());
 		}
@@ -105,6 +125,27 @@ public class CarProvider extends ContentProvider {
             insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri  
             this.getContext().getContentResolver().notifyChange(uri, null);  
             return insertUri;
+		case SIDS:
+			// 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。  
+            rowid = db.insert(CarProviderData.SIDS_TABLE, "debug", values); 
+//            Log.i(TAG, "insert rowid = " + rowid);
+            insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri  
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return insertUri;
+		case FLOWINFO:
+			// 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。  
+            rowid = db.insert(CarProviderData.FLOW_TABLE, "debug", values); 
+//            Log.i(TAG, "insert rowid = " + rowid);
+            insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri  
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return insertUri;
+		case ACCOUNT:
+			// 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。  
+            rowid = db.insert(CarProviderData.ACCOUNT_TABLE, "debug", values); 
+//            Log.i(TAG, "insert rowid = " + rowid);
+            insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri  
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return insertUri;
 			default:
 				throw new IllegalArgumentException("Unknow Uri:" + uri.toString());
 		}
@@ -127,6 +168,18 @@ public class CarProvider extends ContentProvider {
             count = db.delete(CarProviderData.PERMISSION_TABLE, selection, selectionArgs);  
             this.getContext().getContentResolver().notifyChange(uri, null);  
             return count;  
+        case SIDS:  
+            count = db.delete(CarProviderData.SIDS_TABLE, selection, selectionArgs);  
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return count; 
+        case FLOWINFO:  
+            count = db.delete(CarProviderData.FLOW_TABLE, selection, selectionArgs);  
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return count; 
+        case ACCOUNT:  
+            count = db.delete(CarProviderData.ACCOUNT_TABLE, selection, selectionArgs);  
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return count; 
         default:  
             throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());  
         }  
@@ -150,6 +203,21 @@ public class CarProvider extends ContentProvider {
             return count; 
 		case PERMISSION:  
             count = db.update(CarProviderData.PERMISSION_TABLE, values, selection, selectionArgs);  
+//            Log.i(TAG, "update count = " + count);
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return count; 
+		case SIDS:  
+            count = db.update(CarProviderData.SIDS_TABLE, values, selection, selectionArgs);  
+//            Log.i(TAG, "update count = " + count);
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return count; 
+		case FLOWINFO:  
+            count = db.update(CarProviderData.FLOW_TABLE, values, selection, selectionArgs);  
+//            Log.i(TAG, "update count = " + count);
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return count; 
+		case ACCOUNT:  
+            count = db.update(CarProviderData.ACCOUNT_TABLE, values, selection, selectionArgs);  
 //            Log.i(TAG, "update count = " + count);
             this.getContext().getContentResolver().notifyChange(uri, null);  
             return count; 

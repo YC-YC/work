@@ -34,6 +34,47 @@
             android:layout_weight="1"
             android:onClick="doClick"
             android:text="更新" />
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="删除" />
+        <Button
+            android:id="@+id/showdialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="显示对话框" />
     </LinearLayout>
 
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/getflow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="获取流量" />
+        <Button
+            android:id="@+id/postrecord"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="上传使用情况" />
+        <Button
+            android:id="@+id/switch_gprs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="开关数据流量" />
+    </LinearLayout>
+    
 </LinearLayout>

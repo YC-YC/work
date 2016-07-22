@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.zhcar.carflow;
+package com.zhcar.apprecord;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -11,6 +11,7 @@ import java.util.Map;
 import android.util.Log;
 
 import com.taimi.utils.SignatureGenerator;
+import com.zhcar.data.AppUseRecord;
 import com.zhcar.data.FlowInfoBean;
 import com.zhcar.data.GlobalData;
 import com.zhcar.utils.http.HttpCallback;
@@ -23,45 +24,40 @@ import com.zhcar.utils.http.JsonHelper;
  * @time 2016-7-6 下午2:15:04
  * TODO:
  */
-public class GetFlowLoc implements GetFlowAbs , HttpCallback{
+public class PostAppRecord implements IPostAppRecord , HttpCallback{
 
-	private static final String GET_FLOW_URL = "http://cowinmguat.timasync.com/mno-service/mnoService/getCardFlowInfoByHmi?";
+	private static final String POST_APPRECORD_URL = "http://cowindev.timanetwork.com/app-use-record/internal/recordIntel/addRecord?";
 
 	private static final String TAG = "GetFlowLoc";
 	
 	private String mAppKey;
 	private String mSign;
-	private String mIccid;
-	private String mToken;
+	private AppUseRecord recordInfo;
 	
 	private JsonHelper mJsonHelper;
 	
 	private HttpStatusCallback mHttpStatusCallback;
 	
-	private FlowInfoBean mFlowInfoBean = new FlowInfoBean();
 	
-	public GetFlowLoc(){
+	public PostAppRecord(){
 		mJsonHelper = new JsonHelper();
 	}
 	
 	@Override
-	public void SetInfo(String iccid, String token) {
-		mAppKey = GlobalData.AppKey;
-		mSign = getSignStr(iccid, token);
-		mIccid = iccid;
-		mToken = token;
+	public void SetInfo(AppUseRecord recordInfo) {
+		this.mAppKey = GlobalData.AppKey;
+		this.mSign = getSignStr();
+		this.recordInfo = recordInfo;
 	}
 
-	private String getSignStr(String iccid, String token){
+	private String getSignStr(){
 		Map<String, String> params = new HashMap<String, String>();
-        params.put("iccid", iccid);
-        params.put("token", token);
         params.put("appkey", GlobalData.AppKey);
-        String urlResourcePart = "mno-service/mnoService/getCardFlowInfoByHmi";
+        String urlResourcePart = "app-use-record/internal/recordIntel/addRecord";
         String sign = null;
         try {
 			sign = SignatureGenerator.generate(urlResourcePart, params, GlobalData.SecretKey);
-			Log.i(TAG, "generate signedStr = " + sign);
+//			Log.i(TAG, "generate signedStr = " + sign);
 			
         } catch (Exception e) {
 			e.printStackTrace();
@@ -69,17 +65,16 @@ public class GetFlowLoc implements GetFlowAbs , HttpCallback{
         return sign;
 	}
 	
+	
 	@Override
 	public int Refresh() {
 		HttpUtils http = new HttpUtils();
 		String reqUrl = "";
-			reqUrl = GET_FLOW_URL 
+			reqUrl = POST_APPRECORD_URL 
 					+ "appkey=" + mAppKey
-					+ "&sign=" + mSign
-					+ "&iccid=" + mIccid
-					+ "&token=" + mToken;
+					+ "&sign=" + mSign;
 		
-		http.get(reqUrl, this, mHttpStatusCallback);
+		http.postJson(reqUrl, mJsonHelper.map2Json(recordInfo.toMap()), this, mHttpStatusCallback);
 		return 0;
 	}
 
@@ -88,10 +83,6 @@ public class GetFlowLoc implements GetFlowAbs , HttpCallback{
 		mHttpStatusCallback = callback;
 	}
 
-	@Override
-	public FlowInfoBean GetFlowInfo() {
-		return mFlowInfoBean;
-	}
 
 	@Override
 	public void onReceive(String response) {
@@ -104,9 +95,6 @@ public class GetFlowLoc implements GetFlowAbs , HttpCallback{
 		else {
 			String status = map.get("status");
 			if (status != null && "SUCCEED".equals(status)){
-				mFlowInfoBean.setUseFlow(map.get("useFlow"));
-				mFlowInfoBean.setSurplusFlow(map.get("surplusFlow"));
-				mFlowInfoBean.setCurrFlowTotal(map.get("currFlowTotal"));
 				if (mHttpStatusCallback != null){
 					mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_SUCCESS);
 				}

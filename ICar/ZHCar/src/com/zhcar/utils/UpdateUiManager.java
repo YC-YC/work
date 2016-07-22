@@ -12,7 +12,7 @@ import android.util.Log;
 /**
  * @author YC
  * @time 2016-7-12 下午7:53:13
- * TODO:用于非View处更新Ui的中转
+ * TODO:用于非View处更新Ui的中转，类似于EventBus功能
  */
 public class UpdateUiManager {
 
@@ -27,12 +27,12 @@ public class UpdateUiManager {
 		void onUpdate(int cmd);
 	}
 	
-	public void regUpdateViewCallback(UpdateViewCallback callback){
+	public void register(UpdateViewCallback callback){
 		mUpdateViewCallbacks.add(callback);
 		Log.i(TAG, "regUpdateViewCallback ++++ size = " + mUpdateViewCallbacks.size());
 	}
 	
-	public void unRegUpdateViewCallback(UpdateViewCallback callback){
+	public void unregister(UpdateViewCallback callback){
 		mUpdateViewCallbacks.remove(callback);
 		Log.i(TAG, "unRegUpdateViewCallback ++++ size = " + mUpdateViewCallbacks.size());
 		

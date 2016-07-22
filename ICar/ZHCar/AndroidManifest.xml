@@ -11,11 +11,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
  	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
  	
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:name="com.zhcar.base.BaseApplication"
         android:theme="@android:style/Theme.Black.NoTitleBar" >
         <activity
             android:name="com.zhcar.permission.MainActivity"
@@ -49,6 +53,11 @@
             <intent-filter >
                 <action android:name="com.zhonghong.bluetooth.BROADCAST_BT_DEVICE_STATE"/>
             	<action android:name="com.zhonghong.bluetooth.BROADCAST_CALLSTATE"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.zhcar.receiver.PermissionReceiver">
+            <intent-filter >
+                <action android:name="com.tima.Permission"/>
             </intent-filter>
         </receiver>
         

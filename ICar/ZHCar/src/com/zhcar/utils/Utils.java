@@ -29,4 +29,14 @@ public class Utils {
 		}
 		context.sendBroadcast(it);
 	}
+	
+	/**
+	 * 判断字符串是否为空
+	 * 
+	 * @param string 需要判断的字符串
+	 * @return true:空;false:非空
+	 */
+	public static boolean isEmpty(String string) {
+		return ((string == null) || (string.length() == 0));
+	}
 }
