@@ -1,6 +1,16 @@
 # Built application files
 *.svn
 ZHAIDLIB/
+AIDLClient/
+AIDLServer/
+C11AppCfg/
+C11BtSettings/
+C11Radio_V_2.1/
+CanControl/
+ZHExpandApps/
+ZHSettings/
+ZHAppSdkSample/
+ZHBluetoothPhone/
 
 # Built application files
 *.apk

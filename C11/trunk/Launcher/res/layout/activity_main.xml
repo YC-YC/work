@@ -62,10 +62,6 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical" >
 
-                <include
-                    layout="@layout/weather"
-                    android:visibility="gone" />
-
                 <include layout="@layout/widget_time" />
             </LinearLayout>
 
@@ -132,8 +128,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- 下栏 -->
-
-    <include layout="@layout/bottom" />
 
 </LinearLayout>

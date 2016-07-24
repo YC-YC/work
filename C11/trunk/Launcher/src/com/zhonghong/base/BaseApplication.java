@@ -3,15 +3,10 @@
  */
 package com.zhonghong.base;
 
-import com.zhonghong.can.CanManager;
-import com.zhonghong.sdk.android.ZHAppSdk;
-
 import android.app.Application;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.util.Log;
+
+import com.zhonghong.sdk.android.ZHAppSdk;
 
 /**
  * @author YC
@@ -33,13 +28,7 @@ public class BaseApplication extends Application {
 		Log.i(TAG , "onCreate");
 		super.onCreate();
 		instanse = this;
-		bindCanService();
 		ZHAppSdk.initSDK(this);
-	}
-	
-	
-	public void bindCanService(){
-		CanManager.getInstace().bindCanService(this);
 	}
 	
 }

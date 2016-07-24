@@ -4,19 +4,14 @@ package com.zhonghong.launcher;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,10 +21,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.zhonghong.aidl.CanInfoParcel;
-import com.zhonghong.can.CanManager;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.yc.external.PostFromMusic;
+import com.yc.external.PostFromRadio;
+import com.zhonghong.base.UpdateUiBaseActivity;
+import com.zhonghong.data.GlobalData;
 import com.zhonghong.leftitem.LeftItemsCtrl;
 import com.zhonghong.lock.LockWndHelper;
 import com.zhonghong.lock.LockWndHelper.OnLockClickListener;
@@ -52,20 +50,17 @@ import com.zhonghong.sublauncher.Page1Fragment;
 import com.zhonghong.sublauncher.Page2Fragment;
 import com.zhonghong.sublauncher.PageFragmentAdapter;
 import com.zhonghong.utils.FontsUtils;
-import com.zhonghong.utils.GlobalData;
-import com.zhonghong.utils.WeatherUtils;
-import com.zhonghong.weather.ReceiveCityList;
-import com.zhonghong.weather.ReceiveJson;
-import com.zhonghong.weather.WeatherAbs;
-import com.zhonghong.weather.WeatherInfo;
-import com.zhonghong.weather.WeatherLoc;
+import com.zhonghong.utils.L;
+import com.zhonghong.utils.LoadID3Pic;
+import com.zhonghong.utils.UpdateUiManager;
+import com.zhonghong.utils.UpdateUiManager.UpdateViewCallback;
 import com.zhonghong.widget.CircleMenu;
 import com.zhonghong.widget.CircleMenu.OnMenuItemClickListener;
 import com.zhonghong.widget.CircleMenu.OnMenuItemLongClickListener;
 import com.zhonghong.widget.CircleMenu.OnPageChangeListener;
 import com.zhonghong.widget.OverlapLayout;
 
-public class MainActivity extends FragmentActivity implements OnClickListener {
+public class MainActivity extends UpdateUiBaseActivity implements OnClickListener {
 
 	private final String TAG = getClass().getSimpleName();
 	
@@ -75,18 +70,18 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private List<OverlapLayout> mLeftItems = new ArrayList<OverlapLayout>();
 	private LeftItemsCtrl mLeftItemCtrl;
 	
-	private ImageView mImgWeather;
-	private TextView mTvWeather;
-	private TextView mTvDegree;
 	
-	private TextView mTvCanAuto, mTvCanPower, mTvLeftTemperature, mTvAirWindLevel;
-	private ImageView mImgAirCircurlationMode, mImgBlowMode;
 	private CircleMenu mCircleMenuLayout;
+	private ItemControl mItemControl;
+	/**记录长按时Menu项*/
+	private int mLongClickItem;
+	/**记录左边三个按键的状态*/
+	private boolean[] mLeftItemActives = new boolean[]{
+		false, false, false	
+	};
+	
 	/**主屏页面索引*/
 	private List<ImageView> mMainScreenPageIndexs = new ArrayList<ImageView>();
-	
-	/**时间*/
-	private TextView mTimeData, mTimeTime;
 	
 	/**加锁、解锁*/
 	private Button mLock;
@@ -96,26 +91,19 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private ViewPager mSubScreenPager;
 	private List<Fragment> mSubScreenFragments;
 	
+	/**时间widget*/
+	private TextView mTimeData, mTimeTime;
+	
 	/**媒体信息widget*/
-	private LinearLayout mLayoutRadio, mLayoutMusic;
+	private LinearLayout mLayoutRadio, mLayoutMusic, mLayoutLoading;
 	private TextView mRadioTitle, mRadioCurFreq;
 	private TextView mMusicTitle, mMusicArtist;
-	
-	private WeatherUtils mWeatherUtils;
-	private WeatherAbs mWeatherInterface;
-	
-	private ItemControl mItemControl;
-	
-	/**记录长按时Menu项*/
-	private int mLongClickItem;
-	/**记录左边三个按键的状态*/
-	private boolean[] mLeftItemActives = new boolean[]{
-		false, false, false	
-	};
+	private ImageView mMusicID3Pic;
+	private LoadID3Pic mLoadID3Pic;
 	
 	private final Handler mHandler = new Handler();
-	private final Handler mCanHandler = new UiHandle();
 	
+/*********生命周期************/
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -128,25 +116,30 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		
 		initData();
 		initMainViews();
-		initWidgetViews();
 		initSubMainViews();
 		initLockViews();
-		initWeather();
-		initTimeView();
-		initCanViews();
+		initMediaWidgetViews();
+		initTimeWidgetView();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		setLockState(PreferenceUtils.getBoolean(GlobalData.KEY_LOCK, false), false);
+		refreshMediaWidget(GlobalData.MediaWidgetType);
 	}
 	
-
-	/**初始化数据*/
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+	
+/*********View处理************/	
+	
+	/**
+	 * 初始化数据
+	 */
 	private void initData() {
-		
-		mWeatherUtils = WeatherUtils.getInstanse(this);
 		
 		mLeftItemCtrl= new LeftItemsCtrl(this);
 	//TODO 添加按键项处理	
@@ -164,177 +157,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		mItemControl.setCommand(10, new ICallCommand());
 		mItemControl.setCommand(11, new SettingsCommand());
 		
-		CanManager.getInstace().setHandle(mCanHandler);
+		ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
+		
+		new PostFromMusic();
+		new PostFromRadio();
+		
 	}
 
-	/** 天气相关 */
-	private void initWeather() {
-		mImgWeather = (ImageView) findViewById(R.id.img_weather);
-		mTvWeather = (TextView) findViewById(R.id.tv_weather);
-		mTvWeather.setTypeface(FontsUtils.getRuiZiBiGerTypeface(this));
-		mTvDegree = (TextView) findViewById(R.id.tv_degree);
-		mTvDegree.setTypeface(FontsUtils.getExpansivaTypeface(this));
-//		WeatherBean info = mWeatherUtils.getWeatherInfo(WeatherUtils.WEATHER_CLOUDY);
-//		if (info != null)
-//		{
-			mImgWeather.setBackgroundResource(R.drawable.weather_sunny);
-			mTvWeather.setText("未知");
-			mTvDegree.setText("未知");
-//		}
-		
-		mWeatherInterface = new WeatherLoc();
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				long lastCheckTime = 0;
-				while (true)
-				{
-					long nowTime = SystemClock.elapsedRealtime();
-					long timeDiff = nowTime - lastCheckTime;
-					if (timeDiff > 30*1000)
-					{
-						lastCheckTime = SystemClock.elapsedRealtime();
-//						Log.i(tag, "请求天气信息 ");
-						mWeatherInterface.SetCity("深圳");
-						mWeatherInterface.Refresh();
-						mWeatherInterface.SetOnReceiveJson(new ReceiveJson() {
-							
-							@Override
-							public void OnReceive(final WeatherInfo info) {
-								mHandler.post(new Runnable() {
-									
-									@Override
-									public void run() {
-										String weatherStr = info.mWeather.weatherStr;
-//										Log.i(tag, "weather = " + weatherStr);
-										if (info.mWeather.weatherStr != null)
-										{
-											mTvWeather.setText(weatherStr);
-											mImgWeather.setBackgroundResource(info.mWeather.WeatherIcon);
-											mTvDegree.setText(info.mWeather.TemperatureLo + "。C");
-										}
-									}
-								});
-							}
-						});
-						
-						mWeatherInterface.SearchCityName("广", new ReceiveCityList() {
-							
-							@Override
-							public void OnReceiveCityList(List<String> paramList) {
-								for (int i = 0; i < paramList.size(); i++)
-								{
-//									Log.i(tag, "getCityList = " + paramList.get(i));
-								}
-							}
-						});
-					}
-				}
-			}
-		})/*.start()*/;
-		
-	}
-	
-	private void initTimeView() {
-		mTimeData = (TextView) findViewById(R.id.time_data);
-		mTimeData.setTypeface(FontsUtils.getExpansivaTypeface(this));
-		mTimeTime = (TextView) findViewById(R.id.time_time);
-		mTimeTime.setTypeface(FontsUtils.getExpansivaTypeface(this));
-		refreshTimeView();
-		mCanHandler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				refreshTimeView();
-				mCanHandler.postDelayed(this, 1000);
-			}
-		}, 1000);
-	}
-	
-	/**刷新时间*/
-	private void refreshTimeView(){
-		SimpleDateFormat formatter = new SimpleDateFormat ("yyyy.MM.dd-HH:mm");       
-		Date curDate = new Date(System.currentTimeMillis());//获取当前时间       
-		String str = formatter.format(curDate);
-		String[] strs = str.split("-");
-		if (mTimeData != null){
-			mTimeData.setText(strs[0]);
-		}
-		if (mTimeTime != null){
-			mTimeTime.setText(strs[1]);
-		}
-	}
-	
-	/**Can相关*/
-	private void initCanViews() {
-		mTvCanAuto = (TextView) findViewById(R.id.tv_auto);
-		mTvCanAuto.setTypeface(FontsUtils.getExpansivaTypeface(this));
-		mTvCanAuto.setSelected(false);
-		
-		mTvCanPower = (TextView) findViewById(R.id.tv_power);
-		mTvCanPower.setTypeface(FontsUtils.getExpansivaTypeface(this));
-		
-		mTvLeftTemperature = (TextView) findViewById(R.id.tv_air_left_temperature);
-		mTvLeftTemperature.setTypeface(FontsUtils.getExpansivaTypeface(this));
-		
-		mTvAirWindLevel = (TextView) findViewById(R.id.tv_air_wind_level);
-		mTvAirWindLevel.setTypeface(FontsUtils.getExpansivaTypeface(this));
-		
-		mImgAirCircurlationMode = (ImageView) findViewById(R.id.img_air_circurlation_mode);
-		mImgBlowMode = (ImageView) findViewById(R.id.img_blow_mode);
-		
-	}
-	
-	/**更新Can相关UI*/
-	private void refreshCanViews() {
-		CanInfoParcel canInfo = CanManager.getInstace().getCanInfo();
-		mTvCanAuto.setSelected(canInfo.isAutoHighWind());
-		
-		mTvLeftTemperature.setText("" + canInfo.getTemperature());
-		mTvAirWindLevel.setText("" + canInfo.getMwindSpeed());
-		mTvAirWindLevel.setText("" + canInfo.getMwindSpeed());
-		mImgAirCircurlationMode.setBackgroundResource(getAirCircurlationModeImgId(canInfo.getAirCircurlationMode()));
-		mImgBlowMode.setBackgroundResource(getBlowModeImgId(canInfo.getMblowMode()));
-	}
-	
-		// 车内空气循环模式
-//		public final static List list = Arrays.asList("elment1", "element2");    
-		
-		/**吹风模式*/
-		private final Map<Integer, Integer> mBlowMode = new HashMap<Integer, Integer>(){
-			//匿名构造函数
-			{
-				put(0, R.drawable.blow_mode_head);
-				put(1, R.drawable.blow_mode_all);
-				put(2, R.drawable.blow_mode_foot);
-			}
-		};
-		
-		/**车内空气循环模式*/
-		private final Map<Integer, Integer> AirCircurlationMode = new HashMap<Integer, Integer>(){
-			//匿名构造函数
-			{
-				put(0, R.drawable.air_circurlation_mode_in);
-				put(1, R.drawable.air_circurlation_mode_out);
-			}
-		};
-	
-	private int getAirCircurlationModeImgId(int circurlationMode) {
-		Integer value = AirCircurlationMode.get(circurlationMode);
-		if (value != null){
-			return value;
-		}
-		return R.drawable.air_circurlation_mode_in;
-	}
-	
-	private int getBlowModeImgId(int blowMode) {
-		Integer value = mBlowMode.get(blowMode);
-		if (value != null){
-			return value;
-		}
-		return R.drawable.blow_mode_head;
-	}
-
-	/**初始化Activity Views*/
+	/**
+	 * 初始化主屏布局
+	 */
 	private void initMainViews() {
 		
 		mLayoutBg = (LinearLayout) findViewById(R.id.layout_bg);
@@ -396,8 +228,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			public void itemClick(View view, int pos) {
 				if (!mItemControl.onItemKeyDown(MainActivity.this, pos))
 				{
-					Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(pos).getItemText(),
-							Toast.LENGTH_SHORT).show();	
+//					Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(pos).getItemText(),
+//							Toast.LENGTH_SHORT).show();	
 				}
 			}
 
@@ -423,20 +255,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		
 	}
 	
-	private void initWidgetViews(){
-		mLayoutRadio = (LinearLayout) findViewById(R.id.layout_radio);
-		mLayoutRadio.setOnClickListener(this);
-		mRadioTitle = (TextView) findViewById(R.id.radio_title);
-		mRadioCurFreq = (TextView) findViewById(R.id.radio_curfreq);
-		
-		mLayoutMusic = (LinearLayout) findViewById(R.id.layout_music);
-		mLayoutMusic.setOnClickListener(this);
-		mMusicTitle = (TextView) findViewById(R.id.music_title);
-		mMusicArtist = (TextView) findViewById(R.id.music_artist);
-		
-	}
-
-	/**初始化副屏 Views*/
+	/**
+	 * 初始化副屏 Views
+	 */
 	private void initSubMainViews() {
 		
 		mSubScreenPageIndexs.add((ImageView) findViewById(R.id.sub_main_page_index1));
@@ -453,7 +274,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		mSubScreenPager.setOnPageChangeListener(mPageChangeListener);
 	}
 	
-	/**锁屏*/
+	/**
+	 * 锁屏功能
+	 */
 	private void initLockViews() {
 		mLock = (Button) findViewById(R.id.lock);
 		setLockState(PreferenceUtils.getBoolean(GlobalData.KEY_LOCK, false), true);
@@ -475,56 +298,44 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 //		});
 	}
 	
-	private void toggleLock(){
-		if (mLock.isSelected()){
-			setLockState(false, true);
-		}
-		else{
-			setLockState(true, true);
-		}
-	}
-	
 	/**
-	 * 
-	 * @param lockState	加锁状态
-	 * @param save 是否保存（加广播）
+	 * 初始化媒体信息Widget布局
 	 */
-	private void setLockState(boolean lockState, boolean save){
-		if (mLock != null){
-			mLock.setSelected(lockState);
-		}
-		if (save){
-			PreferenceUtils.putBoolean(GlobalData.KEY_LOCK, lockState);
-			sendLockBroadcast(lockState);
-		}
+	private void initMediaWidgetViews(){
+		mLayoutRadio = (LinearLayout) findViewById(R.id.layout_radio);
+		mLayoutRadio.setOnClickListener(this);
+		mRadioTitle = (TextView) findViewById(R.id.radio_title);
+		mRadioCurFreq = (TextView) findViewById(R.id.radio_curfreq);
+		
+		mLayoutMusic = (LinearLayout) findViewById(R.id.layout_music);
+		mLayoutMusic.setOnClickListener(this);
+		mMusicTitle = (TextView) findViewById(R.id.music_title);
+		mMusicArtist = (TextView) findViewById(R.id.music_artist);
+		mMusicID3Pic = (ImageView) findViewById(R.id.music_id3pic);
+		
+		mLayoutLoading = (LinearLayout) findViewById(R.id.layout_media_loading);
+		
 	}
-	private void sendLockBroadcast(boolean lock){
-		Intent it = new Intent();
-		it.setAction(GlobalData.ACTION_LOCK);
-		it.putExtra("lock", lock);
-		this.sendBroadcast(it);
-	}
-	
-	private android.support.v4.view.ViewPager.OnPageChangeListener mPageChangeListener = new android.support.v4.view.ViewPager.OnPageChangeListener() {
-		
-		@Override
-		public void onPageSelected(int page) {
-			refreshSubScreenPageIndexViews(page);
-		}
-		
-		@Override
-		public void onPageScrolled(int arg0, float arg1, int arg2) {
-			
-		}
-		
-		@Override
-		public void onPageScrollStateChanged(int arg0) {
-			
-		}
-	};
 
-	
-	/**更新页码指示*/
+	/**
+	 * 初始化时间widget布局
+	 */
+	private void initTimeWidgetView() {
+		mTimeData = (TextView) findViewById(R.id.time_data);
+		mTimeData.setTypeface(FontsUtils.getExpansivaTypeface(this));
+		mTimeTime = (TextView) findViewById(R.id.time_time);
+		mTimeTime.setTypeface(FontsUtils.getExpansivaTypeface(this));
+		refreshTimeView();
+		mHandler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				refreshTimeView();
+				mHandler.postDelayed(this, 1000);
+			}
+		}, 1000);
+	}
+
+	/**更新主屏页码指示*/
 	private void refreshMainScreenPageIndexViews(int page){
 		if (mMainScreenPageIndexs == null){
 			return;
@@ -565,6 +376,84 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		}
 	}
 	
+	/**
+	 * 更新媒体widget信息
+	 * @param type 
+	 */
+	private void refreshMediaWidget(int type){
+		switch (type) {
+		case GlobalData.MEDIA_WIDGET_TYPE_RADIO:
+			setMediaWidgetRadio();
+			break;
+		case GlobalData.MEDIA_WIDGET_TYPE_MUSIC:
+			setMediaWidgetMusic();
+			break;
+		default:
+			setMediaWidgetLoading();
+			break;
+		}
+	}
+	
+	private void setMediaWidgetRadio(){
+		mLayoutMusic.setVisibility(View.GONE);
+		mLayoutLoading.setVisibility(View.GONE);
+		mLayoutRadio.setVisibility(View.VISIBLE);
+		mRadioTitle.setText("FM城市之音");
+		mRadioCurFreq.setText(getRadioFreqStr(GlobalData.Radio.CUR_FREQ));
+	}
+	
+	private String getRadioFreqStr(String freqStr){
+		String result = null;
+		try {
+			Integer freq = Integer.valueOf(freqStr);
+			if (freq > 1700){
+				result = "" + freq/100 + "." + (freq%100)/10 + "" + freq%10 + "MHz";
+			}
+			else{
+				result = "" + freq + "KHz";
+			}
+		} catch (Exception e) {
+		}
+			return result;
+	}
+	
+	private void setMediaWidgetMusic(){
+		mLayoutRadio.setVisibility(View.GONE);
+		mLayoutLoading.setVisibility(View.GONE);
+		mLayoutMusic.setVisibility(View.VISIBLE);
+		mMusicTitle.setText(GlobalData.Music.TITLE);
+		mMusicArtist.setText(GlobalData.Music.ARTISE);
+		if (mLoadID3Pic == null){
+			mLoadID3Pic = new LoadID3Pic();
+		}
+		L.startTime("解析ID3信息");
+		mLoadID3Pic.displayImage(GlobalData.Music.CUR_PLAY_PATH, mMusicID3Pic, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+		L.endUseTime("解析ID3信息");
+	}
+	
+	private void setMediaWidgetLoading(){
+		mLayoutLoading.setVisibility(View.VISIBLE);
+		mLayoutMusic.setVisibility(View.GONE);
+		mLayoutRadio.setVisibility(View.GONE);
+	}
+	/**
+	 * 刷新时间widget
+	 */
+	private void refreshTimeView(){
+		SimpleDateFormat formatter = new SimpleDateFormat ("yyyy.MM.dd-HH:mm");       
+		Date curDate = new Date(System.currentTimeMillis());//获取当前时间       
+		String str = formatter.format(curDate);
+		String[] strs = str.split("-");
+		if (mTimeData != null){
+			mTimeData.setText(strs[0]);
+		}
+		if (mTimeTime != null){
+			mTimeTime.setText(strs[1]);
+		}
+	}
+	
+/**********事件处理***********/	
+	
 	@Override
 	public void onClick(View v) {
 		//TODO 按键处理
@@ -574,24 +463,24 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			item = mLeftItemCtrl.getLeftItemInfo().get(0);
 			if (!mItemControl.onItemKeyDown(MainActivity.this, item))
 			{
-				Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(item).getItemText(),
-						Toast.LENGTH_SHORT).show();	
+//				Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(item).getItemText(),
+//						Toast.LENGTH_SHORT).show();	
 			}
 			break;
 		case R.id.left_item2:
 			item = mLeftItemCtrl.getLeftItemInfo().get(1);
 			if (!mItemControl.onItemKeyDown(MainActivity.this, item))
 			{
-				Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(item).getItemText(),
-						Toast.LENGTH_SHORT).show();	
+//				Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(item).getItemText(),
+//						Toast.LENGTH_SHORT).show();	
 			}
 			break;
 		case R.id.left_item3:
 			item = mLeftItemCtrl.getLeftItemInfo().get(2);
 			if (!mItemControl.onItemKeyDown(MainActivity.this, item))
 			{
-				Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(item).getItemText(),
-						Toast.LENGTH_SHORT).show();	
+//				Toast.makeText(getApplicationContext(), mItemControl.getItemInfos().get(item).getItemText(),
+//						Toast.LENGTH_SHORT).show();	
 			}
 		case R.id.layout_radio:
 			new RadioCommand().execute(this);
@@ -603,17 +492,79 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			break;
 		}
 	}
+	
+	private void toggleLock(){
+		if (mLock.isSelected()){
+			setLockState(false, true);
+		}
+		else{
+			setLockState(true, true);
+		}
+	}
+	
+	/**
+	 * @param lockState	加锁状态
+	 * @param save 是否保存（加广播）
+	 */
+	private void setLockState(boolean lockState, boolean save){
+		if (mLock != null){
+			mLock.setSelected(lockState);
+		}
+		if (save){
+			PreferenceUtils.putBoolean(GlobalData.KEY_LOCK, lockState);
+			sendLockBroadcast(lockState);
+		}
+	}
+	
+	/**
+	 * 发送加锁广播
+	 * @param lock
+	 */
+	private void sendLockBroadcast(boolean lock){
+		Intent it = new Intent();
+		it.setAction(GlobalData.ACTION_LOCK);
+		it.putExtra("lock", lock);
+		this.sendBroadcast(it);
+	}
 
-	class UiHandle extends Handler{
+/**********私有类***********/
+	
+	private android.support.v4.view.ViewPager.OnPageChangeListener mPageChangeListener = new android.support.v4.view.ViewPager.OnPageChangeListener() {
+		
 		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case GlobalData.REFRESH_CAN_UI:
-				Log.i(TAG, "Launcher更新Can信息" + CanManager.getInstace().getCanInfo());
-				refreshCanViews();
+		public void onPageSelected(int page) {
+			refreshSubScreenPageIndexViews(page);
+		}
+		
+		@Override
+		public void onPageScrolled(int arg0, float arg1, int arg2) {
+			
+		}
+		
+		@Override
+		public void onPageScrollStateChanged(int arg0) {
+			
+		}
+	};
+	
+	private UpdateViewCallback mUpdateViewCallback = new UpdateViewCallback() {
+		
+		@Override
+		public void onUpdate(int cmd) {
+			switch (cmd) {
+			case UpdateUiManager.CMD_UPDATE_RADIO_INFO:
+				refreshMediaWidget(GlobalData.MediaWidgetType);
+				break;
+			case UpdateUiManager.CMD_UPDATE_MUSIC_INFO:
+				refreshMediaWidget(GlobalData.MediaWidgetType);
 				break;
 			}
 		}
+	};
+
+	@Override
+	protected UpdateViewCallback getUpdateViewCallback() {
+		return mUpdateViewCallback;
 	}
 	
 }

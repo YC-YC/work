@@ -3,6 +3,9 @@
  */
 package com.zhonghong.utils;
 
+import java.util.HashMap;
+import java.util.Iterator;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -59,8 +62,8 @@ public class Utils {
 	public static final String ZH_CARLIFE_PKG = " ";
 	public static final String ZH_CARLIFE_CLZ = " ";
 	/**扩展包名，类名*/
-	public static final String ZH_EXTEND_PKG = " ";
-	public static final String ZH_EXTEND_CLZ = " ";
+	public static final String ZH_EXTEND_PKG = "com.zhonghong.expandapps";
+	public static final String ZH_EXTEND_CLZ = "com.zhonghong.expandapps.ui.activity.MainActivity";
 	/**LED包名，类名*/
 	public static final String ZH_LED_PKG = " ";
 	public static final String ZH_LED_CLZ = " ";
@@ -80,4 +83,19 @@ public class Utils {
 		return false;
 	}
 	
+	
+	/**发送广播*/
+	public static void sendBroadcast(Context context, String action, HashMap<String, String> extras){
+		Intent it = new Intent();
+		if (action != null)
+			it.setAction(action);
+		if (extras != null){
+			Iterator<String> iterator = extras.keySet().iterator();
+			while(iterator.hasNext()){
+				String key = iterator.next();
+				it.putExtra(key, extras.get(key));
+			}
+		}
+		context.sendBroadcast(it);
+	}
 }

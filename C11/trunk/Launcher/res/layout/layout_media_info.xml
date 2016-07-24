@@ -5,6 +5,14 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/layout_media_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+        <include layout="@layout/widget_loading" />
+    </LinearLayout>
+    
+    <LinearLayout
         android:id="@+id/layout_radio"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

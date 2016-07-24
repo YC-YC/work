@@ -15,6 +15,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -104,6 +105,19 @@ public class ViewHolder {
     }
 
     /**
+     * 设置TextView的文本颜色
+     *
+     * @param viewId item layout 中TextView的id
+     * @param color   颜色值
+     * @return ViewHolder
+     */
+    public ViewHolder setTextColor(int viewId, int color) {
+        TextView textView = getView(viewId);
+        textView.setTextColor(color);
+        return this;
+    }
+    
+    /**
      * 通过url设置ImageView 的图片
      * 这里可以修改为自己的图片加载库
      *
@@ -149,6 +163,21 @@ public class ViewHolder {
         imageView.setImageBitmap(bitmap);
         return this;
     }
+    
+    
+    /**
+     * 通过BackgroundResource 设置ImageView 的图片
+     *
+     * @param viewId item layout 中ImageView的id
+     * @param resourceId  图片资源文件的id
+     * @return ViewHolder
+     */
+    public ViewHolder setBackgroundResource(int viewId, int resourceId) {
+        ImageView imageView = getView(viewId);
+        imageView.setBackgroundResource(resourceId);
+        return this;
+    }
+    
     
     /**
      * 通过Drawable 设置ImageView 的图片
@@ -202,4 +231,27 @@ public class ViewHolder {
      */
 
 
+	/**
+	 * 设置图片的动画效果
+	 * 
+	 * @param viewId item layout 中ImageView的id
+	 * @param animation 动画效果
+	 * @return ViewHolder
+	 */
+	public ViewHolder setImageAnimation(int viewId, Animation animation) {
+		ImageView imageView = getView(viewId);
+		imageView.setAnimation(animation);
+		return this;
+	}
+	
+	/**
+	 * 取消图片动画效果 
+	 * @param viewId item layout 中ImageView的id
+	 * @return ViewHolder
+	 */
+	public ViewHolder clearAnimation(int viewId) {
+		ImageView imageView = getView(viewId);
+		imageView.clearAnimation();
+		return this;
+	}
 }

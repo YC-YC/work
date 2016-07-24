@@ -19,10 +19,9 @@ import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 
+import com.zhonghong.data.GlobalData;
 import com.zhonghong.launcher.R;
 import com.zhonghong.sdk.android.utils.PreferenceUtils;
-import com.zhonghong.utils.GlobalData;
-import com.zhonghong.widget.CircleMenu.OnMenuItemClickListener;
 
 /**
  * 
