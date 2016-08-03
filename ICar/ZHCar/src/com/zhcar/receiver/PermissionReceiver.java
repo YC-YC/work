@@ -46,19 +46,22 @@ public class PermissionReceiver extends BroadcastReceiver {
 	}
 
 	private boolean checkCarFlow(Context context){
-		Uri carInfoUri = Uri.parse("content://cn.com.semisky.carProvider/carInfo");
-		Cursor cursor = context.getContentResolver().query(carInfoUri, null, null, null, null);
+		Cursor cursor = context.getContentResolver().query(CarProviderData.URI_CARINFO, null, null, null, null);
 		if(cursor != null && cursor.moveToNext()){
 			String iccid = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_CARINFO_ICCID));
 			String token = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_CARINFO_TOKEN));
 			if (!Utils.isEmpty(iccid) && !Utils.isEmpty(token)){
 				CarFlowManager.getInstance(context).HttpRequestCarFlow(iccid, token);
 			}
+			cursor.close();
+			cursor = null;
 			return true;
 		}
-		else{
-			return false;
+		if (cursor != null){
+			cursor.close();
+			cursor = null;
 		}
+		return false;
 	}
 
 }

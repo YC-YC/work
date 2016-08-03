@@ -8,6 +8,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,7 +43,6 @@ public class ICallActivity extends UpdateUiBaseActivity implements OnClickListen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		setContentView(R.layout.activity_call);
 		resolver = getContentResolver();
 		initViews();
@@ -115,10 +115,16 @@ public class ICallActivity extends UpdateUiBaseActivity implements OnClickListen
 		Cursor cursor = resolver.query(uri, null, null, null, null);
 		if(cursor != null && cursor.moveToNext()){
 			String kaiyiNum = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_PHONENUM_KAIYI_NUM));
-			Log.i(TAG, "查询结果为：service_num = " + kaiyiNum);
+			Log.i(TAG, "kaiyiNum = " + kaiyiNum);
+			cursor.close();
+			cursor = null;
 			return kaiyiNum;
 			}
 		else{
+			if (cursor != null){
+				cursor.close();
+				cursor = null;
+			}
 			Log.i(TAG, "无查询结果");
 			return null;
 		}

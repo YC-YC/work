@@ -3,17 +3,17 @@
  */
 package com.zhcar.apprecord;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.util.Log;
 
 import com.taimi.utils.SignatureGenerator;
 import com.zhcar.data.AppUseRecord;
-import com.zhcar.data.FlowInfoBean;
 import com.zhcar.data.GlobalData;
+import com.zhcar.provider.CarProviderData;
 import com.zhcar.utils.http.HttpCallback;
 import com.zhcar.utils.http.HttpStatusCallback;
 import com.zhcar.utils.http.HttpUtils;
@@ -28,7 +28,7 @@ public class PostAppRecord implements IPostAppRecord , HttpCallback{
 
 	private static final String POST_APPRECORD_URL = "http://cowindev.timanetwork.com/app-use-record/internal/recordIntel/addRecord?";
 
-	private static final String TAG = "GetFlowLoc";
+	private static final String TAG = "PostAppRecord";
 	
 	private String mAppKey;
 	private String mSign;
@@ -38,6 +38,8 @@ public class PostAppRecord implements IPostAppRecord , HttpCallback{
 	
 	private HttpStatusCallback mHttpStatusCallback;
 	
+	private String VIN;
+	private String TOKEN;
 	
 	public PostAppRecord(){
 		mJsonHelper = new JsonHelper();
@@ -45,6 +47,7 @@ public class PostAppRecord implements IPostAppRecord , HttpCallback{
 	
 	@Override
 	public void SetInfo(AppUseRecord recordInfo) {
+		queryCarinfo();
 		this.mAppKey = GlobalData.AppKey;
 		this.mSign = getSignStr();
 		this.recordInfo = recordInfo;
@@ -57,8 +60,6 @@ public class PostAppRecord implements IPostAppRecord , HttpCallback{
         String sign = null;
         try {
 			sign = SignatureGenerator.generate(urlResourcePart, params, GlobalData.SecretKey);
-//			Log.i(TAG, "generate signedStr = " + sign);
-			
         } catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -108,7 +109,18 @@ public class PostAppRecord implements IPostAppRecord , HttpCallback{
 		}
 	}
 
-	
+	private void queryCarinfo() {
+		ContentResolver resolver = GlobalData.mContext.getContentResolver();
+		Cursor cursor = resolver.query(CarProviderData.URI_CARINFO, null, null, null, null);
+		if(cursor != null && cursor.moveToNext()){
+			VIN = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_CARINFO_VIN));
+			TOKEN = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_CARINFO_TOKEN));
+			}
+		if (cursor != null){
+			cursor.close();
+			cursor = null;
+		}
+	}
 	
 	
 }

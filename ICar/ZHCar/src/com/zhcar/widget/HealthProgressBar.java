@@ -146,7 +146,6 @@ public class HealthProgressBar extends ProgressBar {
 		mUnReachBarColor = a.getColor(
 				R.styleable.HealthPorgressBar_unreach_bar_color,
 				mUnReachBarColor);
-		Log.i(TAG, "mUnReachBarColor = " + mUnReachBarColor);
 		
 		mUnReachBarWidth = (int) a.getDimension(
 				R.styleable.HealthPorgressBar_unreach_bar_width,
@@ -158,7 +157,6 @@ public class HealthProgressBar extends ProgressBar {
 				color1);
 		int color3 = a.getColor(R.styleable.HealthPorgressBar_reach_bar_color3,
 				color1);
-		Log.i(TAG, "color1 = " + color1 + ", color2 = " + color2 + ", color3 = " + color3);
 		colors = new int[] { color1, color2, color3, color3 };
 		mReachBarWidth = (int) a.getDimension(
 				R.styleable.HealthPorgressBar_reach_bar_width, mReachBarWidth);
@@ -209,7 +207,7 @@ public class HealthProgressBar extends ProgressBar {
 					* mRadiu + 1 * paintWidth;
 			widthMeasureSpec = MeasureSpec.makeMeasureSpec(exceptWidth,
 					MeasureSpec.EXACTLY);
-			Log.i(TAG, "onMeasure exceptWidth = " + exceptWidth);
+//			Log.i(TAG, "onMeasure exceptWidth = " + exceptWidth);
 
 		}
 
@@ -218,10 +216,10 @@ public class HealthProgressBar extends ProgressBar {
 					* mRadiu + 1 * paintWidth;
 			heightMeasureSpec = MeasureSpec.makeMeasureSpec(exceptHeight,
 					MeasureSpec.EXACTLY);
-			Log.i(TAG, "onMeasure exceptHeight = " + exceptHeight);
+//			Log.i(TAG, "onMeasure exceptHeight = " + exceptHeight);
 		}
-		Log.i(TAG, "onMeasure widthMeasureSpec = " + widthMeasureSpec
-				+ ", heightMeasureSpec = " + heightMeasureSpec);
+//		Log.i(TAG, "onMeasure widthMeasureSpec = " + widthMeasureSpec
+//				+ ", heightMeasureSpec = " + heightMeasureSpec);
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		// 圆心
 		centerX = getMeasuredWidth() / 2;

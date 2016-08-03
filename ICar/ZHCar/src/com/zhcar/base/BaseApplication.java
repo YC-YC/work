@@ -3,17 +3,12 @@
  */
 package com.zhcar.base;
 
-import com.zhcar.carflow.CarFlowManager;
-import com.zhcar.provider.CarProviderData;
-
 import android.app.Application;
-import android.content.ContentResolver;
-import android.database.ContentObservable;
-import android.database.ContentObserver;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Handler;
 import android.util.Log;
+
+import com.yc.external.GetAppRecordInfo;
+import com.zhcar.carflow.CarFlowManager;
+import com.zhcar.data.GlobalData;
 
 /**
  * @author YC
@@ -24,13 +19,21 @@ public class BaseApplication extends Application {
 
 	private static final String TAG = "ZhCarApplication";
 	
-	private ContentResolver resolver;
+	private static BaseApplication instanse;
+	private GetAppRecordInfo mGetAppRecordInfo;
 	
 	@Override
 	public void onCreate() {
 		Log.i(TAG, "onCreate");
 		super.onCreate();
+		instanse = this;
+		GlobalData.mContext = this;
+		mGetAppRecordInfo = new GetAppRecordInfo(this);
 		CarFlowManager.getInstance(this);
+	}
+	
+	public static BaseApplication getInstanse(){
+		return instanse;
 	}
 	
 

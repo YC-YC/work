@@ -11,11 +11,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.InputEvent;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.zhcar.R;
@@ -23,12 +21,10 @@ import com.zhcar.apprecord.RecordManager;
 import com.zhcar.carflow.CarFlowManager;
 import com.zhcar.carflow.GetFlowLoc;
 import com.zhcar.data.AppUseRecord;
-import com.zhcar.data.FlowInfoBean;
 import com.zhcar.data.GlobalData;
 import com.zhcar.dialog.DialogManager;
 import com.zhcar.provider.CarProviderData;
 import com.zhcar.utils.GPRSManager;
-import com.zhcar.utils.http.HttpStatusCallback;
 
 public class MainActivity extends Activity {
 
@@ -112,7 +108,7 @@ public class MainActivity extends Activity {
 			deleteCarinfoProvider();
 			break;
 		case R.id.showdialog:
-			DialogManager.getInstance().showCarFlowDialog(this, "您的当月可用流量还剩400M，可至T服务套餐购买APP购买相关套餐增加流量。如流量超限造成断网，请连接WIFI或登录车主网站购买。");
+			DialogManager.getInstance().showCarFlowDialog(this, "您的当月可用流量还剩400M，可点击T服务购买按钮购买相关套餐增加流量。*如流量超限造成断网，请连接WIFI或登录车主网站购买。");
 			break;
 		case R.id.postrecord:
 //			if (ICCID != null && !ICCID.isEmpty() && TOKEN != null && !TOKEN.isEmpty())
@@ -120,7 +116,7 @@ public class MainActivity extends Activity {
 				SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");       
 				Date curDate = new Date(System.currentTimeMillis());//获取当前时间       
 				String str = formatter.format(curDate);
-				RecordManager.getInstance().HttpPostAppRecord(new AppUseRecord("1", "2", "3", "4", "5", "6", "7", "8", "2016-07-22 10:00:00", str, "11"));
+				RecordManager.getInstance().HttpPostAppRecord(new AppUseRecord("1", "2", "3", "4", "5","2016-07-22 10:00:00", str, "6"));
 			}
 			break;
 		case R.id.switch_gprs:
@@ -155,9 +151,21 @@ public class MainActivity extends Activity {
 				CarFlowManager.getInstance(this).HttpRequestCarFlow(ICCID, TOKEN);
 			}
 			break;
+		case R.id.getimei:
+			getIMEI();
+			break;
 		default:
 			break;
 		}
+	}
+	
+	/**
+	 * 获取3G模块的IMEI
+	 */
+	private void getIMEI(){
+		String Imei = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
+				.getDeviceId();
+		Log.i(TAG, "getIMEI imei = " + Imei);
 	}
 
 	private void insertCarinfoProvider() {
@@ -187,11 +195,14 @@ public class MainActivity extends Activity {
 			Log.i(TAG, "查询carinfo结果为：vin = " + VIN + ", sn = " + SN 
 					+ ", imei = " + IMEI + ", iccid = " + ICCID + ", token = " + TOKEN);
 			}
-		else{
-			if (cursor == null){
-				Log.i(TAG, "无查询结果为null");
-			}
+
+		if (cursor != null){
+			cursor.close();
+			cursor = null;
 			Log.i(TAG, "无查询结果");
+		}
+		else{
+			Log.i(TAG, "无查询结果为null");
 		}
 	}
 	
@@ -238,8 +249,13 @@ public class MainActivity extends Activity {
 					+ ", NaviNum = " + NaviNum + ", emergencyNum1 = " + emergencyNum1 + ", emergencyNum2 = " + emergencyNum2
 					+ ", emergencyTime = " + emergencyTime + ", serviceNum = " + serviceNum);
 			}
-		else{
+		if (cursor != null){
+			cursor.close();
+			cursor = null;
 			Log.i(TAG, "无查询结果");
+		}
+		else{
+			Log.i(TAG, "无查询结果为null");
 		}
 	}
 	
@@ -266,7 +282,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void queryPermissionProvider() {
-		Cursor cursor = resolver.query(permissionUri, null, null, null, null);
+		/*Cursor cursor = resolver.query(permissionUri, null, null, null, null);
 		if(cursor != null && cursor.moveToNext()){
 			int permission = cursor.getInt(cursor.getColumnIndex(CarProviderData.KEY_PERMISSION_ABLE));
 			
@@ -274,7 +290,7 @@ public class MainActivity extends Activity {
 			}
 		else{
 			Log.i(TAG, "无查询结果");
-		}
+		}*/
 	}
 	
 	private void updatePermissionProvider() {
@@ -294,6 +310,14 @@ public class MainActivity extends Activity {
 		}
 		else{
 			resolver.insert(flowUri, values);
+		}
+		if (cursor != null){
+			cursor.close();
+			cursor = null;
+			Log.i(TAG, "无查询结果");
+		}
+		else{
+			Log.i(TAG, "无查询结果为null");
 		}
 	}
 	

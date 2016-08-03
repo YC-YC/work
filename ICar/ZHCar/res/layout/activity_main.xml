@@ -75,6 +75,13 @@
             android:layout_weight="1"
             android:onClick="doClick"
             android:text="开关数据流量" />
+        <Button
+            android:id="@+id/getimei"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="获取IMEI" />
     </LinearLayout>
     
 </LinearLayout>

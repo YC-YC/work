@@ -3,31 +3,15 @@
  */
 package com.zhcar.apprecord;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.ContentObserver;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.zhcar.R;
-import com.zhcar.carflow.GetFlowLoc;
 import com.zhcar.data.AppUseRecord;
-import com.zhcar.data.FlowInfoBean;
-import com.zhcar.data.GlobalData;
-import com.zhcar.dialog.DialogManager;
-import com.zhcar.provider.CarProviderData;
-import com.zhcar.utils.GPRSManager;
-import com.zhcar.utils.Utils;
 import com.zhcar.utils.http.HttpStatusCallback;
 
 /**
  * @author YC
  * @time 2016-7-20 下午4:37:57
- * TODO:上传应用管理类
+ * TODO:http上传应用信息管理类
  */
 public class RecordManager {
 

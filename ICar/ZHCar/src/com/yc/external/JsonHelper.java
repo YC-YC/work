@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.zhcar.utils.http;
+package com.yc.external;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -114,7 +114,7 @@ public class JsonHelper {
 		}
 */
 		
-//		Log.i(TAG, "Get result = " + resultMap.toString());
+		Log.i(TAG, "Get result = " + resultMap.toString());
 		return resultMap;
 	}
 	

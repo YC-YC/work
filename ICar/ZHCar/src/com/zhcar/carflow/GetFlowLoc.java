@@ -61,7 +61,7 @@ public class GetFlowLoc implements GetFlowAbs , HttpCallback{
         String sign = null;
         try {
 			sign = SignatureGenerator.generate(urlResourcePart, params, GlobalData.SecretKey);
-			Log.i(TAG, "generate signedStr = " + sign);
+//			Log.i(TAG, "generate signedStr = " + sign);
 			
         } catch (Exception e) {
 			e.printStackTrace();

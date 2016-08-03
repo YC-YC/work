@@ -13,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="60dp"
         android:max="100"
-        android:progress="70"
+        android:progress="0"
         custom:content_margintitle="10dp"
         custom:content_text_color="#FFFFFF"
         custom:content_text_size="55sp"
@@ -26,12 +26,12 @@
         custom:small_circle_radius="180dp"
         custom:small_circle_width="6dp"
         custom:startangle="135"
-        custom:title="健康指数"
+        custom:title="@string/healthy_title"
         custom:title_margintop="150dp"
         custom:title_text_color="#FFFFFF"
         custom:title_text_size="40sp"
         custom:totalangle="270"
-        custom:unit="分"
+        custom:unit="@string/healthy_unit"
         custom:unreach_bar_color="#FFFFFF"
         custom:unreach_bar_width="10dp" />
 

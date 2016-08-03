@@ -3,12 +3,15 @@
  */
 package com.zhcar.data;
 
+import android.content.Context;
+
 /**
  * @author YC
  * @time 2016-7-7 下午5:59:52
  * TODO:共用的数据
  */
 public class GlobalData {
+	public static Context mContext;
 	/**鉴权状态*/
 	public static boolean bPermissionStatus = false;
 	

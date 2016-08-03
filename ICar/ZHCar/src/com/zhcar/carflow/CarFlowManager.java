@@ -30,7 +30,6 @@ import com.zhcar.utils.http.HttpStatusCallback;
 public class CarFlowManager {
 
 	private static final String TAG = "CarFlow";
-	private final Uri flowUri = Uri.parse("content://cn.com.semisky.carProvider/flowInfo");
 	private GetFlowLoc mGetFlowLoc;
 	
 	private Context mContext;
@@ -84,12 +83,16 @@ public class CarFlowManager {
 		values.put(CarProviderData.KEY_FLOWINFO_CURRFLOWTATAL, GlobalData.flowInfo.getCurrFlowTotal());
 		values.put(CarProviderData.KEY_FLOWINFO_USEFLOW, GlobalData.flowInfo.getUseFlow());
 		values.put(CarProviderData.KEY_FLOWINFO_SURPLUSFLOW, GlobalData.flowInfo.getSurplusFlow());
-		Cursor cursor = mResolver.query(flowUri, null, null, null, null);
+		Cursor cursor = mResolver.query(CarProviderData.URI_FLOWINFO, null, null, null, null);
 		if(cursor != null && cursor.moveToNext()){
-			int row = mResolver.update(flowUri, values, null, null);
+			int row = mResolver.update(CarProviderData.URI_FLOWINFO, values, null, null);
 		}
 		else{
-			mResolver.insert(flowUri, values);
+			mResolver.insert(CarProviderData.URI_FLOWINFO, values);
+		}
+		if (cursor != null){
+			cursor.close();
+			cursor = null;
 		}
 	}
 	
@@ -99,7 +102,7 @@ public class CarFlowManager {
 	 * @return
 	 */
 	private boolean queryFlowInfo() {
-		Cursor cursor = mResolver.query(flowUri, null, null, null, null);
+		Cursor cursor = mResolver.query(CarProviderData.URI_FLOWINFO, null, null, null, null);
 		if(cursor != null && cursor.moveToNext()){
 			String totalStr = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_FLOWINFO_CURRFLOWTATAL));
 			String usedStr = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_FLOWINFO_USEFLOW));
@@ -108,11 +111,14 @@ public class CarFlowManager {
 			
 			Log.i(TAG, "查询流量结果为：totalStr = " + totalStr + ", usedStr = " + usedStr 
 					+ ", surplusStr = " + surplusStr + ", remindValStr = " + remindValStr);
+			cursor.close();
+			cursor = null;
 			return true;
 		}
 		else{
-			if (cursor == null){
-				Log.i(TAG, "无查询结果为null");
+			if (cursor != null){
+				cursor.close();
+				cursor = null;
 			}
 			Log.i(TAG, "无查询结果");
 			return false;
@@ -122,7 +128,7 @@ public class CarFlowManager {
 	private CarFlowManager(Context context){
 		mContext = context.getApplicationContext();
 		mResolver = mContext.getContentResolver();
-		mResolver.registerContentObserver(flowUri, true, new FlowObserver(new Handler(){}));
+		mResolver.registerContentObserver(CarProviderData.URI_FLOWINFO, true, new FlowObserver(new Handler(){}));
 		
 	}
 	

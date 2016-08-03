@@ -23,6 +23,7 @@ import android.util.Log;
 public class DBContext extends ContextWrapper {
 
 	private static final String TAG = "DBContext";
+	private static final String DIR_PATH = "/ResidentFlash/zhdatabase";
 
 	/**
 	 * @param base
@@ -36,16 +37,17 @@ public class DBContext extends ContextWrapper {
 	 */
 	@Override
 	public File getDatabasePath(String name) {
-		boolean sdExit = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
-		if (!sdExit){
-			return null;
-		}
+//		boolean sdExit = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+//		if (!sdExit){
+//			return null;
+//		}
 		
-		String dbDir = Environment.getExternalStorageDirectory().toString();
-		dbDir += (File.separator + "zhdatabase");
-		String dbPath = dbDir + (File.separator + name);
+//		String dbDir = Environment.getExternalStorageDirectory().toString();
+//		dbDir += (File.separator + "zhdatabase");\
+		
+		String dbPath = DIR_PATH + (File.separator + name);
 //		Log.i(TAG, "new dbPath = " + dbPath);
-		File dirFile = new File(dbDir);
+		File dirFile = new File(DIR_PATH);
 		if (!dirFile.exists()){
 			dirFile.mkdirs();
 		}

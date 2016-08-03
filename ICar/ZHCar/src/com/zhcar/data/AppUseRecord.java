@@ -11,15 +11,10 @@ import java.util.HashMap;
  * TODO:App使用信息
  */
 public class AppUseRecord {
-	private String id;
 	/**车辆vin码*/
 	private String vin;
 	/**应用程序名称*/
 	private String appName;
-	/**购车经销商代码*/
-	private String dealerCode;
-	/**购车经销商名称*/
-	private String dealerName;
 	/**应用程序使用状态（连接SP服务成功或者失败）*/
 	private String appStatus;
 	/**应用程序栏目（应用程序下的节目名称和音乐名称）*/
@@ -37,16 +32,27 @@ public class AppUseRecord {
 		
 	}
 
-	public AppUseRecord(String id, String vin, String appName,
-			String dealerCode, String dealerName, String appStatus,
+	/**
+	 * 必填值
+	 * @param vin
+	 * @param appStatus
+	 * @param type
+	 */
+	public AppUseRecord(String vin, String appStatus, String type) {
+		super();
+		this.vin = vin;
+		this.appStatus = appStatus;
+		this.type = type;
+	}
+
+
+
+	public AppUseRecord(String vin, String appName, String appStatus,
 			String appProgram, String appProgramAuth, String startTime,
 			String endTime, String type) {
 		super();
-		this.id = id;
 		this.vin = vin;
 		this.appName = appName;
-		this.dealerCode = dealerCode;
-		this.dealerName = dealerName;
 		this.appStatus = appStatus;
 		this.appProgram = appProgram;
 		this.appProgramAuth = appProgramAuth;
@@ -55,12 +61,6 @@ public class AppUseRecord {
 		this.type = type;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
 
 	/**
 	 * @return the vin
@@ -74,20 +74,6 @@ public class AppUseRecord {
 	 */
 	public String getAppName() {
 		return appName;
-	}
-
-	/**
-	 * @return the dealerCode
-	 */
-	public String getDealerCode() {
-		return dealerCode;
-	}
-
-	/**
-	 * @return the dealerName
-	 */
-	public String getDealerName() {
-		return dealerName;
 	}
 
 	/**
@@ -133,13 +119,6 @@ public class AppUseRecord {
 	}
 
 	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
 	 * @param vin the vin to set
 	 */
 	public void setVin(String vin) {
@@ -151,20 +130,6 @@ public class AppUseRecord {
 	 */
 	public void setAppName(String appName) {
 		this.appName = appName;
-	}
-
-	/**
-	 * @param dealerCode the dealerCode to set
-	 */
-	public void setDealerCode(String dealerCode) {
-		this.dealerCode = dealerCode;
-	}
-
-	/**
-	 * @param dealerName the dealerName to set
-	 */
-	public void setDealerName(String dealerName) {
-		this.dealerName = dealerName;
 	}
 
 	/**
@@ -211,11 +176,8 @@ public class AppUseRecord {
 
 	public HashMap<String, String> toMap() {
 		HashMap<String, String> maps = new HashMap<String, String>();
-		maps.put("id", id);
 		maps.put("vin", vin);
 		maps.put("appName", appName);
-		maps.put("dealerCode", dealerCode);
-		maps.put("dealerName", dealerName);
 		maps.put("appStatus", appStatus);
 		maps.put("appProgram", appProgram);
 		maps.put("appProgramAuth", appProgramAuth);

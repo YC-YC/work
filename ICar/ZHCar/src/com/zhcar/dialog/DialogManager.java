@@ -12,6 +12,7 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 
 import com.zhcar.R;
+import com.zhcar.utils.Utils;
 
 /**
  * @author YC
@@ -77,6 +78,7 @@ public class DialogManager {
 			switch (v.getId()) {
 			case R.id.carflow_confirm:
 				hideCarFlowDialog();
+				Utils.startOtherActivity(v.getContext(), Utils.ZH_BUY_PKG, Utils.ZH_BUY_CLZ);
 				break;
 			case R.id.carflow_cancle:
 				hideCarFlowDialog();
