@@ -5,10 +5,10 @@ package com.yc.external;
 
 import java.util.HashMap;
 
+import android.util.Log;
+
 import com.zhonghong.data.GlobalData;
 import com.zhonghong.utils.UpdateUiManager;
-
-import android.util.Log;
 
 /**
  * @author YC
@@ -29,7 +29,6 @@ public class PostFromRadio implements IPostFromClient {
 				if (map != null){
 					GlobalData.Radio.TITLE = map.get("title");
 					GlobalData.Radio.CUR_FREQ = map.get("curfreq");
-					GlobalData.MediaWidgetType = GlobalData.MEDIA_WIDGET_TYPE_RADIO;
 					UpdateUiManager.getInstances().callUpdate(UpdateUiManager.CMD_UPDATE_RADIO_INFO);
 				}
 			}

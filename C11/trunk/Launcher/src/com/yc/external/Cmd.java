@@ -16,6 +16,8 @@ public interface Cmd {
 	int POST_RADIO_INFO = 100;
 	int POST_MUSIC_INFO = 101;
 	
+	int POST_INVALUED = 1000;
+	
 	/**
 	 * getInfo cmd
 	 */

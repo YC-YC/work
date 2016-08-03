@@ -8,6 +8,7 @@
         android:id="@+id/layout_media_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:orientation="horizontal" >
         <include layout="@layout/widget_loading" />
     </LinearLayout>
@@ -16,6 +17,7 @@
         android:id="@+id/layout_radio"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:orientation="horizontal" >
 
         <include layout="@layout/widget_radio" />
@@ -25,9 +27,19 @@
         android:id="@+id/layout_music"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:orientation="horizontal" >
 
         <include layout="@layout/widget_music" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_rate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/widget_rate" />
     </LinearLayout>
 
 </LinearLayout>

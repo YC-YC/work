@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="roundprogress_reach_color" format="color" />
+    <attr name="roundprogress_reach_bar_height" format="dimension" />
+    <attr name="roundprogress_unreach_color" format="color" />
+    <attr name="roundprogress_unreach_bar_height" format="dimension" />
+    <attr name="roundprogress_radius" format="dimension" />
+	<attr name="roundprogress_text_size" format="dimension" />
+    <attr name="roundprogress_text_color" format="color" />
+
+    <declare-styleable name="RoundProgress">
+        <attr name="roundprogress_reach_color" />
+        <attr name="roundprogress_reach_bar_height" />
+        <attr name="roundprogress_unreach_color" />
+        <attr name="roundprogress_unreach_bar_height" />
+        <attr name="roundprogress_radius" />
+        <attr name="roundprogress_text_size" />
+        <attr name="roundprogress_text_color" />
+    </declare-styleable>
+
+</resources>

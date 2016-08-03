@@ -5,6 +5,9 @@ package com.yc.external;
 
 import java.util.HashSet;
 
+import com.zhonghong.data.GlobalData;
+import com.zhonghong.utils.UpdateUiManager;
+
 /**
  * @author YC
  * @time 2016-7-15 下午2:44:24
@@ -34,6 +37,9 @@ public class ConnManager implements IPostFromClient {
 			if (external.postInfo(cmd, val))
 				return true;
 		}
+		GlobalData.MediaWidgetType = GlobalData.MEDIA_WIDGET_TYPE_DEFAULT;
+		UpdateUiManager.getInstances().callUpdate(UpdateUiManager.CMD_UPDATE_MUSIC_INFO);
+
 		return false;
 	}
 

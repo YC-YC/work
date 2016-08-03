@@ -21,6 +21,7 @@ import android.zhonghong.mcuservice.McuHardKeyProxy;
 import android.zhonghong.mcuservice.McuManagerService;
 import android.zhonghong.mcuservice.RegistManager.IMcuHardKeyChangedListener;
 import android.zhonghong.mcuservice.SettingsProxy;
+import android.zhonghong.mcuservice.SystemProxy;
 
 import com.zhonghong.logic.data.GlobalData;
 import com.zhonghong.recordinfo.RecordAppManager;
@@ -140,7 +141,7 @@ public class MainLogic implements IMain{
 				@Override
 				public void run() {
 					int keycode = hardkey.getKeyCode();
-					Log.i(TAG, "mcu info key = " + keycode);
+//					Log.i(TAG, "mcu info key = " + keycode);
 					switch (keycode) {
 					case McuHardKeyInfo.KEYCODE_BACK:
 						SettingsUtils.sendSyskey(KeyEvent.KEYCODE_BACK);

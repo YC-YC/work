@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="420dp"
+    android:layout_height="100dp"
+    android:background="@drawable/rate_bg"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="370dp"
+        android:layout_height="100dp"
+        android:gravity="right"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/rate_checked_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="45sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="20dp"
+            android:text="次/分钟"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/rate_checked_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/rate_checked_more" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="@drawable/rate_load_bg" >
+
+        <Button
+            android:id="@+id/rate_checked_recheck"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:background="@drawable/rate_checked_recheck" />
+
+        <TextView
+            style="@style/RateBlueText"
+            android:layout_width="55sp"
+            android:layout_height="55sp"
+            android:text="重新检测"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+</FrameLayout>

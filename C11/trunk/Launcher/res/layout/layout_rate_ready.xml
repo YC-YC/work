@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="420dp"
+    android:layout_height="100dp"
+    android:background="@drawable/rate_bg"
+    android:orientation="horizontal" >
+
+    <FrameLayout
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        
+        android:background="@drawable/rate_load_bg" >
+
+        <ProgressBar
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:indeterminateDrawable="@anim/rate_ready_loading" />
+    
+        <TextView
+            android:id="@+id/rate_ready_resttime"
+            android:text="3" 
+            style="@style/RateBlueText"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/RateReadyText"
+            android:text="请不要离开传感器" />
+
+        <TextView
+            style="@style/RateReadyText"
+            android:layout_marginTop="5dp"
+            android:text="准备开始检测..." />
+    </LinearLayout>
+
+</LinearLayout>

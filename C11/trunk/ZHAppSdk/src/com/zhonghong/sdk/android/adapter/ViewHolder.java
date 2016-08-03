@@ -166,15 +166,14 @@ public class ViewHolder {
     
     
     /**
-     * 通过BackgroundResource 设置ImageView 的图片
+     * 通过BackgroundResource 设置view 的图片
      *
-     * @param viewId item layout 中ImageView的id
+     * @param viewId item  中View的id
      * @param resourceId  图片资源文件的id
      * @return ViewHolder
      */
     public ViewHolder setBackgroundResource(int viewId, int resourceId) {
-        ImageView imageView = getView(viewId);
-        imageView.setBackgroundResource(resourceId);
+        getView(viewId).setBackgroundResource(resourceId);
         return this;
     }
     

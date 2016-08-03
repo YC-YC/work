@@ -124,6 +124,14 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginLeft="65dp"
                 android:background="@drawable/lock_selector" />
+             
+             <ImageView 
+                  android:id="@+id/rate_state"
+                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:layout_marginLeft="62dp"
+                android:background="@drawable/rate_state_selector"/>
             
         </LinearLayout>
     </LinearLayout>

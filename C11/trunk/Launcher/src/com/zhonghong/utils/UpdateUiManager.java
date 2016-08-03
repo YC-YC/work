@@ -16,6 +16,7 @@ import android.util.Log;
  */
 public class UpdateUiManager {
 
+	public static final int CMD_UPDATE_DEFAULT = 0;
 	public static final int CMD_UPDATE_RADIO_INFO = 1;
 	public static final int CMD_UPDATE_MUSIC_INFO = 2;
 

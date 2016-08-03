@@ -6,9 +6,9 @@ package com.zhonghong.menuitem;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zhonghong.launcher.R;
-
 import android.content.Context;
+
+import com.zhonghong.launcher.R;
 
 /**
  * @author YC

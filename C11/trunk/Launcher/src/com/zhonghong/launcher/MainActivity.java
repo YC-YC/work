@@ -10,8 +10,10 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,16 +23,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.zhonghong.mcuservice.McuHardKeyInfo;
+import android.zhonghong.mcuservice.McuHardKeyProxy;
+import android.zhonghong.mcuservice.RegistManager.IMcuHardKeyChangedListener;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.yc.external.PostFromMusic;
 import com.yc.external.PostFromRadio;
 import com.zhonghong.base.UpdateUiBaseActivity;
 import com.zhonghong.data.GlobalData;
 import com.zhonghong.leftitem.LeftItemsCtrl;
-import com.zhonghong.lock.LockWndHelper;
-import com.zhonghong.lock.LockWndHelper.OnLockClickListener;
 import com.zhonghong.menuitem.AppstoreCommand;
 import com.zhonghong.menuitem.BtCommand;
 import com.zhonghong.menuitem.BtMusicCommand;
@@ -39,16 +40,20 @@ import com.zhonghong.menuitem.ExtendCommand;
 import com.zhonghong.menuitem.ICallCommand;
 import com.zhonghong.menuitem.ItemControl;
 import com.zhonghong.menuitem.LEDCommand;
-import com.zhonghong.menuitem.MusicCommand;
 import com.zhonghong.menuitem.NaviCommand;
 import com.zhonghong.menuitem.RadioCommand;
 import com.zhonghong.menuitem.RecorderCommand;
 import com.zhonghong.menuitem.SettingsCommand;
 import com.zhonghong.menuitem.USBCommand;
+import com.zhonghong.rate.OnStatusChangeListener;
+import com.zhonghong.rate.RateInfo;
+import com.zhonghong.rate.RateManager;
+import com.zhonghong.rate.RateResultInfo;
 import com.zhonghong.sdk.android.utils.PreferenceUtils;
 import com.zhonghong.sublauncher.Page1Fragment;
 import com.zhonghong.sublauncher.Page2Fragment;
 import com.zhonghong.sublauncher.PageFragmentAdapter;
+import com.zhonghong.utils.DialogManager;
 import com.zhonghong.utils.FontsUtils;
 import com.zhonghong.utils.L;
 import com.zhonghong.utils.LoadID3Pic;
@@ -59,6 +64,7 @@ import com.zhonghong.widget.CircleMenu.OnMenuItemClickListener;
 import com.zhonghong.widget.CircleMenu.OnMenuItemLongClickListener;
 import com.zhonghong.widget.CircleMenu.OnPageChangeListener;
 import com.zhonghong.widget.OverlapLayout;
+import com.zhonghong.widget.RoundProgressbar;
 
 public class MainActivity extends UpdateUiBaseActivity implements OnClickListener {
 
@@ -86,6 +92,9 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 	/**加锁、解锁*/
 	private Button mLock;
 	
+	/**心率状态*/
+	private ImageView mRateState;
+	
 	/**副屏*/
 	private List<ImageView> mSubScreenPageIndexs = new ArrayList<ImageView>();
 	private ViewPager mSubScreenPager;
@@ -95,11 +104,22 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 	private TextView mTimeData, mTimeTime;
 	
 	/**媒体信息widget*/
-	private LinearLayout mLayoutRadio, mLayoutMusic, mLayoutLoading;
+	private PostFromMusic mPostFromMusic;
+	private PostFromRadio mPostFromRadio;
+	private McuHardKeyProxy mMcuHardKeyProxy;
+	private McuHardKeyChangedListener mHardKeyChangedListener;
+	
+	private LinearLayout mLayoutRadio, mLayoutMusic, mLayoutLoading, mLayoutRate;
 	private TextView mRadioTitle, mRadioCurFreq;
 	private TextView mMusicTitle, mMusicArtist;
 	private ImageView mMusicID3Pic;
 	private LoadID3Pic mLoadID3Pic;
+	
+	private LinearLayout mLayoutRateReady, mLayoutRateChecking, mLayoutRateChecked;
+	private TextView mRateReadyRestTime;
+	private TextView mRateCheckedResult;
+	private Button mRateCheckedRecheck, mRateCheckedMore;
+	private RoundProgressbar mRateCheckingProgressbar;
 	
 	private final Handler mHandler = new Handler();
 	
@@ -118,7 +138,7 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 		initMainViews();
 		initSubMainViews();
 		initLockViews();
-		initMediaWidgetViews();
+		initWidgetViews();
 		initTimeWidgetView();
 	}
 
@@ -126,12 +146,19 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 	protected void onResume() {
 		super.onResume();
 		setLockState(PreferenceUtils.getBoolean(GlobalData.KEY_LOCK, false), false);
-		refreshMediaWidget(GlobalData.MediaWidgetType);
+		refreshWidget(GlobalData.MediaWidgetType);
+		refreshRateState();
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		mMcuHardKeyProxy.unregistKeyInfoChangedListener(mHardKeyChangedListener);
+		super.onDestroy();
 	}
 	
 /*********View处理************/	
@@ -157,13 +184,61 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 		mItemControl.setCommand(10, new ICallCommand());
 		mItemControl.setCommand(11, new SettingsCommand());
 		
-		ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
+		RateManager.getRateManager().setOnStatusChangeListener(new OnStatusChangeListener() {
+			
+			@Override
+			public void onStatusChange(int oldStatus, int newStatus) {
+				Log.i(TAG, "onStatusChange oldStatus = " + oldStatus + ", newStatus = " + newStatus);
+				refreshWidget(GlobalData.MediaWidgetType);
+				refreshRateState();
+				mHandler.removeCallbacks(getRestTimeRunnable);
+				mHandler.removeCallbacks(getCheckingRateRunnable);
+				switch (newStatus) {
+				case RateManager.STATUS_READY:
+					mHandler.post(getRestTimeRunnable);
+					break;
+				case RateManager.STATUS_CHECKING:
+					mRateCheckingProgressbar.setMax(RateManager.getRateManager().getCheckingStatus().getStatusRestTime());
+					mHandler.post(getCheckingRateRunnable);
+					break;
+				case RateManager.STATUS_CHECKED:
+					mRateCheckedResult.setText("" + RateManager.getRateManager().getCheckedStatus().getResultInfo().getAdverage());
+					break;
+				default:
+					break;
+				}
+			}
+		});
 		
-		new PostFromMusic();
-		new PostFromRadio();
+		mPostFromMusic = new PostFromMusic();
+		mPostFromRadio = new PostFromRadio();
 		
+		mMcuHardKeyProxy = new McuHardKeyProxy();
+		mHardKeyChangedListener = new McuHardKeyChangedListener();
+		mMcuHardKeyProxy.registKeyInfoChangedListener(mHardKeyChangedListener);
 	}
 
+	private Runnable getRestTimeRunnable = new Runnable() {
+		public void run() {
+			int restTime = RateManager.getRateManager().getReadyStatus().getStatusRestTime();
+			Log.i(TAG, "onStatusChange restTime = " + restTime);
+			mRateReadyRestTime.setText("" + restTime/1000);
+			mHandler.postDelayed(this, 1000);
+		}
+	};
+	
+	private Runnable getCheckingRateRunnable = new Runnable() {
+		public void run() {
+			int value = RateManager.getRateManager().getCheckingStatus().getLastRateValue();
+			
+			Log.i(TAG, "getLastRateValue = " + value);
+			int progress = mRateCheckingProgressbar.getMax() - RateManager.getRateManager().getCheckingStatus().getStatusRestTime();
+			mRateCheckingProgressbar.setProgress(progress);
+			mRateCheckingProgressbar.setText("" + value);
+			mHandler.postDelayed(this, 1000);
+		}
+	};
+	
 	/**
 	 * 初始化主屏布局
 	 */
@@ -301,7 +376,7 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 	/**
 	 * 初始化媒体信息Widget布局
 	 */
-	private void initMediaWidgetViews(){
+	private void initWidgetViews(){
 		mLayoutRadio = (LinearLayout) findViewById(R.id.layout_radio);
 		mLayoutRadio.setOnClickListener(this);
 		mRadioTitle = (TextView) findViewById(R.id.radio_title);
@@ -315,6 +390,20 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 		
 		mLayoutLoading = (LinearLayout) findViewById(R.id.layout_media_loading);
 		
+		mLayoutRate = (LinearLayout) findViewById(R.id.layout_rate);
+		mRateState = (ImageView) findViewById(R.id.rate_state);
+		mLayoutRateReady = (LinearLayout) findViewById(R.id.layout_rate_ready);
+		mLayoutRateChecking = (LinearLayout) findViewById(R.id.layout_rate_checking);
+		mLayoutRateChecked = (LinearLayout) findViewById(R.id.layout_rate_checked);
+
+		mRateReadyRestTime = (TextView) findViewById(R.id.rate_ready_resttime);
+		mRateCheckedResult = (TextView) findViewById(R.id.rate_checked_result);
+	
+		mRateCheckedRecheck = (Button) findViewById(R.id.rate_checked_recheck);
+		mRateCheckedRecheck.setOnClickListener(this);
+		mRateCheckedMore = (Button) findViewById(R.id.rate_checked_more);
+		mRateCheckedMore.setOnClickListener(this);
+		mRateCheckingProgressbar = (RoundProgressbar) findViewById(R.id.rate_checking);
 	}
 
 	/**
@@ -380,23 +469,33 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 	 * 更新媒体widget信息
 	 * @param type 
 	 */
-	private void refreshMediaWidget(int type){
-		switch (type) {
-		case GlobalData.MEDIA_WIDGET_TYPE_RADIO:
-			setMediaWidgetRadio();
-			break;
-		case GlobalData.MEDIA_WIDGET_TYPE_MUSIC:
-			setMediaWidgetMusic();
-			break;
-		default:
-			setMediaWidgetLoading();
-			break;
+	private void refreshWidget(int type){
+		clearAllWidget();
+		if (!RateManager.getRateManager().isValued()){
+			switch (type) {
+			case GlobalData.MEDIA_WIDGET_TYPE_RADIO:
+				setWidgetRadio();
+				break;
+			case GlobalData.MEDIA_WIDGET_TYPE_MUSIC:
+				setWidgetMusic();
+				break;
+			default:
+				setWidgetLoading();
+				break;
+			}
+		}
+		else{
+			setMediaWidgetRate();
 		}
 	}
 	
-	private void setMediaWidgetRadio(){
+	private void clearAllWidget(){
 		mLayoutMusic.setVisibility(View.GONE);
 		mLayoutLoading.setVisibility(View.GONE);
+		mLayoutRadio.setVisibility(View.GONE);
+		mLayoutRate.setVisibility(View.GONE);
+	}
+	private void setWidgetRadio(){
 		mLayoutRadio.setVisibility(View.VISIBLE);
 		mRadioTitle.setText("FM城市之音");
 		mRadioCurFreq.setText(getRadioFreqStr(GlobalData.Radio.CUR_FREQ));
@@ -417,9 +516,7 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 			return result;
 	}
 	
-	private void setMediaWidgetMusic(){
-		mLayoutRadio.setVisibility(View.GONE);
-		mLayoutLoading.setVisibility(View.GONE);
+	private void setWidgetMusic(){
 		mLayoutMusic.setVisibility(View.VISIBLE);
 		mMusicTitle.setText(GlobalData.Music.TITLE);
 		mMusicArtist.setText(GlobalData.Music.ARTISE);
@@ -427,15 +524,34 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 			mLoadID3Pic = new LoadID3Pic();
 		}
 		L.startTime("解析ID3信息");
-		mLoadID3Pic.displayImage(GlobalData.Music.CUR_PLAY_PATH, mMusicID3Pic, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+		mLoadID3Pic.displayImage(GlobalData.Music.CUR_PLAY_PATH, mMusicID3Pic, BitmapFactory.decodeResource(getResources(), R.drawable.music_default_album));
 		L.endUseTime("解析ID3信息");
 	}
 	
-	private void setMediaWidgetLoading(){
+	private void setWidgetLoading(){
 		mLayoutLoading.setVisibility(View.VISIBLE);
-		mLayoutMusic.setVisibility(View.GONE);
-		mLayoutRadio.setVisibility(View.GONE);
 	}
+	
+	private void setMediaWidgetRate(){
+		mLayoutRate.setVisibility(View.VISIBLE);
+		
+		mLayoutRateReady.setVisibility(View.GONE);
+		mLayoutRateChecking.setVisibility(View.GONE);
+		mLayoutRateChecked.setVisibility(View.GONE);
+		switch (RateManager.getRateManager().getCurStatusInt()) {
+		case RateManager.STATUS_READY:
+			mLayoutRateReady.setVisibility(View.VISIBLE);
+			break;
+		case RateManager.STATUS_CHECKING:
+			mLayoutRateChecking.setVisibility(View.VISIBLE);
+			break;
+		case RateManager.STATUS_CHECKED:
+			mLayoutRateChecked.setVisibility(View.VISIBLE);
+			break;
+		}
+	}
+	
+	
 	/**
 	 * 刷新时间widget
 	 */
@@ -449,6 +565,15 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 		}
 		if (mTimeTime != null){
 			mTimeTime.setText(strs[1]);
+		}
+	}
+	
+	private void refreshRateState(){
+		if (RateManager.getRateManager().isValued()){
+			mRateState.setSelected(true);
+		}
+		else{
+			mRateState.setSelected(false);
 		}
 	}
 	
@@ -486,12 +611,22 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 			new RadioCommand().execute(this);
 			break;
 		case R.id.layout_music:
-			new MusicCommand().execute(this);
+			new USBCommand().execute(this);
+			break;
+		case R.id.rate_checked_recheck:
+			RateManager.getRateManager().setCurStatus(RateManager.getRateManager().getReadyStatus());
+			break;
+		case R.id.rate_checked_more:
+			RateResultInfo info = RateManager.getRateManager().getCheckedStatus().getResultInfo();
+			Log.i(TAG, "getRateResultInfo = " + info.toString());
+			DialogManager.getInstance().showRateResultDialog(this, info);
 			break;
 		default:
 			break;
 		}
 	}
+	
+
 	
 	private void toggleLock(){
 		if (mLock.isSelected()){
@@ -550,21 +685,51 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 	private UpdateViewCallback mUpdateViewCallback = new UpdateViewCallback() {
 		
 		@Override
-		public void onUpdate(int cmd) {
-			switch (cmd) {
-			case UpdateUiManager.CMD_UPDATE_RADIO_INFO:
-				refreshMediaWidget(GlobalData.MediaWidgetType);
-				break;
-			case UpdateUiManager.CMD_UPDATE_MUSIC_INFO:
-				refreshMediaWidget(GlobalData.MediaWidgetType);
-				break;
-			}
+		public void onUpdate(final int cmd) {
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					
+					switch (cmd) {
+					case UpdateUiManager.CMD_UPDATE_DEFAULT:
+						refreshWidget(GlobalData.MEDIA_WIDGET_TYPE_DEFAULT);
+						break;
+					case UpdateUiManager.CMD_UPDATE_RADIO_INFO:
+						refreshWidget(GlobalData.MEDIA_WIDGET_TYPE_RADIO);
+						break;
+					case UpdateUiManager.CMD_UPDATE_MUSIC_INFO:
+						refreshWidget(GlobalData.MEDIA_WIDGET_TYPE_MUSIC);
+						break;
+					}
+				}
+			});
 		}
 	};
 
 	@Override
 	protected UpdateViewCallback getUpdateViewCallback() {
 		return mUpdateViewCallback;
+	}
+	
+	/**MCU按键监听*/
+	private class McuHardKeyChangedListener implements IMcuHardKeyChangedListener{
+
+		@Override
+		public void notify(int[] changeCMDs, final McuHardKeyInfo hardkey) {
+			mHandler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					int keycode = hardkey.getKeyCode();
+					Log.i(TAG, "mcu info keycode = " + keycode);
+//					Log.i(TAG, "mcu info KeyStatus = " + hardkey.getKeyStatus());
+					if (hardkey.getKeyStatus() == 1){
+						RateManager.getRateManager().inputRate(new RateInfo(hardkey.getKeyCode(), SystemClock.elapsedRealtime()));
+					}
+				}
+			});
+		}
+		
 	}
 	
 }

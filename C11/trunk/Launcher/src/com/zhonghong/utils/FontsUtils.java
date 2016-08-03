@@ -3,8 +3,6 @@
  */
 package com.zhonghong.utils;
 
-import java.io.File;
-
 import android.content.Context;
 import android.graphics.Typeface;
 

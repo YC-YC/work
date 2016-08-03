@@ -123,7 +123,6 @@ public class LockWndHelper {
 				
 				@Override
 				public void onDrawerStateChanged(int state) {
-					// TODO Auto-generated method stub
 //					Log.i(TAG, "onDrawerStateChanged state = " + state);
 					if (mReleaseTouch && state == 0){
 						if (!mDrawerLayout.isDrawerOpen(Gravity.RIGHT)){

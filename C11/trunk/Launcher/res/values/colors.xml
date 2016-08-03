@@ -13,11 +13,11 @@
     <color name="screen_bg">@color/white</color>
     <color name="bordercolor">@color/darkgray</color>
     <color name="transparent">#00000000</color>
-    <color name="white">#FFF</color>
+    <!-- <color name="white">#FFF</color> -->
     <color name="darkgray">#666</color>
     <color name="chat_box_border">#BBB</color>
     <color name="chat_box_bg">#EEE</color>
-    <color name="green">#22AA22</color>
+    <!-- <color name="green">#22AA22</color> -->
     <color name="black">#000000</color>
     <color name="selector">#55000000</color>
     
@@ -25,4 +25,30 @@
     <color name="can_text_color">#B0F0FF</color><!-- Can字体颜色 -->
     <color name="can_text_color_sel">#20F0FF</color><!-- Can字体选择颜色  -->
    
+    <!-- 主色 -->
+    <color name="lightblue">#00f1fc</color>
+
+    <!-- 辅助色  主色的 60% -->
+    <color name="blue_60">#019198</color>
+
+    <!-- 辅助色  主色的 40% -->
+    <color name="blue_40">#016266</color>
+
+    <!-- 辅助色  主色的 20% -->
+    <color name="blue_20">#023234</color>
+
+    <!-- 辅助色-白色 -->
+    <color name="white">#ffffff</color>
+
+    <!-- 辅助色-警示色    红色 -->
+    <color name="red">#fe2f50</color>
+
+    <!-- 辅助色-绿色 -->
+    <color name="green">#00e57d</color>
+    <!-- 灰色 -->
+    <color name="gray">#808080</color>
+    
+    <!-- 透明    transparent-->
+    <color name="lucency">#00000000</color>
+    
 </resources>

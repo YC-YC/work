@@ -5,10 +5,10 @@ package com.yc.external;
 
 import java.util.HashMap;
 
+import android.util.Log;
+
 import com.zhonghong.data.GlobalData;
 import com.zhonghong.utils.UpdateUiManager;
-
-import android.util.Log;
 
 /**
  * @author YC
@@ -30,7 +30,6 @@ public class PostFromMusic implements IPostFromClient {
 					GlobalData.Music.TITLE = map.get("title");
 					GlobalData.Music.ARTISE = map.get("artist");
 					GlobalData.Music.CUR_PLAY_PATH = map.get("playpath");
-					GlobalData.MediaWidgetType = GlobalData.MEDIA_WIDGET_TYPE_MUSIC;
 					UpdateUiManager.getInstances().callUpdate(UpdateUiManager.CMD_UPDATE_MUSIC_INFO);
 				}
 			}
