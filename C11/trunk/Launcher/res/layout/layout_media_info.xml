@@ -33,6 +33,15 @@
         <include layout="@layout/widget_music" />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/layout_btmusic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/widget_btmusic" />
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/layout_rate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -13,14 +13,18 @@ public interface Cmd {
 	/**
 	 * postInfo cmd
 	 */
+	
 	int POST_RADIO_INFO = 100;
 	int POST_MUSIC_INFO = 101;
+	int POST_BTMUSIC_INFO = 102;
 	
-	int POST_INVALUED = 1000;
+	/**无效的信息*/
+	int POST_INVALUED_INFO = 1000;
 	
 	/**
 	 * getInfo cmd
 	 */
 	int GET_RADIO_INFO = 100;
 	int GET_MUSIC_INFO = 101;
+	int GET_BTMUSIC_INFO = 102;
 }

@@ -27,6 +27,7 @@ import android.zhonghong.mcuservice.McuHardKeyInfo;
 import android.zhonghong.mcuservice.McuHardKeyProxy;
 import android.zhonghong.mcuservice.RegistManager.IMcuHardKeyChangedListener;
 
+import com.yc.external.PostFromBtMusic;
 import com.yc.external.PostFromMusic;
 import com.yc.external.PostFromRadio;
 import com.zhonghong.base.UpdateUiBaseActivity;
@@ -106,14 +107,17 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 	/**媒体信息widget*/
 	private PostFromMusic mPostFromMusic;
 	private PostFromRadio mPostFromRadio;
+	private PostFromBtMusic mPostFromBtMusic;
+	
 	private McuHardKeyProxy mMcuHardKeyProxy;
 	private McuHardKeyChangedListener mHardKeyChangedListener;
 	
-	private LinearLayout mLayoutRadio, mLayoutMusic, mLayoutLoading, mLayoutRate;
+	private LinearLayout mLayoutRadio, mLayoutMusic, mLayoutLoading, mLayoutRate, mLayoutBtMusic;
 	private TextView mRadioTitle, mRadioCurFreq;
 	private TextView mMusicTitle, mMusicArtist;
 	private ImageView mMusicID3Pic;
 	private LoadID3Pic mLoadID3Pic;
+	private TextView mBtMusicTitle;
 	
 	private LinearLayout mLayoutRateReady, mLayoutRateChecking, mLayoutRateChecked;
 	private TextView mRateReadyRestTime;
@@ -212,6 +216,7 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 		
 		mPostFromMusic = new PostFromMusic();
 		mPostFromRadio = new PostFromRadio();
+		mPostFromBtMusic = new PostFromBtMusic();
 		
 		mMcuHardKeyProxy = new McuHardKeyProxy();
 		mHardKeyChangedListener = new McuHardKeyChangedListener();
@@ -388,6 +393,9 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 		mMusicArtist = (TextView) findViewById(R.id.music_artist);
 		mMusicID3Pic = (ImageView) findViewById(R.id.music_id3pic);
 		
+		mLayoutBtMusic = (LinearLayout) findViewById(R.id.layout_btmusic);
+		mBtMusicTitle = (TextView) findViewById(R.id.btmusic_title);
+		
 		mLayoutLoading = (LinearLayout) findViewById(R.id.layout_media_loading);
 		
 		mLayoutRate = (LinearLayout) findViewById(R.id.layout_rate);
@@ -479,6 +487,9 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 			case GlobalData.MEDIA_WIDGET_TYPE_MUSIC:
 				setWidgetMusic();
 				break;
+			case GlobalData.MEDIA_WIDGET_TYPE_BTMUSIC:
+				setWidgetBtMusic();
+				break;
 			default:
 				setWidgetLoading();
 				break;
@@ -493,6 +504,8 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 		mLayoutMusic.setVisibility(View.GONE);
 		mLayoutLoading.setVisibility(View.GONE);
 		mLayoutRadio.setVisibility(View.GONE);
+		mLayoutBtMusic.setVisibility(View.GONE);
+		
 		mLayoutRate.setVisibility(View.GONE);
 	}
 	private void setWidgetRadio(){
@@ -526,6 +539,11 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 		L.startTime("解析ID3信息");
 		mLoadID3Pic.displayImage(GlobalData.Music.CUR_PLAY_PATH, mMusicID3Pic, BitmapFactory.decodeResource(getResources(), R.drawable.music_default_album));
 		L.endUseTime("解析ID3信息");
+	}
+	
+	private void setWidgetBtMusic(){
+		mLayoutBtMusic.setVisibility(View.VISIBLE);
+		mBtMusicTitle.setText(GlobalData.BtMusic.TITLE);
 	}
 	
 	private void setWidgetLoading(){
@@ -699,6 +717,9 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 						break;
 					case UpdateUiManager.CMD_UPDATE_MUSIC_INFO:
 						refreshWidget(GlobalData.MEDIA_WIDGET_TYPE_MUSIC);
+						break;
+					case UpdateUiManager.CMD_UPDATE_BTMUSIC_INFO:
+						refreshWidget(GlobalData.MEDIA_WIDGET_TYPE_BTMUSIC);
 						break;
 					}
 				}

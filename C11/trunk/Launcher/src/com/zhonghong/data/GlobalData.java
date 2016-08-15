@@ -19,6 +19,7 @@ public class GlobalData {
 	public static final int MEDIA_WIDGET_TYPE_DEFAULT = 0;
 	public static final int MEDIA_WIDGET_TYPE_RADIO = 1;
 	public static final int MEDIA_WIDGET_TYPE_MUSIC = 2;
+	public static final int MEDIA_WIDGET_TYPE_BTMUSIC = 3;
 	
 	/**标记媒体widget的状态*/
 	public static int MediaWidgetType = MEDIA_WIDGET_TYPE_DEFAULT;
@@ -46,5 +47,10 @@ public class GlobalData {
 		public static String ARTISE = "";
 		/**当前播放路径*/
 		public static String CUR_PLAY_PATH = "";
+	}
+	
+	public static class BtMusic{
+		/**标题*/
+		public static String TITLE = "";
 	}
 }

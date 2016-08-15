@@ -19,7 +19,8 @@ public class UpdateUiManager {
 	public static final int CMD_UPDATE_DEFAULT = 0;
 	public static final int CMD_UPDATE_RADIO_INFO = 1;
 	public static final int CMD_UPDATE_MUSIC_INFO = 2;
-
+	public static final int CMD_UPDATE_BTMUSIC_INFO = 3;
+	
 	private static final String TAG = "UpdateUiManager";
 	
 	private static UpdateUiManager instances;
