@@ -3,6 +3,8 @@
  */
 package com.zhcar.carflow;
 
+import java.util.HashMap;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,14 +12,15 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.zhcar.R;
 import com.zhcar.data.FlowInfoBean;
 import com.zhcar.data.GlobalData;
-import com.zhcar.dialog.DialogManager;
 import com.zhcar.provider.CarProviderData;
+import com.zhcar.utils.DialogManager;
 import com.zhcar.utils.GPRSManager;
 import com.zhcar.utils.Utils;
 import com.zhcar.utils.http.HttpStatusCallback;
@@ -31,6 +34,8 @@ public class CarFlowManager {
 
 	private static final String TAG = "CarFlow";
 	private GetFlowLoc mGetFlowLoc;
+	
+	private FlowInfoBean mFlowInfo;
 	
 	private Context mContext;
 	private ContentResolver mResolver;
@@ -108,7 +113,9 @@ public class CarFlowManager {
 			String usedStr = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_FLOWINFO_USEFLOW));
 			String surplusStr = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_FLOWINFO_SURPLUSFLOW));
 			String remindValStr = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_FLOWINFO_REMINDVALUE));
+			String remindStr = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_FLOWINFO_REMIDE));
 			
+			mFlowInfo = new FlowInfoBean(remindValStr, remindStr, usedStr, surplusStr, totalStr);
 			Log.i(TAG, "查询流量结果为：totalStr = " + totalStr + ", usedStr = " + usedStr 
 					+ ", surplusStr = " + surplusStr + ", remindValStr = " + remindValStr);
 			cursor.close();
@@ -150,42 +157,54 @@ public class CarFlowManager {
 	 * 提示流量信息
 	 */
 	public void checkCarFlow(){
-		if (GlobalData.bPermissionStatus){
+//		if (GlobalData.bPermissionStatus)
+		{
 			if (queryFlowInfo()){
-				String flowTotalStr = GlobalData.flowInfo.getCurrFlowTotal();
-				String remindValueStr = GlobalData.flowInfo.getRemindValue();
-				String surplusFlowStr = GlobalData.flowInfo.getSurplusFlow();
-				float totalVal = 0.0f;
-				float remindValue = 0.0f;
-				float surplusVal = 0.0f;
-				try {
-					totalVal = Float.valueOf(flowTotalStr);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (!mFlowInfo.getRemindVal()){
+					return;
 				}
-				if (Utils.isEmpty(remindValueStr) || "null".equals(remindValueStr)){
+//				String flowTotalStr = GlobalData.flowInfo.getCurrFlowTotal();
+//				String remindValueStr = GlobalData.flowInfo.getRemindValue();
+//				String surplusFlowStr = GlobalData.flowInfo.getSurplusFlow();
+//				float totalVal = 0.0f;
+//				float remindValue = 0.0f;
+//				float surplusVal = 0.0f;
+//				try {
+//					totalVal = Float.valueOf(flowTotalStr);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				if (Utils.isEmpty(remindValueStr) || "null".equals(remindValueStr)){
+//					remindValue = 0.1f * totalVal;
+//				}
+//				else{
+//					try {
+//						remindValue = Float.valueOf(remindValueStr);
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
+//				try {
+//					surplusVal = Float.valueOf(surplusFlowStr);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				Log.i(TAG, "totalVal = " + totalVal + ", remindValue = " + remindValue + ", surplusVal = " + surplusVal);
+				float totalVal = getFloatStrVal(mFlowInfo.getCurrFlowTotal());
+				float remindValue = getFloatStrVal(mFlowInfo.getRemindValue());
+				if (remindValue == 0.0f){
+					//不设置则为10%
 					remindValue = 0.1f * totalVal;
 				}
-				else{
-					try {
-						remindValue = Float.valueOf(remindValueStr);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				try {
-					surplusVal = Float.valueOf(surplusFlowStr);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				Log.i(TAG, "totalVal = " + totalVal + ", remindValue = " + remindValue + ", surplusVal = " + surplusVal);
+				float surplusVal = getFloatStrVal(mFlowInfo.getSurplusFlow());
 				if (remindValue < 1.0f){
 					//关闭3G
 					GPRSManager gprsManager = new GPRSManager(mContext);
 					if (gprsManager.isEnable()){
 						gprsManager.turnOff();
 					}
-					DialogManager.getInstance().showCarFlowDialog(mContext, getTipStr(surplusVal));
+					Utils.sendBroadcast(mContext, GlobalData.ACTION_3G, GlobalData.KEY_3G_CONTROL, "off");
+					DialogManager.getInstance().showNormalDialog(mContext, R.layout.dialog_noflow);
 				}
 				else{
 //					if (surplusVal < remindValue){
@@ -198,5 +217,18 @@ public class CarFlowManager {
 	
 	private String getTipStr(float surplusVal){
 		return mContext.getResources().getString(R.string.carflow_tip_content1) + surplusVal + mContext.getResources().getString(R.string.carflow_tip_content2);
+	}
+	
+	
+	private float getFloatStrVal(String floatStr){
+		float result = 0.0f;
+		if (!TextUtils.isEmpty(floatStr) && !"null".equals(floatStr)){
+			try {
+				result = Float.valueOf(floatStr);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 }

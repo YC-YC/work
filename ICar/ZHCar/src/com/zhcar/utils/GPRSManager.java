@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 /**
  * @author YC
@@ -70,6 +71,11 @@ public class GPRSManager implements ISwitch {
 	@Override
 	public boolean isEnable() {
 		return getGPRSEnable();
+	}
+	
+	public boolean isNetWorkValilable(){
+		NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
+		return networkInfo == null? false: networkInfo.isAvailable();
 	}
 
 }

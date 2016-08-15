@@ -51,6 +51,15 @@ public class Utils {
 		context.sendBroadcast(it);
 	}
 	
+	/**发送广播*/
+	public static void sendBroadcast(Context context, String action, String key, String val){
+		Intent it = new Intent();
+		if (action != null)
+			it.setAction(action);
+		it.putExtra(key, val);
+		context.sendBroadcast(it);
+	}
+	
 	
 	/**
 	 * 判断字符串是否为空

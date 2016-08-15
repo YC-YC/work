@@ -4,20 +4,26 @@
     <string name="app_name">ZhCar</string>
     <string name="call_service">呼叫凯翼</string>
     <string name="app_check">自动检测</string>
+    <string name="app_version">五码信息</string>
     <string name="call_tips">拨打客服电话</string>
     <string name="action_settings">设置</string>
     <string name="hello_world">你好</string>
     <string name="checking">车辆自检中...</string>
     <string name="healthy_title">健康指数</string>
     <string name="healthy_unit">分</string>
-    
     <string name="checked_tips_warn">请及时去服务站检修。</string>
     <string name="checked_tips_normal">请注意车辆保养。</string>
     <string name="checked_tips_well">车况良好，请安全驾驶。</string>
     <string name="carflow_tip_title">当月剩余流量阈值提醒</string>
     <string name="carflow_tip_content1">您的当月可用流量还剩</string>
-    <string name="carflow_tip_content2">，可点击T服务购买按钮购买相关套餐增加流量。*如流量超限造成断网，请连接WIFI或登录车主网站购买。</string>
+    <string name="carflow_tip_content2">M，可点击T服务购买按钮购买相关套餐增加流量。如流量超限造成断网，请连接WIFI或登录车主网站购买。</string>
+    <string name="noflow_tip_title">套餐流量提醒</string>
+    <string name="noflow_tip_content1">尊敬的用户:</string>
+    <string name="noflow_tip_content2">"		您的套餐流量暂不可用，可能会影响车机部分功能的使用，请确保服务已开通并且流量未超标。"</string>
     <string name="carflow_confirm">购买流量</string>
     <string name="carflow_cancle">我知道了</string>
-
+    <string name="calling_emergency">正在呼叫紧急联系人...</string>
+    <string name="unknown">未知</string>
+    <string name="write_ok">写入成功</string>
+	<string name="write">写入</string>
 </resources>

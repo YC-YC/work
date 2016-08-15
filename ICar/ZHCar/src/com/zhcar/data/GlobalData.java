@@ -21,4 +21,10 @@ public class GlobalData {
 	/**流量信息*/
 	public static FlowInfoBean flowInfo = new FlowInfoBean();
 	
+	/**发送3G相关信息的ACTION*/
+	public static final String ACTION_3G = "com.zhcar.ACTION_CONTROL";
+	/**需不需要ARM拨号, on:ARM拨号, off:ARM不需要拨号*/
+	public static final String KEY_3G_CONTROL = "control";
+	/**3G拨号状态 on:已连接, off:断开*/
+	public static final String KEY_3G_STATE = "state";
 }

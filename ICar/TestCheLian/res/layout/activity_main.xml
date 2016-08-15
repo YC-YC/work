@@ -1,0 +1,83 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/queryflowinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="查询流量" />
+        <Button
+            android:id="@+id/updateflowinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="更新流量" />
+        <Button
+            android:id="@+id/queryphoneinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="查询号码信息" />
+        <Button
+            android:id="@+id/updatephoneinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="更新号码信息" />
+        <Button
+            android:id="@+id/querycarinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="查询车辆信息" />
+        <Button
+            android:id="@+id/updatecarinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="更新车辆信息" />
+        <Button
+            android:id="@+id/postappinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="上传信息" />
+        <Button
+            android:id="@+id/postappinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="上传信息" />
+    </LinearLayout>
+
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/opencheck"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="打开检测界面" />
+    </LinearLayout>
+    
+</LinearLayout>

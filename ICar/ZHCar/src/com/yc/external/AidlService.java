@@ -11,6 +11,9 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.yc.external.ExternalConn.Stub;
+import com.zhcar.data.GlobalData;
+import com.zhcar.utils.GPRSManager;
+import com.zhcar.utils.Utils;
 
 /**
  * @author YC
@@ -40,6 +43,8 @@ public class AidlService extends Service implements IGetFromClient{
 				// TODO dosomething
 			}
 		}, "service_thread").start();
+		
+		
 	}
 
 	// 每次调用StartService都会调用

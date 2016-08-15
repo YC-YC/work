@@ -3,6 +3,10 @@
  */
 package com.zhcar.apprecord;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+
 import android.util.Log;
 
 import com.zhcar.data.AppUseRecord;

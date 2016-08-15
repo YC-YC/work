@@ -6,6 +6,7 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zhcar.R;
 import com.zhcar.apprecord.RecordManager;
@@ -22,8 +24,10 @@ import com.zhcar.carflow.CarFlowManager;
 import com.zhcar.carflow.GetFlowLoc;
 import com.zhcar.data.AppUseRecord;
 import com.zhcar.data.GlobalData;
-import com.zhcar.dialog.DialogManager;
+import com.zhcar.emergencycall.EmergencyCallManager;
 import com.zhcar.provider.CarProviderData;
+import com.zhcar.readnumber.VersionActivity;
+import com.zhcar.utils.DialogManager;
 import com.zhcar.utils.GPRSManager;
 
 public class MainActivity extends Activity {
@@ -110,6 +114,9 @@ public class MainActivity extends Activity {
 		case R.id.showdialog:
 			DialogManager.getInstance().showCarFlowDialog(this, "您的当月可用流量还剩400M，可点击T服务购买按钮购买相关套餐增加流量。*如流量超限造成断网，请连接WIFI或登录车主网站购买。");
 			break;
+		case R.id.shownoflowdialog:
+			DialogManager.getInstance().showNormalDialog(this, R.layout.dialog_noflow);
+			break;
 		case R.id.postrecord:
 //			if (ICCID != null && !ICCID.isEmpty() && TOKEN != null && !TOKEN.isEmpty())
 			{
@@ -153,6 +160,17 @@ public class MainActivity extends Activity {
 			break;
 		case R.id.getimei:
 			getIMEI();
+			break;
+		case R.id.callemergency:
+			EmergencyCallManager.getInstance().startcallEmergency();
+			break;
+		case R.id.openversion:
+			startActivity(new Intent(this, VersionActivity.class));
+			break;
+		case R.id.getnetwork:
+			boolean valilable = new GPRSManager(this).isNetWorkValilable();
+			Log.i(TAG, "is network valilable = " + valilable);
+			Toast.makeText(this, valilable ? "网络可用":"网络不可用", 100).show();
 			break;
 		default:
 			break;
@@ -225,11 +243,11 @@ public class MainActivity extends Activity {
 		}
 		ContentValues values = new ContentValues();
 		values.put(CarProviderData.KEY_PHONENUM_RECUTE_NUM, "4008001000");
-		values.put(CarProviderData.KEY_PHONENUM_RECUTE_TIME, "20");
+		values.put(CarProviderData.KEY_PHONENUM_RECUTE_TIME, 20);
 		values.put(CarProviderData.KEY_PHONENUM_NAVI_NUM, "4008001001");
 		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM1, "4008001002");
 		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM2, "4008001003");
-		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_TIME, "30");
+		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_TIME, 30);
 		values.put(CarProviderData.KEY_PHONENUM_KAIYI_NUM, "4008001004");
 		Uri insertUri = resolver.insert(phoneInfoUri, values);
 	}
@@ -263,8 +281,7 @@ public class MainActivity extends Activity {
 		ContentValues values = new ContentValues();
 		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM1, "10086");
 		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_TIME, 35);
-//		values.put(CarProviderData.KEY_SN, "test_update_sn");
-//		values.put(CarProviderData.KEY_IMEI, "test_update_imei");
+		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM2, "10000");
 		values.put(CarProviderData.KEY_PHONENUM_KAIYI_NUM, "10086");
 		int row = resolver.update(phoneInfoUri, values, null, null);
 	}

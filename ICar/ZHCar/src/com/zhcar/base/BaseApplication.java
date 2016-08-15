@@ -6,9 +6,11 @@ package com.zhcar.base;
 import android.app.Application;
 import android.util.Log;
 
-import com.yc.external.GetAppRecordInfo;
+import com.yc.external.PostFromZUI;
 import com.zhcar.carflow.CarFlowManager;
 import com.zhcar.data.GlobalData;
+import com.zhcar.utils.GPRSManager;
+import com.zhcar.utils.Utils;
 
 /**
  * @author YC
@@ -20,7 +22,7 @@ public class BaseApplication extends Application {
 	private static final String TAG = "ZhCarApplication";
 	
 	private static BaseApplication instanse;
-	private GetAppRecordInfo mGetAppRecordInfo;
+	private PostFromZUI mPostFromZUI;
 	
 	@Override
 	public void onCreate() {
@@ -28,7 +30,7 @@ public class BaseApplication extends Application {
 		super.onCreate();
 		instanse = this;
 		GlobalData.mContext = this;
-		mGetAppRecordInfo = new GetAppRecordInfo(this);
+		mPostFromZUI = new PostFromZUI(this);
 		CarFlowManager.getInstance(this);
 	}
 	

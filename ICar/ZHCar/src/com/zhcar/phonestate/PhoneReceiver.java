@@ -36,18 +36,18 @@ public class PhoneReceiver extends BroadcastReceiver {
 //                    if(incomingFlag){  
 //                            Log.i(TAG, "incoming IDLE");                                  
 //                    }  
-            	PhoneUtils.sendPhoneStatuBroadcast(context, PhoneUtils.PHONE_STATE_IDLE);
+            	PhoneStateUtils.sendPhoneStatuBroadcast(context, PhoneStateUtils.PHONE_STATE_IDLE);
             	break;  
             case TelephonyManager.CALL_STATE_RINGING:  
 //            	incomingFlag = true;//标识当前是来电  
-            	PhoneUtils.sendPhoneStatuBroadcast(context, PhoneUtils.PHONE_STATE_INCOMIMG);
+            	PhoneStateUtils.sendPhoneStatuBroadcast(context, PhoneStateUtils.PHONE_STATE_INCOMIMG);
 //              incoming_number = intent.getStringExtra("incoming_number");  
                     break;  
             case TelephonyManager.CALL_STATE_OFFHOOK:  //存在至少有一个呼叫拨号，活跃，或 保留，并没有来电振铃或等待                   
 //                    if(incomingFlag){  
 //                            Log.i(TAG, "incoming ACCEPT :"+ incoming_number);  
 //                    }
-                    PhoneUtils.sendPhoneStatuBroadcast(context, PhoneUtils.PHONE_STATE_TALKING);
+                    PhoneStateUtils.sendPhoneStatuBroadcast(context, PhoneStateUtils.PHONE_STATE_TALKING);
                     break;  
             }   
 		}

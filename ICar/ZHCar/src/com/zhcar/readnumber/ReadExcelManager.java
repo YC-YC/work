@@ -15,9 +15,11 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.zhcar.base.BaseApplication;
 import com.zhcar.provider.CarProviderData;
@@ -33,7 +35,10 @@ public class ReadExcelManager implements IUSBStateChange{
 	private static final String TAG = "ReadExcelManager";
 	
 	private static final String FILE_NAME = "CodeList.xls";
-
+	/**测试环境*/
+//	private static final String TEST_MEID = "A100001FA0D7DA";
+//	private static final String TEST_VIN = "LVTDB11B1TS000004";
+	
 	private static ReadExcelManager instance;
 
 	/**是否在读取中*/
@@ -90,7 +95,9 @@ public class ReadExcelManager implements IUSBStateChange{
 		Log.i(TAG, "get raw meid = " + MEID);
 		if (!TextUtils.isEmpty(MEID)){
 			int start  = MEID.indexOf("A");
-			MEID = MEID.substring(start);
+			if (start >= 0){
+				MEID = MEID.substring(start);
+			}
 		}
 		return MEID;
 	}
@@ -130,6 +137,7 @@ public class ReadExcelManager implements IUSBStateChange{
 						} else {
 							
 							String MEID = sheet.getCell(0, i).getContents();
+//							Log.i(TAG, "get Cell 0 = " + MEID);
 							if (meid.equals(MEID)){
 								String AKEY = sheet.getCell(1, i).getContents();
 								String IMSI = sheet.getCell(2, i).getContents();
@@ -138,8 +146,9 @@ public class ReadExcelManager implements IUSBStateChange{
 								String ESN = sheet.getCell(5, i).getContents();
 								String MDN = sheet.getCell(6, i).getContents();
 								String ICCID = sheet.getCell(7, i).getContents();
-								String SN = sheet.getCell(8, i).getContents();
-								String SKEY = sheet.getCell(9, i).getContents();
+//								String PRLNAME = sheet.getCell(8, i).getContents();
+								String SN = sheet.getCell(9, i).getContents();
+								String SKEY = sheet.getCell(10, i).getContents();
 								
 								ContentValues values = new ContentValues();
 								values.put(CarProviderData.KEY_CARINFO_MEID, MEID);
@@ -154,7 +163,7 @@ public class ReadExcelManager implements IUSBStateChange{
 								values.put(CarProviderData.KEY_CARINFO_SKEY, SKEY);
 								Log.i(TAG, "read ok, values = " + values.toString());
 								updateCarInfo(values);
-								Log.i(TAG, "read ok, update");
+//								Log.i(TAG, "read ok, update");
 								break;
 							}
 						}

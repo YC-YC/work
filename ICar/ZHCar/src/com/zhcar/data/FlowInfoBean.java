@@ -43,6 +43,24 @@ public class FlowInfoBean {
 		this.surplusFlow = surplusFlow;
 		this.currFlowTotal = currFlowTotal;
 	}
+	
+
+	/**
+	 * @param remindValue
+	 * @param remind
+	 * @param useFlow
+	 * @param surplusFlow
+	 * @param currFlowTotal
+	 */
+	public FlowInfoBean(String remindValue, String remind, String useFlow,
+			String surplusFlow, String currFlowTotal) {
+		super();
+		this.remindValue = remindValue;
+		this.remind = remind;
+		this.useFlow = useFlow;
+		this.surplusFlow = surplusFlow;
+		this.currFlowTotal = currFlowTotal;
+	}
 
 	public void setName(String name) {
 		this.name = name;
@@ -129,6 +147,13 @@ public class FlowInfoBean {
 	public String getCurrFlowTotal() {
 		return currFlowTotal;
 	}
+	
+	public boolean getRemindVal() {
+		return (remind == null || "1".equals(remind))? true: false;
+	}
+
+
+
 
 	@Override
 	public String toString() {

@@ -79,6 +79,7 @@ public class CheckActivity extends Activity {
 		if (mScoreReceiver != null){
 			unregisterReceiver(mScoreReceiver);
 		}
+		mScoreReceiver = null;
 	}
 
 	@Override

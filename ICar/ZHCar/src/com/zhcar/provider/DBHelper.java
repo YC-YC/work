@@ -36,6 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		createCarInfo(db);
 //		setDefaultCarInfo(db);
 		createPhoneNum(db);
+//		setDefaultPhoneInfo(db);
 		createPermission(db);
 		createSids(db);
 		createFlowInfo(db);
@@ -168,6 +169,17 @@ public class DBHelper extends SQLiteOpenHelper {
 		+ CarProviderData.KEY_PHONENUM_KAIYI_NUM + " text)");
 	}
 	
+	private void setDefaultPhoneInfo(SQLiteDatabase db){
+		ContentValues values = new ContentValues();
+		values.put(CarProviderData.KEY_PHONENUM_KAIYI_NUM, "10086");
+		values.put(CarProviderData.KEY_PHONENUM_NAVI_NUM, "10086");
+		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM1, "10086");
+		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM2, "10000");
+		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_TIME, 20);
+		values.put(CarProviderData.KEY_PHONENUM_RECUTE_NUM, "10086");
+		values.put(CarProviderData.KEY_PHONENUM_RECUTE_TIME, 20);
+		db.insert(CarProviderData.PHONENUM_TABLE, "debug", values);
+	}
 	
 	private void createPermission(SQLiteDatabase db) {
 		db.execSQL("create table if not exists " + CarProviderData.PERMISSION_TABLE +"(_id integer primary key autoincrement, " 
