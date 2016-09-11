@@ -4,6 +4,7 @@
 package com.zhonghong.base;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.zhonghong.utils.UpdateUiManager;
@@ -19,8 +20,8 @@ public abstract class UpdateUiBaseActivity extends FragmentActivity {
 	protected UpdateViewCallback mCallback;
 
 	@Override
-	protected void onResume() {
-		super.onResume();
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		mCallback = getUpdateViewCallback();
 		if (mCallback != null){
 			UpdateUiManager.getInstances().register(mCallback);
@@ -29,8 +30,8 @@ public abstract class UpdateUiBaseActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
+	protected void onDestroy() {
+		super.onDestroy();
 		if (mCallback != null){
 			UpdateUiManager.getInstances().unregister(mCallback);
 		}

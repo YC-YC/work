@@ -149,7 +149,7 @@ public class FlowInfoBean {
 	}
 	
 	public boolean getRemindVal() {
-		return (remind == null || "1".equals(remind))? true: false;
+		return (remind == null || "1".equals(remind) || "true".equals(remind))? true: false;
 	}
 
 

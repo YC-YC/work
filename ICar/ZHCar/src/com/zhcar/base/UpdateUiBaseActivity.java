@@ -19,7 +19,8 @@ public abstract class UpdateUiBaseActivity extends Activity {
 	protected UpdateViewCallback mCallback;
 
 	@Override
-	protected void onResume() {
+	protected void onCreate(Bundle savedInstanceState){
+//	protected void onResume() {
 		super.onResume();
 		mCallback = getUpdateViewCallback();
 		if (mCallback != null){
@@ -29,7 +30,7 @@ public abstract class UpdateUiBaseActivity extends Activity {
 	}
 
 	@Override
-	protected void onPause() {
+	protected void onDestroy() {
 		super.onPause();
 		if (mCallback != null){
 			UpdateUiManager.getInstances().unregister(mCallback);

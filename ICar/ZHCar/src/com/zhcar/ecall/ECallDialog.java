@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.zhcar.emergencycall;
+package com.zhcar.ecall;
 
 import com.zhcar.R;
 
@@ -17,13 +17,13 @@ import android.widget.TextView;
  * TODO:紧急联系人
  */
 
-public class EmergencyCallDialog extends Dialog {
+public class ECallDialog extends Dialog {
 
 	private Context mContext;
 	private String mMessage;
 	private TextView mContent;
 
-	public EmergencyCallDialog(Context context, String msg) {
+	public ECallDialog(Context context, String msg) {
 		super(context, /*android.R.style.Theme_Translucent_NoTitleBar*/R.style.Transparent);
 		mContext = context;
 		mMessage = msg;

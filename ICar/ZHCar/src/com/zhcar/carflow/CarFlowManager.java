@@ -65,15 +65,24 @@ public class CarFlowManager {
 		mGetFlowLoc.SetHttpStatusCallback(new HttpStatusCallback() {
 			
 			@Override
-			public void onStatus(int status) {
+			public void onStatus(int status, int appUseRecordHashCode) {
 				Log.i(TAG, "get Http status = " + status);
 				if (status == HttpStatusCallback.RESULT_SUCCESS){
 					FlowInfoBean flowInfo = mGetFlowLoc.GetFlowInfo();
-					Log.i(TAG, "getFlowInfo = " + flowInfo);
-					GlobalData.flowInfo.setSurplusFlow(flowInfo.getSurplusFlow());
+//					Log.i(TAG, "getFlowInfo = " + flowInfo);
 					GlobalData.flowInfo.setUseFlow(flowInfo.getUseFlow());
 					GlobalData.flowInfo.setCurrFlowTotal(flowInfo.getCurrFlowTotal());
+					GlobalData.flowInfo.setSurplusFlow(flowInfo.getSurplusFlow());
 					updateFlowInfoProvider();
+					Log.i(TAG, "getFlowInfo OK");
+					new Handler().post(new Runnable() {
+						
+						@Override
+						public void run() {
+							Log.i(TAG, "getFlowInfo postDelayed");
+							checkCarFlow();
+						}
+					});
 				}
 			}
 		});
@@ -161,34 +170,9 @@ public class CarFlowManager {
 		{
 			if (queryFlowInfo()){
 				if (!mFlowInfo.getRemindVal()){
+					Log.i(TAG, "not reminded");
 					return;
 				}
-//				String flowTotalStr = GlobalData.flowInfo.getCurrFlowTotal();
-//				String remindValueStr = GlobalData.flowInfo.getRemindValue();
-//				String surplusFlowStr = GlobalData.flowInfo.getSurplusFlow();
-//				float totalVal = 0.0f;
-//				float remindValue = 0.0f;
-//				float surplusVal = 0.0f;
-//				try {
-//					totalVal = Float.valueOf(flowTotalStr);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//				if (Utils.isEmpty(remindValueStr) || "null".equals(remindValueStr)){
-//					remindValue = 0.1f * totalVal;
-//				}
-//				else{
-//					try {
-//						remindValue = Float.valueOf(remindValueStr);
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//				}
-//				try {
-//					surplusVal = Float.valueOf(surplusFlowStr);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
 //				Log.i(TAG, "totalVal = " + totalVal + ", remindValue = " + remindValue + ", surplusVal = " + surplusVal);
 				float totalVal = getFloatStrVal(mFlowInfo.getCurrFlowTotal());
 				float remindValue = getFloatStrVal(mFlowInfo.getRemindValue());
@@ -197,7 +181,8 @@ public class CarFlowManager {
 					remindValue = 0.1f * totalVal;
 				}
 				float surplusVal = getFloatStrVal(mFlowInfo.getSurplusFlow());
-				if (remindValue < 1.0f){
+				Log.i(TAG, "totalVal = " + totalVal + ", remindValue = " + remindValue + ", surplusVal = " + surplusVal);
+				if (surplusVal < 1.0f){
 					//关闭3G
 					GPRSManager gprsManager = new GPRSManager(mContext);
 					if (gprsManager.isEnable()){
@@ -207,9 +192,9 @@ public class CarFlowManager {
 					DialogManager.getInstance().showNormalDialog(mContext, R.layout.dialog_noflow);
 				}
 				else{
-//					if (surplusVal < remindValue){
+					if (surplusVal < remindValue){
 						DialogManager.getInstance().showCarFlowDialog(mContext, getTipStr(surplusVal));
-//					}
+					}
 				}
 			}
 		}

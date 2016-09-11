@@ -1,7 +1,9 @@
 /**
  * 
  */
-package com.zhcar.phonestate;
+package com.zhcar.receiver;
+
+import com.zhcar.utils.PhoneStateUtils;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -33,22 +35,13 @@ public class PhoneReceiver extends BroadcastReceiver {
             Log.i(TAG, "tm.getCallState() = " + tm.getCallState() + ", intent = " + intent.toString());
             switch (tm.getCallState()) {  
             case TelephonyManager.CALL_STATE_IDLE:   //闲置状态                       
-//                    if(incomingFlag){  
-//                            Log.i(TAG, "incoming IDLE");                                  
-//                    }  
-            	PhoneStateUtils.sendPhoneStatuBroadcast(context, PhoneStateUtils.PHONE_STATE_IDLE);
+            	PhoneStateUtils.getInstance().endListenCallState();
             	break;  
             case TelephonyManager.CALL_STATE_RINGING:  
-//            	incomingFlag = true;//标识当前是来电  
-            	PhoneStateUtils.sendPhoneStatuBroadcast(context, PhoneStateUtils.PHONE_STATE_INCOMIMG);
-//              incoming_number = intent.getStringExtra("incoming_number");  
                     break;  
             case TelephonyManager.CALL_STATE_OFFHOOK:  //存在至少有一个呼叫拨号，活跃，或 保留，并没有来电振铃或等待                   
-//                    if(incomingFlag){  
-//                            Log.i(TAG, "incoming ACCEPT :"+ incoming_number);  
-//                    }
-                    PhoneStateUtils.sendPhoneStatuBroadcast(context, PhoneStateUtils.PHONE_STATE_TALKING);
-                    break;  
+            	PhoneStateUtils.getInstance().startListenCallState(); 
+            	break;  
             }   
 		}
 	}

@@ -28,12 +28,12 @@ public class BtStateReceiver extends BroadcastReceiver {
 		if (BT_DEV_STATE.equals(action)){
 			BtUtils.BtDevState = intent.getIntExtra("state", 0);
 //			Log.i(TAG, "receive bt dev state = " + BtUtils.BtDevState);
-			UpdateUiManager.getInstances().callUpdate(UpdateUiManager.CMD_UPDATE_BTSTATE);
+			UpdateUiManager.getInstances().callUpdate(UpdateUiManager.CMD_UPDATE_BTSTATE, null);
 		}
 		else if (BT_CALL_STATE.equals(action)){
 			BtUtils.BtCallState = intent.getStringExtra("state");
 //			Log.i(TAG, "receive bt call state = " + BtUtils.BtCallState);
-			UpdateUiManager.getInstances().callUpdate(UpdateUiManager.CMD_UPDATE_BTSTATE);
+			UpdateUiManager.getInstances().callUpdate(UpdateUiManager.CMD_UPDATE_BTSTATE, null);
 		}
 	}
 

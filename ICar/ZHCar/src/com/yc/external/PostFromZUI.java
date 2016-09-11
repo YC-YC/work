@@ -119,19 +119,20 @@ public class PostFromZUI implements IPostFromClient {
 				}
 			}
 			return true;
-		case Cmd.POST_CAN_OK:
+		/*case Cmd.POST_CAN_OK:
+			Log.i(TAG, "CAN is OK");
 			GPRSManager gprsManager = new GPRSManager(mContext);
 			if (!gprsManager.isEnable()){
 				gprsManager.turnOn();
 			}
 			Utils.sendBroadcast(mContext, GlobalData.ACTION_3G, GlobalData.KEY_3G_CONTROL , "on");
-			if (gprsManager.isNetWorkValilable()){
+			if (gprsManager.isNetWorkValuable()){
 				Utils.sendBroadcast(mContext, GlobalData.ACTION_3G, GlobalData.KEY_3G_STATE, "on");
 			}
 			else{
 				Utils.sendBroadcast(mContext, GlobalData.ACTION_3G, GlobalData.KEY_3G_STATE, "off");
 			}
-			return true;
+			return true;*/
 		}
 		return false;
 	}

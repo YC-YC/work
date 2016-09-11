@@ -3,6 +3,8 @@
  */
 package com.zhcar.provider;
 
+import java.util.Iterator;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -28,6 +30,7 @@ public class CarProvider extends ContentProvider {
 	private static final int SIDS = 4;
 	private static final int FLOWINFO = 5;
 	private static final int ACCOUNT = 6;
+	private static final int CONFIG = 7;
 //	常量UriMatcher.NO_MATCH表示不匹配任何路径的返回码
 	private static final UriMatcher MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 	static{
@@ -37,6 +40,7 @@ public class CarProvider extends ContentProvider {
 		MATCHER.addURI(AUTHORITIES, "sids", SIDS);
 		MATCHER.addURI(AUTHORITIES, "flowInfo", FLOWINFO);
 		MATCHER.addURI(AUTHORITIES, "accounts", ACCOUNT);
+		MATCHER.addURI(AUTHORITIES, "config", CONFIG);
 	}
 	
 	private DBHelper mDbHelper;
@@ -72,6 +76,9 @@ public class CarProvider extends ContentProvider {
 					null, null, sortOrder);
 		case ACCOUNT:
 			return db.query(CarProviderData.ACCOUNT_TABLE, projection, selection, selectionArgs, 
+					null, null, sortOrder);
+		case CONFIG:
+			return db.query(CarProviderData.CONFIG_TABLE, projection, selection, selectionArgs, 
 					null, null, sortOrder);
 			default:
 				Log.e(TAG, "Unknow Uri:" + uri.toString());
@@ -138,6 +145,11 @@ public class CarProvider extends ContentProvider {
             insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri  
             this.getContext().getContentResolver().notifyChange(uri, null);  
             return insertUri;
+		case CONFIG:
+            rowid = db.insert(CarProviderData.CONFIG_TABLE, "debug", values); 
+            insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri  
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return insertUri;
 		default:
 //				throw new IllegalArgumentException("Unknow Uri:" + uri.toString());
 				Log.e(TAG, "Unknow Uri:" + uri.toString());
@@ -174,6 +186,10 @@ public class CarProvider extends ContentProvider {
             count = db.delete(CarProviderData.ACCOUNT_TABLE, selection, selectionArgs);  
             this.getContext().getContentResolver().notifyChange(uri, null);  
             return count; 
+        case CONFIG:  
+            count = db.delete(CarProviderData.CONFIG_TABLE, selection, selectionArgs);  
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return count; 
         default:  
 //            throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         	Log.e(TAG, "Unknow Uri:" + uri.toString());
@@ -188,9 +204,14 @@ public class CarProvider extends ContentProvider {
 		int count = 0;
 		switch (MATCHER.match(uri)) {  
 		case CARINFO:  
-            count = db.update(CarProviderData.CARINFO_TABLE, values, selection, selectionArgs);  
-            this.getContext().getContentResolver().notifyChange(uri, null);  
+		{
+			boolean isSame = checkTableIsSame(CarProviderData.CARINFO_TABLE, values);
+			count = db.update(CarProviderData.CARINFO_TABLE, values, selection, selectionArgs);  
+			if (!isSame){
+				this.getContext().getContentResolver().notifyChange(uri, null);  
+			}
             return count;  
+		}
 		case PHONEINFO:  
             count = db.update(CarProviderData.PHONENUM_TABLE, values, selection, selectionArgs);  
             this.getContext().getContentResolver().notifyChange(uri, null);  
@@ -204,11 +225,21 @@ public class CarProvider extends ContentProvider {
             this.getContext().getContentResolver().notifyChange(uri, null);  
             return count; 
 		case FLOWINFO:  
+		{
+			boolean isSame = checkTableIsSame(CarProviderData.FLOW_TABLE, values);
             count = db.update(CarProviderData.FLOW_TABLE, values, selection, selectionArgs);  
-            this.getContext().getContentResolver().notifyChange(uri, null);  
+            if (!isSame)
+            {
+            	this.getContext().getContentResolver().notifyChange(uri, null);  
+            }
             return count; 
+		}
 		case ACCOUNT:  
             count = db.update(CarProviderData.ACCOUNT_TABLE, values, selection, selectionArgs);  
+            this.getContext().getContentResolver().notifyChange(uri, null);  
+            return count; 
+		case CONFIG:  
+            count = db.update(CarProviderData.CONFIG_TABLE, values, selection, selectionArgs);  
             this.getContext().getContentResolver().notifyChange(uri, null);  
             return count; 
         default:  
@@ -216,6 +247,34 @@ public class CarProvider extends ContentProvider {
         	Log.e(TAG, "Unknow Uri:" + uri.toString());
 			return -1;
         }  
+	}
+	
+	private boolean checkTableIsSame(String table, ContentValues values){
+		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+		boolean result = true;
+		Cursor cursor = db.query(table, null, null, null, null, null, null);
+		if (cursor != null && cursor.moveToNext()){
+			Iterator<String> iterator = values.keySet().iterator();
+			if (iterator != null){
+				while(iterator.hasNext()){
+					String key = iterator.next();
+					String val = values.getAsString(key);
+					String oldval = cursor.getString(cursor.getColumnIndex(key));
+					if (val == null || !val.equals(oldval)){
+						result = false;
+						break;
+					}
+				}
+			}
+		}
+		if (cursor != null){
+			cursor.close();
+			cursor = null;
+		}
+		if (result){
+			Log.i(TAG, "table " + table + " isSame");
+		}
+		return result;
 	}
 
 }

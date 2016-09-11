@@ -6,21 +6,30 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/layout_checking"
+        android:id="@+id/layout_whole"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
-        <include layout="@layout/layout_checking"/>
-    </LinearLayout>
-    
 
-    <LinearLayout
-        android:id="@+id/layout_checked"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-       <include layout="@layout/layout_checked"/>
+        <LinearLayout
+            android:id="@+id/layout_checking"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <include layout="@layout/layout_checking" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_checked"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <include layout="@layout/layout_checked" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

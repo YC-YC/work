@@ -27,4 +27,13 @@ public class GlobalData {
 	public static final String KEY_3G_CONTROL = "control";
 	/**3G拨号状态 on:已连接, off:断开*/
 	public static final String KEY_3G_STATE = "state";
+	/**ARM拨打紧急联系人状态 on:arm拨打, off:arm不拨打，can拨打*/
+	public static final String KEY_3G_ECALL = "ecall";
+	/**测试环境*/
+	public static final int ENV_TEST = 0;
+	/**生产环境*/
+	public static final int ENV_PROCDUCT = 1;
+	/**环境配置*/
+	public static int environments = ENV_TEST;
+
 }

@@ -9,29 +9,47 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zhcar.R;
+import com.zhcar.base.BaseApplication;
+import com.zhcar.base.UpdateUiBaseActivity;
+import com.zhcar.data.GlobalData;
+import com.zhcar.permission.MainActivity;
 import com.zhcar.provider.CarProviderData;
+import com.zhcar.utils.Saver;
+import com.zhcar.utils.UpdateUiManager;
+import com.zhcar.utils.UpdateUiManager.UpdateViewCallback;
+import com.zhcar.utils.Utils;
 
 /**
  * @author YC
  * @time 2016-8-6 上午10:40:04
  * TODO:五码版本号
  */
-public class VersionActivity extends Activity implements OnClickListener{
+public class VersionActivity extends UpdateUiBaseActivity implements OnClickListener{
 
 	private static final String TAG = "VersionActivity";
+	private TextView mCurMEID;
+	private CheckBox mEnvProcduct;
 	private Map<Integer, String> versions = new HashMap<Integer, String>(){
 			{
 				put(R.id.version_meid, null);
@@ -76,10 +94,91 @@ public class VersionActivity extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_version);
+		getContentResolver().registerContentObserver(CarProviderData.URI_CARINFO, true, mCarInfoObserver);
+		mCurMEID = (TextView) findViewById(R.id.curmeid);
+		mEnvProcduct = (CheckBox) findViewById(R.id.env_procduct);
+//		mEnvProcduct.setOnCheckedChangeListener(checkedChangeListener);
+		mEnvProcduct.setOnClickListener(mClickListener);
+		
 		getVersion();
 		freshVersion();
 		setClick();
 	}
+	
+	private OnClickListener mClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.env_procduct:
+				if (Saver.isEnvironmentProduct()){
+					updateEnvironmentsToConfigProvider(GlobalData.ENV_TEST);
+				}
+				else{
+					updateEnvironmentsToConfigProvider(GlobalData.ENV_PROCDUCT);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	};
+	
+	private OnCheckedChangeListener checkedChangeListener = new OnCheckedChangeListener() {
+		
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			Log.i(TAG, "isChecked = " + isChecked);
+			if (isChecked){
+//				GlobalData.environments = GlobalData.ENV_PROCDUCT;
+				updateEnvironmentsToConfigProvider(GlobalData.ENV_PROCDUCT);
+			}
+			else{
+//				GlobalData.environments = GlobalData.ENV_DEVELOPMENT;
+				updateEnvironmentsToConfigProvider(GlobalData.ENV_TEST);
+			}
+//			UpdateUiManager.getInstances().callUpdate(UpdateUiManager.CMD_UPDATE_ENVIRONMENT, "");
+		}
+	};
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mCurMEID.setText(((TelephonyManager) BaseApplication.getInstanse().getSystemService(Context.TELEPHONY_SERVICE))
+				.getDeviceId());
+		refreshEnvironmentState();
+		
+	}
+	
+	
+	
+	@Override
+	protected void onDestroy() {
+		getContentResolver().unregisterContentObserver(mCarInfoObserver);
+		super.onDestroy();
+	}
+	private ContentObserver mCarInfoObserver = new ContentObserver(new Handler()) {
+		
+		public void onChange(boolean selfChange) {
+			Log.i(TAG, "CarInfoProvider 数据变化");
+			getVersion();
+			freshVersion();
+		};
+	};
+	private class CarInfoObserver extends ContentObserver{
+
+		public CarInfoObserver(Handler handler) {
+			super(handler);
+		}
+		
+		@Override
+		public void onChange(boolean selfChange) {
+			super.onChange(selfChange);
+			Log.i(TAG, "CarInfoProvider 数据变化");
+			getVersion();
+			freshVersion();
+		}
+	};
 	
 	private void setClick(){
 		Iterator<Integer> iterator = writeBtns.iterator();
@@ -107,6 +206,26 @@ public class VersionActivity extends Activity implements OnClickListener{
 			setOnClick(id);
 			setText(id, text/*text == null ? getResources().getString(R.string.unknown): text*/);
 		}
+	}
+	
+	/**
+	 * 更新环境配置
+	 */
+	private void refreshEnvironmentState(){
+		if (mEnvProcduct == null)
+			return;
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+//				Log.i(TAG, "GlobalData.environments = " + GlobalData.environments);
+				if (Saver.isEnvironmentProduct()){
+					mEnvProcduct.setChecked(true);
+				}
+				else{
+					mEnvProcduct.setChecked(false);
+				}
+			}
+		});
 	}
 	
 	/**
@@ -145,6 +264,18 @@ public class VersionActivity extends Activity implements OnClickListener{
 	
 	private String getInputText(int id){
 		return ((EditText) findViewById(id)).getText().toString();
+	}
+	
+	public void doClick(View view){
+		switch (view.getId()) {
+		case R.id.curmeid:
+			if (Utils.isClickTimes(5, true)){
+				startActivity(new Intent(this, MainActivity.class));
+			}
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
@@ -210,5 +341,42 @@ public class VersionActivity extends Activity implements OnClickListener{
 			cursor.close();
 			cursor = null;
 		}
+	}
+	
+	/**
+	 * 更新生产环境到配置信息
+	 */
+	private void updateEnvironmentsToConfigProvider(int environments) {
+		ContentResolver resolver = getContentResolver();
+		ContentValues values = new ContentValues();
+		values.put(CarProviderData.KEY_CONFIG_ENVIRONMENTS, environments);
+		Cursor cursor = resolver.query(CarProviderData.URI_CONFIG, null, null, null, null);
+		if(cursor != null && cursor.moveToNext()){
+			int row = resolver.update(CarProviderData.URI_CONFIG, values, null, null);
+		}
+		else{
+			resolver.insert(CarProviderData.URI_CONFIG, values);
+		}
+		if (cursor != null){
+			cursor.close();
+			cursor = null;
+		}
+	}
+	
+	private UpdateViewCallback mUpdateViewCallback = new UpdateViewCallback() {
+		
+		@Override
+		public void onUpdate(int cmd, String val) {
+			switch (cmd) {
+			case UpdateUiManager.CMD_UPDATE_ENVIRONMENT:
+				refreshEnvironmentState();
+				break;
+			}
+		}
+	};
+
+	@Override
+	protected UpdateViewCallback getUpdateViewCallback() {
+		return mUpdateViewCallback;
 	}
 }

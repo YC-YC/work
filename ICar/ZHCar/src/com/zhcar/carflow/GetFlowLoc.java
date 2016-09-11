@@ -98,23 +98,36 @@ public class GetFlowLoc implements GetFlowAbs , HttpCallback{
 		HashMap<String, String> map = mJsonHelper.json2Map(response);
 		if (map == null){
 			if (mHttpStatusCallback != null){
-				mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_FAILED);
+				mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_FAILED, 0);
 			}
 		}
 		else {
 			String status = map.get("status");
 			if (status != null && "SUCCEED".equals(status)){
-				mFlowInfoBean.setUseFlow(map.get("useFlow"));
-				mFlowInfoBean.setSurplusFlow(map.get("surplusFlow"));
-				mFlowInfoBean.setCurrFlowTotal(map.get("currFlowTotal"));
-				if (mHttpStatusCallback != null){
-					mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_SUCCESS);
+				try {
+					float total = Float.valueOf(map.get("currFlowTotal"));
+					total = (float)(Math.round(total*100))/100;
+					mFlowInfoBean.setCurrFlowTotal(String.valueOf(total));
+					float used = Float.valueOf(map.get("useFlow"));
+					used = (float)(Math.round(used*100))/100;
+					mFlowInfoBean.setUseFlow(String.valueOf(used));
+					mFlowInfoBean.setSurplusFlow(String.valueOf((float)Math.round((total - used)*100)/100));
+					if (mHttpStatusCallback != null){
+						mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_SUCCESS, 0);
+					}
+				} catch (Exception e) {
 				}
+//				mFlowInfoBean.setUseFlow(map.get("useFlow"));
+//				mFlowInfoBean.setSurplusFlow(map.get("surplusFlow"));
+//				mFlowInfoBean.setCurrFlowTotal(map.get("currFlowTotal"));
+//				if (mHttpStatusCallback != null){
+//					mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_SUCCESS, 0);
+//				}
 				
 			}
 			else{
 				if (mHttpStatusCallback != null){
-					mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_FAILED);
+					mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_FAILED, 0);
 				}
 			}
 		}

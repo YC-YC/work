@@ -39,17 +39,17 @@ public class HttpUtils {
 	
 	public void post(String url, HttpCallback callback, HttpStatusCallback statusCallback)
 	{
-		new HttpThread(url, null, callback, statusCallback, true).start();
+		new HttpThread(url, null, callback, statusCallback, 0, true).start();
 	}
 	
-	public void postJson(String url, String jsonStr, HttpCallback callback, HttpStatusCallback statusCallback)
+	public void postJson(String url, String jsonStr, HttpCallback callback, HttpStatusCallback statusCallback, int httpCode)
 	{
-		new HttpThread(url, jsonStr, callback, statusCallback, true).start();
+		new HttpThread(url, jsonStr, callback, statusCallback, httpCode, true).start();
 	}
 	
 	public void get(String url, HttpCallback callback, HttpStatusCallback statusCallback)
 	{
-		new HttpThread(url, null, callback, statusCallback, false).start();
+		new HttpThread(url, null, callback, statusCallback, 0, false).start();
 	}
 	
 	private class HttpThread extends Thread{
@@ -58,13 +58,15 @@ public class HttpUtils {
 		private String mUrl;
 		private boolean bPost;
 		private String mJosnStr;
+		private int mHttpCode;
 		
-		public HttpThread(String url, String jsonStr, HttpCallback callback, HttpStatusCallback statusCallback, boolean bPost) {
+		public HttpThread(String url, String jsonStr, HttpCallback callback, HttpStatusCallback statusCallback, int httpCode, boolean bPost) {
 			mCallback = callback;
 			mStatusCallback = statusCallback;
 			mUrl = url;
 			mJosnStr = jsonStr;
 			this.bPost = bPost;
+			mHttpCode = httpCode;
 		}
 		@Override
 		public void run() {
@@ -108,13 +110,13 @@ public class HttpUtils {
 					else
 					{
 						if (mStatusCallback != null){
-							mStatusCallback.onStatus(response.getStatusLine().getStatusCode());
+							mStatusCallback.onStatus(response.getStatusLine().getStatusCode(), mHttpCode);
 						}
 					}
 					
 				} catch (Exception e) {
 					if (mStatusCallback != null){
-						mStatusCallback.onStatus(HttpStatusCallback.RESULT_CONN_ERR);
+						mStatusCallback.onStatus(HttpStatusCallback.RESULT_CONN_ERR, mHttpCode);
 					}
 					e.printStackTrace();
 				}
@@ -165,7 +167,7 @@ public class HttpUtils {
 					}*/
 				} catch (Exception e) {
 					if (mStatusCallback != null){
-						mStatusCallback.onStatus(HttpStatusCallback.RESULT_CONN_ERR);
+						mStatusCallback.onStatus(HttpStatusCallback.RESULT_CONN_ERR, mHttpCode);
 					}
 					e.printStackTrace();
 				}

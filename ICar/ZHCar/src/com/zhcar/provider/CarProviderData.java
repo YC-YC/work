@@ -16,7 +16,7 @@ public interface CarProviderData {
 	Uri URI_PHONEINFO = Uri.parse("content://cn.com.semisky.carProvider/phonenum");
 	Uri URI_PERMISSION = Uri.parse("content://cn.com.semisky.carProvider/permission");
 	Uri URI_FLOWINFO = Uri.parse("content://cn.com.semisky.carProvider/flowInfo");
-
+	Uri URI_CONFIG = Uri.parse("content://cn.com.semisky.carProvider/config");
 	
 	/**车辆信息表名*/
 	String CARINFO_TABLE = "carinfo";
@@ -30,6 +30,9 @@ public interface CarProviderData {
 	String FLOW_TABLE = "flowInfo";
 	/**统计信息*/
 	String ACCOUNT_TABLE = "account";
+	/**车机配置信息*/
+	String CONFIG_TABLE = "config";
+	
 	
 	/**车辆信息键值,对应的值全为String*/
 	String KEY_CARINFO_VIN = "vin";
@@ -93,4 +96,7 @@ public interface CarProviderData {
 	String KEY_ACCOUNT_AID = "aid";
 	String KEY_ACCOUNT_MOBILE = "mobile";
 	String KEY_ACCOUNT_IDNUMBER = "idNumber";
+	
+	/**环境配置，对应的值为int*/
+	String KEY_CONFIG_ENVIRONMENTS = "environments";
 }

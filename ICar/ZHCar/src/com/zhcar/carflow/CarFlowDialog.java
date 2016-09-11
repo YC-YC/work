@@ -7,6 +7,7 @@ import com.zhcar.R;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -18,11 +19,13 @@ import android.widget.TextView;
  */
 public class CarFlowDialog extends Dialog {
 
+	private static final String TAG = "CarFlowDialog";
 	private Context mContext;
 	private String mMessage;
 
 	public CarFlowDialog(Context context, String msg) {
-		super(context, /*android.R.style.Theme_Translucent_NoTitleBar*/R.style.Transparent);
+		super(context, R.style.Transparent);
+		Log.i(TAG, "setCusomView");
 		mContext = context;
 		mMessage = msg;
 		setCusomView();
@@ -32,7 +35,9 @@ public class CarFlowDialog extends Dialog {
 	 * 自定义界面
 	 */
 	private void setCusomView() {
+		Log.i(TAG, "setCusomView");
 		View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_carflow, null);
+		Log.i(TAG, "setCusomView 1111");
 		TextView content = (TextView) view.findViewById(R.id.carflow_tip_content);
 		content.setText(mMessage);
 		super.setContentView(view);
@@ -42,6 +47,12 @@ public class CarFlowDialog extends Dialog {
 	public void onBackPressed() {
 //		super.onBackPressed();
 		return;
+	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+		Log.i(TAG, "finalize");
+		super.finalize();
 	}
 
 }

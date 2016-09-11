@@ -3,6 +3,9 @@
 
     <string name="app_name">ZhCar</string>
     <string name="call_service">呼叫凯翼</string>
+    <string name="bt_disconnect">蓝牙未连接</string>
+    <string name="bt_calling">正在通话中</string>
+    <string name="no_call_number">无号码</string>
     <string name="app_check">自动检测</string>
     <string name="app_version">五码信息</string>
     <string name="call_tips">拨打客服电话</string>
@@ -26,4 +29,8 @@
     <string name="unknown">未知</string>
     <string name="write_ok">写入成功</string>
 	<string name="write">写入</string>
+	<string name="read_OK">读取成功</string>
+	<string name="no_ecall_num">无紧急联系人号码</string>
+	<string name="permission_ok">鉴权成功</string>
+	<string name="permission_err">鉴权失败</string>
 </resources>

@@ -73,7 +73,7 @@ public class GPRSManager implements ISwitch {
 		return getGPRSEnable();
 	}
 	
-	public boolean isNetWorkValilable(){
+	public boolean isNetWorkValuable(){
 		NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
 		return networkInfo == null? false: networkInfo.isAvailable();
 	}

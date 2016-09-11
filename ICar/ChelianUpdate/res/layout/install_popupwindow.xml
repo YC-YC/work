@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#00000000"
+	>
+	<RelativeLayout 
+    android:layout_width="720dp"
+    android:layout_height="540dp"
+    android:background="@drawable/popupwindow_general"
+	>
+    <TextView
+        android:id="@+id/txv_title"
+        android:layout_width="520dp"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:textSize="28sp"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:text="升级文件下载完成，是否现在进行升级?"/>
+
+    <TextView
+        android:id="@+id/txv_message"
+        android:layout_width="520dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txv_title"
+        android:singleLine="false"
+        android:textSize="24sp"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:text="升级大概需要10分钟，这期间必须停车升级并且不能关机!升级完成后车机将会进行重启。"/>
+	<!-- 按键部分 -->
+	<Button 
+	    android:id="@+id/btn_positive"
+	    android:layout_width="100dp"
+	    android:layout_height="50dp"
+	    android:gravity="center"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentLeft="true"
+	    android:layout_marginLeft="150dp"
+	    android:layout_marginBottom="35dp"
+	    android:background="@drawable/popupwindow_button"
+	    android:text="确定"/>
+	
+	<Button 
+	    android:id="@+id/btn_negative"
+	    android:layout_width="100dp"
+	    android:layout_height="50dp"
+	    android:gravity="center"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginRight="150dp"
+	    android:layout_marginBottom="35dp"
+	    android:background="@drawable/popupwindow_button"
+	    android:text="稍后"/>
+	</RelativeLayout>
+</RelativeLayout>

@@ -10,8 +10,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.zhcar.R;
+import com.zhcar.base.BaseApplication;
 import com.zhcar.carflow.CarFlowManager;
 import com.zhcar.data.GlobalData;
 import com.zhcar.provider.CarProviderData;
@@ -33,14 +36,16 @@ public class PermissionReceiver extends BroadcastReceiver {
 			String status = intent.getStringExtra("status");
 			if ("succeed".equals(status)){
 				Log.i(TAG, "Permission succeed");
+				Utils.ToastThread(Utils.getResourceString(R.string.permission_ok));
 				GlobalData.bPermissionStatus = true;
 //				setPermissionProvider(context, true);
 				checkCarFlow(context);
 			}
 			else{
 				Log.i(TAG, "Permission failed status = " + status);
-				GlobalData.bPermissionStatus = false;
-//				setPermissionProvider(context, false);
+				if (!TextUtils.isEmpty(status)){
+					GlobalData.bPermissionStatus = false;
+				}
 			}
 		}
 	}

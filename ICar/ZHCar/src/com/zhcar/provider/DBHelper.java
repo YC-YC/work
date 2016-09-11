@@ -15,6 +15,7 @@ import android.util.Log;
  * @author YC
  * @time 2016-7-7 上午11:03:04
  * TODO:
+ * 版本1升到版本2，添加了配置信息
  */
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -22,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	/**数据库名称*/	
 	private static final String DATABASE_NAME = "carinfo.db"; 
 	/**版本号*/
-	private static final int DATABASE_VERSION = 1;// 数据库版本
+	private static final int DATABASE_VERSION = 2;// 数据库版本
 	
 
 	
@@ -41,33 +42,37 @@ public class DBHelper extends SQLiteOpenHelper {
 		createSids(db);
 		createFlowInfo(db);
 		createAccount(db);
+		createConfig(db);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.i(TAG, "版本更新");
-		ContentValues carInfoValues = null;
-		if (oldVersion == 1){
-			Log.i(TAG, "oldVersion = " + oldVersion);
-			carInfoValues = getCarInfoV1(db);
+//		ContentValues carInfoValues = null;
+//		if (oldVersion == 1){
+//			Log.i(TAG, "oldVersion = " + oldVersion);
+//			carInfoValues = getCarInfoV1(db);
+//		}
+//		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.CARINFO_TABLE);
+//		createCarInfo(db);
+//		if (carInfoValues != null){
+//			Log.i(TAG, "update newVersion = " + newVersion);
+//			db.insert(CarProviderData.CARINFO_TABLE, "debug", carInfoValues);
+//		}
+//		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.PHONENUM_TABLE);
+//		createPhoneNum(db);
+//		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.PERMISSION_TABLE);
+//		createPermission(db);
+//		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.SIDS_TABLE);
+//		createSids(db);
+//		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.FLOW_TABLE);
+//		createFlowInfo(db);
+//		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.ACCOUNT_TABLE);
+//		createAccount(db);
+//		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.CONFIG_TABLE);
+		if (newVersion == 2){
+			createConfig(db);
 		}
-		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.CARINFO_TABLE);
-		createCarInfo(db);
-		if (carInfoValues != null){
-			Log.i(TAG, "update newVersion = " + newVersion);
-			db.insert(CarProviderData.CARINFO_TABLE, "debug", carInfoValues);
-		}
-//		setDefaultCarInfo(db);
-		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.PHONENUM_TABLE);
-		createPhoneNum(db);
-		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.PERMISSION_TABLE);
-		createPermission(db);
-		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.SIDS_TABLE);
-		createSids(db);
-		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.FLOW_TABLE);
-		createFlowInfo(db);
-		db.execSQL("DROP TABLE IF EXISTS " + CarProviderData.ACCOUNT_TABLE);
-		createAccount(db);
 	}
 	
 	private ContentValues getCarInfoV1(SQLiteDatabase db) {
@@ -212,5 +217,10 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ CarProviderData.KEY_ACCOUNT_AID + " integer,"
 				+ CarProviderData.KEY_ACCOUNT_MOBILE + " text,"
 				+ CarProviderData.KEY_ACCOUNT_IDNUMBER + " text)");
+	}
+	
+	private void createConfig(SQLiteDatabase db){
+		db.execSQL("create table if not exists " + CarProviderData.CONFIG_TABLE +"(_id integer primary key autoincrement, " 
+				+ CarProviderData.KEY_CONFIG_ENVIRONMENTS + " integer)");
 	}
 }

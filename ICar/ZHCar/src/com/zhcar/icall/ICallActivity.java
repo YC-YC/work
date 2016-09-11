@@ -8,8 +8,10 @@ import java.util.HashMap;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -67,7 +69,7 @@ public class ICallActivity extends UpdateUiBaseActivity implements OnClickListen
 	private UpdateViewCallback mUpdateViewCallback = new UpdateViewCallback() {
 		
 		@Override
-		public void onUpdate(int cmd) {
+		public void onUpdate(int cmd, String val) {
 			switch (cmd) {
 			case UpdateUiManager.CMD_UPDATE_BTSTATE:
 				refreshDialKey();
@@ -81,10 +83,10 @@ public class ICallActivity extends UpdateUiBaseActivity implements OnClickListen
 		if (mCallservice == null)
 			return;
 		if (!BtUtils.isBtConnected()/* || BtUtils.isBtCalling()*/){
-			mCallservice.setEnabled(false);
+//			mCallservice.setEnabled(false);
 		}
 		else{
-			mCallservice.setEnabled(true);
+//			mCallservice.setEnabled(true);
 		}
 	}
 
@@ -98,16 +100,32 @@ public class ICallActivity extends UpdateUiBaseActivity implements OnClickListen
 	}
 
 	private void doCallKaiYi() {
+		
 		if (BtUtils.isBtConnected() && !BtUtils.isBtCalling()){
 			String kaiYiNum = getKaiYiNum();
 			if (!TextUtils.isEmpty(kaiYiNum) && !"null".equals(kaiYiNum)){
-				
+				//获取的号码前面会加个，要去掉
+				if (kaiYiNum.charAt(0) == '0'){
+					kaiYiNum = kaiYiNum.substring(1);
+				}
 				HashMap<String, String> extras = new HashMap<String, String>();
 				extras.clear();
-				extras.put(BtUtils.BT_CALL_PHONE_KEY, getKaiYiNum());
-				Log.i(TAG, "拨打客服电话");
+				extras.put(BtUtils.BT_CALL_PHONE_KEY, kaiYiNum);
+				Log.i(TAG, "拨打KaiYi电话" + kaiYiNum);
 				Utils.sendBroadcast(this, BtUtils.BT_CONTROL_ACTION, extras);
 			}
+			else{
+//				Toast.makeText(this, Utils.getResourceString(R.string.no_call_number), Toast.LENGTH_SHORT).show();
+				makeToast(Utils.getResourceString(R.string.no_call_number));
+			}
+		}
+		else if (!BtUtils.isBtConnected()){
+//			Toast.makeText(this, Utils.getResourceString(R.string.bt_disconnect), Toast.LENGTH_SHORT).show();
+			makeToast(Utils.getResourceString(R.string.bt_disconnect));
+		}
+		else if (BtUtils.isBtCalling()){
+//			Toast.makeText(this, Utils.getResourceString(R.string.bt_calling), Toast.LENGTH_SHORT).show();
+			makeToast(Utils.getResourceString(R.string.bt_calling));
 		}
 	}
 	
@@ -136,6 +154,16 @@ public class ICallActivity extends UpdateUiBaseActivity implements OnClickListen
 	}
 
 	
-	
+	private long lastToastTime = 0;
+	private void makeToast(String text){
+		long nowTime = SystemClock.elapsedRealtime();
+		if (nowTime - lastToastTime > 2*1000){
+			Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+//			toast.setDuration(500);
+			toast.show();
+			lastToastTime = nowTime;
+		}
+	}
 	
 }

@@ -3,10 +3,6 @@
  */
 package com.zhcar.apprecord;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-
 import android.util.Log;
 
 import com.zhcar.data.AppUseRecord;
@@ -21,7 +17,8 @@ public class RecordManager {
 
 	private static final String TAG = "AppRecord";
 	private IPostAppRecord mPostAppRecord;
-	
+	private CacheAppUseRecord mCacheAppUseRecord;
+	private boolean mNetworkValuable = false;
 	private static RecordManager instance;
 	public static RecordManager getInstance(){
 		if (instance == null){
@@ -34,6 +31,16 @@ public class RecordManager {
 		return instance;
 	}
 	
+	public void onNetworkStateChange(boolean bValuable){
+		if (bValuable && !mNetworkValuable){
+			if (mCacheAppUseRecord.hasCacheInfo()){
+				Log.i(TAG, "postCacheAppUseRecord");
+				HttpPostAppRecord(mCacheAppUseRecord.getNextCacheInfo());
+			}
+		}
+		mNetworkValuable = bValuable;
+	}
+	
 	public void HttpPostAppRecord(AppUseRecord recordInfo){
 		if (mPostAppRecord == null){
 			mPostAppRecord = new PostAppRecord();
@@ -42,18 +49,27 @@ public class RecordManager {
 		mPostAppRecord.SetHttpStatusCallback(new HttpStatusCallback() {
 			
 			@Override
-			public void onStatus(int status) {
+			public void onStatus(int status, int httpCode) {
 				Log.i(TAG, "get Http status = " + status);
 				if (status == HttpStatusCallback.RESULT_SUCCESS){
+					mCacheAppUseRecord.sendState(true, httpCode);
+					if (mCacheAppUseRecord.hasCacheInfo()){
+						Log.i(TAG, "get post ok,post cache");
+						HttpPostAppRecord(mCacheAppUseRecord.getNextCacheInfo());
+					}
+				}
+				else {
+					mCacheAppUseRecord.sendState(false, httpCode);
 				}
 			}
 		});
+		mCacheAppUseRecord.push(recordInfo);
 		mPostAppRecord.Refresh();
 	}
 	
 	
 	private RecordManager(){
-		
+		mCacheAppUseRecord = new CacheAppUseRecord();
 	}
 	
 }

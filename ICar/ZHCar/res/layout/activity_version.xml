@@ -8,6 +8,29 @@
 
         <TextView
             style="@style/FiveNumberTitle"
+            android:text="当前MEID:" />
+
+        <TextView
+            android:id="@+id/curmeid"
+            style="@style/FiveNumberContent"
+           android:textColor="@color/white"
+           android:clickable="true"
+           android:onClick="doClick"
+            />
+
+        <CheckBox
+            android:id="@+id/env_procduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生产环境" />
+
+    </LinearLayout>
+    
+    <LinearLayout style="@style/FiveNumberItem" 
+        android:layout_marginTop="50dp">
+
+        <TextView
+            style="@style/FiveNumberTitle"
             android:text="MEID:" />
 
         <EditText
@@ -21,8 +44,7 @@
     </LinearLayout>
 
     <LinearLayout
-        style="@style/FiveNumberItem"
-        android:layout_marginTop="20dp" >
+        style="@style/FiveNumberItem">
 
         <TextView
             style="@style/FiveNumberTitle"
@@ -39,8 +61,7 @@
     </LinearLayout>
 
     <LinearLayout
-        style="@style/FiveNumberItem"
-        android:layout_marginTop="20dp" >
+        style="@style/FiveNumberItem">
 
         <TextView
             style="@style/FiveNumberTitle"
@@ -57,8 +78,7 @@
     </LinearLayout>
 
     <LinearLayout
-        style="@style/FiveNumberItem"
-        android:layout_marginTop="20dp" >
+        style="@style/FiveNumberItem">
 
         <TextView
             style="@style/FiveNumberTitle"
@@ -75,8 +95,7 @@
     </LinearLayout>
 
     <LinearLayout
-        style="@style/FiveNumberItem"
-        android:layout_marginTop="20dp" >
+        style="@style/FiveNumberItem">
 
         <TextView
             style="@style/FiveNumberTitle"
@@ -93,8 +112,7 @@
     </LinearLayout>
 
     <LinearLayout
-        style="@style/FiveNumberItem"
-        android:layout_marginTop="20dp" >
+        style="@style/FiveNumberItem">
 
         <TextView
             style="@style/FiveNumberTitle"
@@ -102,12 +120,20 @@
 
         <EditText
             android:id="@+id/version_vin"
-            style="@style/FiveNumberContent"
-            android:text="1234567898" />
+            style="@style/FiveNumberContent"/>
         <Button
 			android:id="@+id/write_vin"
 			style="@style/FiveNumberWrite"
 			/>
     </LinearLayout>
+<LinearLayout
+        style="@style/FiveNumberItem">
 
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:textColor="@color/red"
+            android:text="非测试人员不要随意修改，否则后果自负" />
+    </LinearLayout>
 </LinearLayout>

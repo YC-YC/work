@@ -6,22 +6,22 @@ package com.zhcar.check;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhcar.R;
+import com.zhcar.base.UpdateUiBaseActivity;
+import com.zhcar.utils.UpdateUiManager;
+import com.zhcar.utils.UpdateUiManager.UpdateViewCallback;
 import com.zhcar.widget.HealthProgressBar;
 
 /**
@@ -29,18 +29,16 @@ import com.zhcar.widget.HealthProgressBar;
  * @time 2016-7-14 下午12:23:06
  * TODO:自动检测
  */
-public class CheckActivity extends Activity {
+public class CheckActivity extends UpdateUiBaseActivity {
 
 	private static final String TAG = "CheckActivity";
-	private static final String SCORE_ACTION = "com.zhonghong.zuiserver.BROADCAST";
-	
-	private LinearLayout mLayoutChecking, mLayoutChecked;
+	private LinearLayout mLayoutChecking, mLayoutChecked, mLayoutWhole;
 	private ImageView mCarType;
 	private HealthProgressBar mHealthProgressBar;
 	private TextView mCheckedTips;
 	private String mCarTypeName;
 	private int mScore = -1;
-	private ScoreReceiver mScoreReceiver;
+	private Handler mHandler;
 	
 	private static final String CARTYPE_MC22 = "mc22";
 	private static final String CARTYPE_XC51 = "xc51";
@@ -57,41 +55,28 @@ public class CheckActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		Log.i(TAG, "onCreate");
+		Log.i(TAG, "onCreate");
 		View decorView = getWindow().getDecorView(); //获取顶层窗口
 		int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
 		decorView.setSystemUiVisibility(uiOptions);
 		setContentView(R.layout.activity_check);
-		
+		mHandler = new Handler();
 		mScore = -1;
 		initViews();
 		
-		registerScoreBroadcast();
 	}
 
-	private void registerScoreBroadcast() {
-		IntentFilter filter = new IntentFilter(SCORE_ACTION);
-		mScoreReceiver = new ScoreReceiver();
-		registerReceiver(mScoreReceiver, filter);
-	}
-	
-	private void unregisterScoreBroadcast(){
-		if (mScoreReceiver != null){
-			unregisterReceiver(mScoreReceiver);
-		}
-		mScoreReceiver = null;
-	}
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-//		Log.i(TAG, "onNewIntent");
+		Log.i(TAG, "onNewIntent");
 		super.onNewIntent(intent);
 		mScore = -1;
 	}
 	
 	@Override
 	protected void onResume() {
-//		Log.i(TAG, "onResume");
+		Log.i(TAG, "onResume");
 		mCarTypeName = Settings.System.getString(getContentResolver(), "cartype");
 		if (mCarTypeName == null){
 			mCarTypeName = CARTYPE_MC22;
@@ -106,28 +91,48 @@ public class CheckActivity extends Activity {
 			mHealthProgressBar.setProgress(mScore);
 			refreshCheckedTips();
 		}
+		mHandler.postDelayed(mFinishRunnable, 15*1000);
 	}
 	
 	@Override
 	protected void onPause() {
-//		Log.i(TAG, "onPause");
+		Log.i(TAG, "onPause");
 		super.onPause();
+		mHandler.removeCallbacks(mFinishRunnable);
 	}
 	@Override
 	protected void onDestroy() {
 		Log.i(TAG, "onDestroy");
-		unregisterScoreBroadcast();
 		super.onDestroy();
 	}
 	
 	private void initViews() {
 		mLayoutChecking = (LinearLayout) findViewById(R.id.layout_checking);
 		mLayoutChecked = (LinearLayout) findViewById(R.id.layout_checked);
+		mLayoutWhole = (LinearLayout) findViewById(R.id.layout_whole);
+		mLayoutWhole.setOnTouchListener(mTouchListener);
 		mCarType = (ImageView) findViewById(R.id.cartype);
 		mHealthProgressBar = (HealthProgressBar) findViewById(R.id.healthprogressbar);
 		mCheckedTips = (TextView) findViewById(R.id.checked_tips);
 	}
 	
+	private OnTouchListener mTouchListener = new OnTouchListener() {
+		
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			mHandler.removeCallbacks(mFinishRunnable);
+			mHandler.postDelayed(mFinishRunnable, 15*1000);
+			return true;
+		}
+	};
+	
+	private Runnable mFinishRunnable = new Runnable() {
+		
+		@Override
+		public void run() {
+			finish();
+		}
+	};
 	
 	/**
 	 * 更新布局
@@ -179,25 +184,45 @@ public class CheckActivity extends Activity {
 	}
 	
 	
-	private class ScoreReceiver extends BroadcastReceiver{
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			String action = intent.getAction();
-			if (SCORE_ACTION.equals(action)){
-				String stringExtra = intent.getStringExtra("score");
-				if (stringExtra != null){
-					try {
-						mScore = Integer.valueOf(stringExtra);
-						refreshLayout(false);
-						mHealthProgressBar.setProgress(mScore);
-						refreshCheckedTips();
-					} catch (Exception e) {
-						e.printStackTrace();
+	/**刷新拨号按键*/
+	private void updateCheckView(final String val) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					mScore = Integer.valueOf(val)/100;
+					if (mScore > 100){
+						mScore = 100;
 					}
+					if (mScore < 0){
+						mScore = 0;
+					}
+					refreshLayout(false);
+					mHealthProgressBar.setProgress(mScore);
+					refreshCheckedTips();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
+		});
+	}
+
+	private UpdateViewCallback mUpdateViewCallback = new UpdateViewCallback() {
+		
+		@Override
+		public void onUpdate(int cmd, String val) {
+			switch (cmd) {
+			case UpdateUiManager.CMD_UPDATE_CHECK_SCORE:
+				Log.i(TAG, "score = " + val);
+				updateCheckView(val);
+				break;
+			}
 		}
+	};
+
+	@Override
+	protected UpdateViewCallback getUpdateViewCallback() {
+		return mUpdateViewCallback;
 	}
 	
 }

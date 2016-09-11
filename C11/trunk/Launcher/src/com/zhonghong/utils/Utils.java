@@ -35,10 +35,10 @@ public class Utils {
 	public static final String ZH_PHOTO_PKG = "com.zhonghong.newphoto";
 	public static final String ZH_PHOTO_CLZ = "com.zhonghong.media.photo.PhotoLauncher";
 	/**蓝牙音乐包名，类名*/
-	public static final String ZH_BTMUSIC_PKG = "com.zhonghong.bt";
-	public static final String ZH_BTMUSIC_CLZ = "com.zhonghong.bt.ui.BtAudioActivity";
+	public static final String ZH_BTMUSIC_PKG = "com.zhonghong.bluetooth";
+	public static final String ZH_BTMUSIC_CLZ = "com.zhonghong.bluetooth.music.ui.MainActivity";
 	/**蓝牙包名，类名*/
-	public static final String ZH_BTPHONE_PKG = "com.zhonghong.bluetooth.phone";
+	public static final String ZH_BTPHONE_PKG = "com.zhonghong.bluetooth";
 	public static final String ZH_BTPHONE_CLZ = "com.zhonghong.bluetooth.phone.ui.activity.MainActivity";
 	/**设置包名，类名*/
 	public static final String ZH_SETTINGS_PKG = "com.zhonghong.settings";
@@ -50,23 +50,23 @@ public class Utils {
 	public static final String ZH_APPSTORE_PKG = "com.yesway.c11.store";
 	public static final String ZH_APPSTORE_CLZ = "com.yesway.c11.store.MainActivity";
 	/**一键呼叫包名，类名*/
-	public static final String ZH_ICALL_PKG = "com.yesway.icallnew";
-	public static final String ZH_ICALL_CLZ = "com.yesway.icallnew.MainActivity";
+	public static final String ZH_ICALL_PKG = "com.yesway.c11.icall";
+	public static final String ZH_ICALL_CLZ = "com.yesway.c11.icall.MainActivity";
 	/**语音记事本包名，类名*/
-	public static final String ZH_RECORDER_PKG = "com.yesway.c11_recorder";
-	public static final String ZH_RECORDER_CLZ = "com.yesway.c11_recorder.activity.MainActivity";
+	public static final String ZH_RECORDER_PKG = "com.yesway.c11.recorder";
+	public static final String ZH_RECORDER_CLZ = "com.yesway.c11.recorder.activity.MainActivity";
 	/**用户包名，类名*/
 	public static final String ZH_USER_PKG = " ";
 	public static final String ZH_USER_CLZ = " ";
 	/**Carlife包名，类名*/
-	public static final String ZH_CARLIFE_PKG = " ";
-	public static final String ZH_CARLIFE_CLZ = " ";
+	public static final String ZH_CARLIFE_PKG = "com.zhonghong.carlife";
+	public static final String ZH_CARLIFE_CLZ = "com.zhonghong.carlife.MainActivity";
 	/**扩展包名，类名*/
 	public static final String ZH_EXTEND_PKG = "com.zhonghong.expandapps";
 	public static final String ZH_EXTEND_CLZ = "com.zhonghong.expandapps.ui.activity.MainActivity";
 	/**LED包名，类名*/
-	public static final String ZH_LED_PKG = " ";
-	public static final String ZH_LED_CLZ = " ";
+	public static final String ZH_LED_PKG = "com.zhonghong.ledscreen";
+	public static final String ZH_LED_CLZ = "com.zhonghong.ledscreen.LedScreenMainActivity";
 	
 	/** 打开应用方法 */
 	public static boolean startOtherActivity(Context context, String pkgName, String className){

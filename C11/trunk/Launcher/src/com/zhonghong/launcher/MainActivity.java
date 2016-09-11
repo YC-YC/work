@@ -394,6 +394,7 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 		mMusicID3Pic = (ImageView) findViewById(R.id.music_id3pic);
 		
 		mLayoutBtMusic = (LinearLayout) findViewById(R.id.layout_btmusic);
+		mLayoutBtMusic.setOnClickListener(this);
 		mBtMusicTitle = (TextView) findViewById(R.id.btmusic_title);
 		
 		mLayoutLoading = (LinearLayout) findViewById(R.id.layout_media_loading);
@@ -478,13 +479,16 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 	 * @param type 
 	 */
 	private void refreshWidget(int type){
+		Log.i(TAG, "refreshWidget type = " + type);
 		clearAllWidget();
 		if (!RateManager.getRateManager().isValued()){
+			GlobalData.MediaWidgetType = type;
 			switch (type) {
 			case GlobalData.MEDIA_WIDGET_TYPE_RADIO:
 				setWidgetRadio();
 				break;
 			case GlobalData.MEDIA_WIDGET_TYPE_MUSIC:
+				
 				setWidgetMusic();
 				break;
 			case GlobalData.MEDIA_WIDGET_TYPE_BTMUSIC:
@@ -510,7 +514,7 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 	}
 	private void setWidgetRadio(){
 		mLayoutRadio.setVisibility(View.VISIBLE);
-		mRadioTitle.setText("FM城市之音");
+		mRadioTitle.setText(GlobalData.Radio.TITLE);
 		mRadioCurFreq.setText(getRadioFreqStr(GlobalData.Radio.CUR_FREQ));
 	}
 	
@@ -630,6 +634,9 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 			break;
 		case R.id.layout_music:
 			new USBCommand().execute(this);
+			break;
+		case R.id.layout_btmusic:
+			new BtMusicCommand().execute(this);
 			break;
 		case R.id.rate_checked_recheck:
 			RateManager.getRateManager().setCurStatus(RateManager.getRateManager().getReadyStatus());

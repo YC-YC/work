@@ -17,6 +17,10 @@ import android.util.Log;
 public class UpdateUiManager {
 
 	public static final int CMD_UPDATE_BTSTATE = 1;
+	/**更新检测评分*/
+	public static final int CMD_UPDATE_CHECK_SCORE = 2;
+	/**环境配置*/
+	public static final int CMD_UPDATE_ENVIRONMENT = 3;
 
 	private static final String TAG = "UpdateUiManager";
 	
@@ -24,7 +28,7 @@ public class UpdateUiManager {
 	private Set<UpdateViewCallback> mUpdateViewCallbacks;
 	
 	public interface UpdateViewCallback{
-		void onUpdate(int cmd);
+		void onUpdate(int cmd, String val);
 	}
 	
 	public void register(UpdateViewCallback callback){
@@ -49,11 +53,11 @@ public class UpdateUiManager {
 		return instances;
 	}
 	
-	public void callUpdate(int cmd){
+	public void callUpdate(int cmd, String val){
 		Iterator<UpdateViewCallback> iterator = mUpdateViewCallbacks.iterator();
 		while (iterator.hasNext()){
 			UpdateViewCallback callback = iterator.next();
-			callback.onUpdate(cmd);
+			callback.onUpdate(cmd, val);
 		}
 	}
 	

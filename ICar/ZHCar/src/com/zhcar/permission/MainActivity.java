@@ -15,16 +15,19 @@ import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.CLTX.outer.newinterface.PhoneUtil;
 import com.zhcar.R;
 import com.zhcar.apprecord.RecordManager;
 import com.zhcar.carflow.CarFlowManager;
 import com.zhcar.carflow.GetFlowLoc;
 import com.zhcar.data.AppUseRecord;
 import com.zhcar.data.GlobalData;
-import com.zhcar.emergencycall.EmergencyCallManager;
+import com.zhcar.ecall.ECallManager;
 import com.zhcar.provider.CarProviderData;
 import com.zhcar.readnumber.VersionActivity;
 import com.zhcar.utils.DialogManager;
@@ -35,6 +38,9 @@ public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity";
 
 	private TextView mContent;
+	private EditText mInputNum;
+	private EditText mInputDialDtmfNum;
+	private Button mPermission;
 	
 	private ContentResolver resolver;
 	private final Uri carInfoUri = Uri.parse("content://cn.com.semisky.carProvider/carInfo");
@@ -57,10 +63,19 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mContent = (TextView) findViewById(R.id.content);
+		mInputNum = (EditText) findViewById(R.id.inputnum);
+		mInputDialDtmfNum = (EditText) findViewById(R.id.inputdialdtmfnum);
+		mPermission = (Button) findViewById(R.id.getpermission);
 		mGprsManager = new GPRSManager(this);
 		resolver = getContentResolver();
 		resolver.registerContentObserver(carInfoUri, true, new CarInfoObserver(new Handler()) {});
 		resolver.registerContentObserver(phoneInfoUri, true, new PhoneInfoObserver(new Handler()) {});
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mPermission.setText(GlobalData.bPermissionStatus?"鉴权成功":"鉴权不成功");
 	}
 	
 	private class CarInfoObserver extends ContentObserver{
@@ -91,6 +106,7 @@ public class MainActivity extends Activity {
 		}
 	};
 
+	private boolean bCarRun = false;
 	public void doClick(View view) {
 		switch (view.getId()) {
 		case R.id.query:
@@ -99,14 +115,14 @@ public class MainActivity extends Activity {
 	    	queryPermissionProvider();
 			break;
 		case R.id.insert:
-			insertCarinfoProvider();
-			insertNuminfoProvider();
-			insertPermissionProvider();
+//			insertCarinfoProvider();
+//			insertNuminfoProvider();
+//			insertPermissionProvider();
 			break;
 		case R.id.update:
-			updateCarinfoProvider();
+//			updateCarinfoProvider();
 			updateNuminfoProvider();
-			updatePermissionProvider();
+//			updatePermissionProvider();
 			break;
 		case R.id.delete:
 			deleteCarinfoProvider();
@@ -162,19 +178,55 @@ public class MainActivity extends Activity {
 			getIMEI();
 			break;
 		case R.id.callemergency:
-			EmergencyCallManager.getInstance().startcallEmergency();
+			ECallManager.getInstance().startECall();
 			break;
 		case R.id.openversion:
 			startActivity(new Intent(this, VersionActivity.class));
 			break;
 		case R.id.getnetwork:
-			boolean valilable = new GPRSManager(this).isNetWorkValilable();
+			boolean valilable = new GPRSManager(this).isNetWorkValuable();
 			Log.i(TAG, "is network valilable = " + valilable);
 			Toast.makeText(this, valilable ? "网络可用":"网络不可用", 100).show();
+			break;
+		case R.id.dial:
+			{
+				String num = mInputNum.getText().toString().trim();
+				if (num != null){
+					PhoneUtil.getInstance().dial(num);
+				}
+				else{
+					Toast.makeText(this, "号码为空", Toast.LENGTH_LONG).show();
+				}
+			}
+			break;
+		case R.id.hangup:
+			PhoneUtil.getInstance().hangUp();
+			break;
+		case R.id.dialdtmf:
+		{
+			String num = mInputDialDtmfNum.getText().toString().trim();
+			PhoneUtil.getInstance().dialDtmf(num);
+//			PhoneUtil.getInstance().playDtmfTone('1', false);
+		}
+		break;
+		case R.id.sendpermissionbroadcast:
+			sendBroadcast("com.tima.Permission", "status", "succeed");
+			break;
+		case R.id.sendcarrunbroadcast:
+			bCarRun = !bCarRun;
+			sendBroadcast("com.zhonghong.zuiserver.BROADCAST", "CARRUN_INFO", bCarRun ? "1":"0");
+			Toast.makeText(this, bCarRun? "行车中":"行车停止", Toast.LENGTH_LONG).show();
 			break;
 		default:
 			break;
 		}
+	}
+	
+	private void sendBroadcast(String action, String key, String val){
+		Intent intent = new Intent();
+		intent.setAction(action);
+		intent.putExtra(key, val);
+		sendBroadcast(intent);
 	}
 	
 	/**
@@ -242,13 +294,13 @@ public class MainActivity extends Activity {
 			return;
 		}
 		ContentValues values = new ContentValues();
-		values.put(CarProviderData.KEY_PHONENUM_RECUTE_NUM, "4008001000");
+		values.put(CarProviderData.KEY_PHONENUM_RECUTE_NUM, "10000");
 		values.put(CarProviderData.KEY_PHONENUM_RECUTE_TIME, 20);
-		values.put(CarProviderData.KEY_PHONENUM_NAVI_NUM, "4008001001");
-		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM1, "4008001002");
-		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM2, "4008001003");
+		values.put(CarProviderData.KEY_PHONENUM_NAVI_NUM, "10000");
+		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM1, "15820201347");
+		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM2, "10000");
 		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_TIME, 30);
-		values.put(CarProviderData.KEY_PHONENUM_KAIYI_NUM, "4008001004");
+		values.put(CarProviderData.KEY_PHONENUM_KAIYI_NUM, "10086");
 		Uri insertUri = resolver.insert(phoneInfoUri, values);
 	}
 
@@ -279,8 +331,8 @@ public class MainActivity extends Activity {
 	
 	private void updateNuminfoProvider() {
 		ContentValues values = new ContentValues();
-		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM1, "10086");
-		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_TIME, 35);
+		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM1, "15820201347");
+		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_TIME, 20);
 		values.put(CarProviderData.KEY_PHONENUM_EMERGENCY_NUM2, "10000");
 		values.put(CarProviderData.KEY_PHONENUM_KAIYI_NUM, "10086");
 		int row = resolver.update(phoneInfoUri, values, null, null);

@@ -5,10 +5,19 @@ package com.zhcar.utils;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import com.zhcar.R;
+import com.zhcar.base.BaseApplication;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
+import android.widget.Toast;
 
 /**
  * @author YC
@@ -69,5 +78,47 @@ public class Utils {
 	 */
 	public static boolean isEmpty(String string) {
 		return ((string == null) || (string.length() == 0));
+	}
+	
+	public static String getResourceString(int id){
+		return BaseApplication.getInstanse().getResources().getString(id);
+	}
+	
+	/**
+	 * 线程中弹出Toast
+	 */
+	public static void ToastThread(final String text){
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				Looper.prepare();
+				new Handler().post(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(BaseApplication.getInstanse(), text, Toast.LENGTH_SHORT).show();
+					}
+				});
+				Looper.loop();
+			}
+		}).start();
+	}
+	
+	static long lastClickTime;
+	static int clickTimes = 0;
+	/**
+	 * 是否是多次点击
+	 * @param times点击次数
+	 * @param bEqual true:==才返回true, false:>=都返回true
+	 * @return
+	 */
+	public static boolean isClickTimes(int times, boolean bEqual){
+			long nowTime = SystemClock.elapsedRealtime();
+			if (nowTime - lastClickTime > 2*1000){
+				clickTimes = 0;
+			}
+			lastClickTime = nowTime;
+			clickTimes++;
+			return bEqual ? (clickTimes == times ? true: false):(clickTimes >= times ? true: false);
 	}
 }

@@ -38,7 +38,7 @@ public class ConnManager implements IPostFromClient {
 				return true;
 		}
 		GlobalData.MediaWidgetType = GlobalData.MEDIA_WIDGET_TYPE_DEFAULT;
-		UpdateUiManager.getInstances().callUpdate(UpdateUiManager.CMD_UPDATE_MUSIC_INFO);
+		UpdateUiManager.getInstances().callUpdate(UpdateUiManager.CMD_UPDATE_DEFAULT);
 
 		return false;
 	}

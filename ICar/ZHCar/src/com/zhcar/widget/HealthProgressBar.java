@@ -266,14 +266,16 @@ public class HealthProgressBar extends ProgressBar {
 		int left = (int) (centerX - mRadiu);
 		int top = (int) (centerX - mRadiu);
 
+		// 设置渐变色
+		final float sweepAngle = getProgress() * 1.0f / getMax() * mTotalAngle;
+		getReachBarColor();
+		mUnReachPaint.setColor(colors[0]);
+		
 		// 未到达进度
 		canvas.drawArc(new RectF(left, top, 2 * mRadiu, 2 * mRadiu),
 				startAngle, mTotalAngle, false, mUnReachPaint);
 
 		// 已走进度
-		// 设置渐变色
-		final float sweepAngle = getProgress() * 1.0f / getMax() * mTotalAngle;
-		getReachBarColor();
 			
 		SweepGradient sweepGradient = new SweepGradient(centerX, centerY,
 				colors, null);

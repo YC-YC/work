@@ -186,6 +186,79 @@ public class AppUseRecord {
 		maps.put("type", type);
 		return maps;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((appName == null) ? 0 : appName.hashCode());
+		result = prime * result
+				+ ((appProgram == null) ? 0 : appProgram.hashCode());
+		result = prime * result
+				+ ((appProgramAuth == null) ? 0 : appProgramAuth.hashCode());
+		result = prime * result
+				+ ((appStatus == null) ? 0 : appStatus.hashCode());
+		result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
+		result = prime * result
+				+ ((startTime == null) ? 0 : startTime.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((vin == null) ? 0 : vin.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AppUseRecord other = (AppUseRecord) obj;
+		if (appName == null) {
+			if (other.appName != null)
+				return false;
+		} else if (!appName.equals(other.appName))
+			return false;
+		if (appProgram == null) {
+			if (other.appProgram != null)
+				return false;
+		} else if (!appProgram.equals(other.appProgram))
+			return false;
+		if (appProgramAuth == null) {
+			if (other.appProgramAuth != null)
+				return false;
+		} else if (!appProgramAuth.equals(other.appProgramAuth))
+			return false;
+		if (appStatus == null) {
+			if (other.appStatus != null)
+				return false;
+		} else if (!appStatus.equals(other.appStatus))
+			return false;
+		if (endTime == null) {
+			if (other.endTime != null)
+				return false;
+		} else if (!endTime.equals(other.endTime))
+			return false;
+		if (startTime == null) {
+			if (other.startTime != null)
+				return false;
+		} else if (!startTime.equals(other.startTime))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		if (vin == null) {
+			if (other.vin != null)
+				return false;
+		} else if (!vin.equals(other.vin))
+			return false;
+		return true;
+	}
+	
+	
 	
 	
 	

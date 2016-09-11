@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.zhcar.carflow.CarFlowManager;
 import com.zhcar.data.AppUseRecord;
 
 /**
@@ -17,9 +21,26 @@ import com.zhcar.data.AppUseRecord;
  */
 public class CacheAppUseRecord {
 	
-	private List<AppUseRecord> mSendList = new ArrayList<AppUseRecord>();
+private static final String TAG = "CacheAppUseRecord";
+
+//	private List<AppUseRecord> mSendList = new ArrayList<AppUseRecord>();
 	private List<AppUseRecord> mCacheList = new ArrayList<AppUseRecord>();
 
+//	private static CacheAppUseRecord instance;
+//	public static CacheAppUseRecord getInstance(){
+//		if (instance == null){
+//			synchronized (CacheAppUseRecord.class) {
+//				if (instance == null){
+//					instance = new CacheAppUseRecord();
+//				}
+//			}
+//		}
+//		return instance;
+//	}
+	
+	public CacheAppUseRecord(){
+		
+	}
 	/**
 	 * 发送前填入数据
 	 * @param info
@@ -28,21 +49,24 @@ public class CacheAppUseRecord {
 		if (info == null){
 			return;
 		}
-		mSendList.add(info);
+		mCacheList.add(info);
 	}
 	
 	/**
 	 * 发送结果反馈
 	 * @param bOk
 	 */
-	public void sendState(boolean bOk){
-		if (mSendList.size() <= 0){
-			return;
+	public void sendState(boolean bOk, int hashCode){
+		if (bOk){
+			for (AppUseRecord info: mCacheList){
+				if (info.hashCode() == hashCode){
+					mCacheList.remove(info);
+					Log.i(TAG, "send Ok, remove, have cache num = " + mCacheList.size());
+					break;
+				}
+			}
 		}
-		if (!bOk){
-			mCacheList.add(mSendList.get(0));
-		}
-		mSendList.remove(0);
+		Log.i(TAG, "have cache num = " + mCacheList.size());
 	}
 	
 	/**

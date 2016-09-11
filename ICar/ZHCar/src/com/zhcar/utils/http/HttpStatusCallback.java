@@ -18,6 +18,10 @@ public interface HttpStatusCallback {
 	int RESULT_SUCCESS = 0;
 	/**Response Failed*/
 	int RESULT_FAILED = 1;
-	
-	public void onStatus(int status);
+	/**
+	 * 
+	 * @param status
+	 * @param httpCode 传送时的惟一标识（一般为HashCode）,用于标记传送内容
+	 */
+	public void onStatus(int status, int httpCode);
 }

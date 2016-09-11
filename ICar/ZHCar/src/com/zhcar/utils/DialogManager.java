@@ -4,17 +4,19 @@
 package com.zhcar.utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 
 import com.zhcar.R;
 import com.zhcar.carflow.CarFlowDialog;
-import com.zhcar.emergencycall.EmergencyCallDialog;
-import com.zhcar.emergencycall.EmergencyCallManager;
+import com.zhcar.ecall.ECallDialog;
+import com.zhcar.ecall.ECallManager;
 
 /**
  * @author YC
@@ -22,11 +24,13 @@ import com.zhcar.emergencycall.EmergencyCallManager;
  */
 public class DialogManager {
 
+	private static final String TAG = "DialogManager";
+
 	private static DialogManager instance;
 
 	private CarFlowDialog mCarFlowDialog;
 	private NormalDialog mNormalDialog;
-	private EmergencyCallDialog mEmergencyCallDialog;
+	private ECallDialog mEmergencyCallDialog;
 
 	public static DialogManager getInstance() {
 		if (instance == null) {
@@ -43,32 +47,47 @@ public class DialogManager {
 	 * 显示流量提醒对话框
 	 */
 	public void showCarFlowDialog(final Context context, final String tips) {
+		Log.i(TAG, "showCarFlowDialog");
 		if (mCarFlowDialog == null) {
+			Log.i(TAG, "new CarFlowDialog");
 			mCarFlowDialog = new CarFlowDialog(context.getApplicationContext(),
 					tips);
+			Log.i(TAG, "end new CarFlowDialog00000");
 			Window window = mCarFlowDialog.getWindow();
+//			Log.i(TAG, "end new CarFlowDialog111111");
 			LayoutParams params = window.getAttributes();
 			params.dimAmount = 0.8f;
 			params.type = LayoutParams.TYPE_SYSTEM_ALERT;
 			params.flags = LayoutParams.FLAG_ALT_FOCUSABLE_IM;
 			params.gravity = Gravity.CENTER;
 			window.addFlags(LayoutParams.FLAG_NOT_FOCUSABLE
+//					|View.SYSTEM_UI_FLAG_LAYOUT_STABLE	//稳定位置
+//					|View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//					|View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //视图延伸到导航栏
+//					|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY	//沉浸式
 //					| LayoutParams.FLAG_TRANSLUCENT_NAVIGATION	//与状态栏透明
 					| LayoutParams.FLAG_NOT_TOUCH_MODAL
 					| LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
 			window.setAttributes(params);
+//			Log.i(TAG, "end new CarFlowDialog22222");
 			mCarFlowDialog.setCanceledOnTouchOutside(true);
 			Button btnConfirm = (Button) mCarFlowDialog.findViewById(R.id.carflow_confirm);
 			btnConfirm.setOnClickListener(mOnClickListener);
 			Button btnCancle = (Button) mCarFlowDialog.findViewById(R.id.carflow_cancle);
 			btnCancle.setOnClickListener(mOnClickListener);
+//			Log.i(TAG, "end new CarFlowDialog");
 		}
 		if (!mCarFlowDialog.isShowing()) {
+//			Log.i(TAG, "showCarFlowDialog show");
 			mCarFlowDialog.show();
+		}
+		else{
+//			Log.i(TAG, "showCarFlowDialog isShowing");
 		}
 	}
 
 	public void hideCarFlowDialog() {
+		Log.i(TAG, "hideCarFlowDialog");
 		if (mCarFlowDialog != null && mCarFlowDialog.isShowing()) {
 			mCarFlowDialog.dismiss();
 		}
@@ -112,9 +131,9 @@ public class DialogManager {
 	/**
 	 * 显示流量提醒对话框
 	 */
-	public void showEmergencyCallDialog(final Context context, final String tips) {
+	public void showECallDialog(final Context context, final String tips) {
 		if (mEmergencyCallDialog == null) {
-			mEmergencyCallDialog = new EmergencyCallDialog(context.getApplicationContext(),
+			mEmergencyCallDialog = new ECallDialog(context.getApplicationContext(),
 					tips);
 			Window window = mEmergencyCallDialog.getWindow();
 			LayoutParams params = window.getAttributes();
@@ -122,6 +141,8 @@ public class DialogManager {
 			params.type = LayoutParams.TYPE_SYSTEM_ALERT;
 			params.flags = LayoutParams.FLAG_ALT_FOCUSABLE_IM;
 			params.gravity = Gravity.CENTER;
+			params.width = 560;
+			params.height = 264;
 			window.addFlags(LayoutParams.FLAG_NOT_FOCUSABLE
 //					| LayoutParams.FLAG_TRANSLUCENT_NAVIGATION	//与状态栏透明
 					| LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -142,7 +163,7 @@ public class DialogManager {
 		}
 	}
 	
-	public void hideEmergencyCallDialog() {
+	public void hideECallDialog() {
 		if (mEmergencyCallDialog != null && mEmergencyCallDialog.isShowing()) {
 			mEmergencyCallDialog.dismiss();
 		}
@@ -162,7 +183,7 @@ public class DialogManager {
 				hideCarFlowDialog();
 				break;
 			case R.id.handup:
-				EmergencyCallManager.getInstance().endCallEmergency();
+				ECallManager.getInstance().endECall();
 				break;
 			case R.id.normal_dialog_cancle:
 				hideNormalFlowDialog();

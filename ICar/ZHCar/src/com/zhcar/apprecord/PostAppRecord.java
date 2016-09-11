@@ -8,12 +8,13 @@ import java.util.Map;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.util.Log;
+import android.text.TextUtils;
 
 import com.taimi.utils.SignatureGenerator;
 import com.zhcar.data.AppUseRecord;
 import com.zhcar.data.GlobalData;
 import com.zhcar.provider.CarProviderData;
+import com.zhcar.utils.Saver;
 import com.zhcar.utils.http.HttpCallback;
 import com.zhcar.utils.http.HttpStatusCallback;
 import com.zhcar.utils.http.HttpUtils;
@@ -26,8 +27,10 @@ import com.zhcar.utils.http.JsonHelper;
  */
 public class PostAppRecord implements IPostAppRecord , HttpCallback{
 
-	private static final String POST_APPRECORD_URL = "http://cowindev.timanetwork.com/app-use-record/internal/recordIntel/addRecord?";
-
+	/**生产环境*/
+	private static final String APPRECORD_URL_PROCDUCT = "http://cowindev.timanetwork.com/app-use-record/internal/recordIntel/addRecord?";
+	/**测试环境*/
+	private static final String APPRECORD_URL_TEST = "http://cowinmguat.timasync.com/app-use-record/internal/recordIntel/addRecord?";
 	private static final String TAG = "PostAppRecord";
 	
 	private String mAppKey;
@@ -71,11 +74,16 @@ public class PostAppRecord implements IPostAppRecord , HttpCallback{
 	public int Refresh() {
 		HttpUtils http = new HttpUtils();
 		String reqUrl = "";
-			reqUrl = POST_APPRECORD_URL 
-					+ "appkey=" + mAppKey
-					+ "&sign=" + mSign;
+		if (Saver.isEnvironmentProduct()){
+			reqUrl = APPRECORD_URL_PROCDUCT;
+		}
+		else{
+			reqUrl = APPRECORD_URL_TEST;
+		}
+			reqUrl += ("appkey=" + mAppKey
+					+ "&sign=" + mSign);
 		
-		http.postJson(reqUrl, mJsonHelper.map2Json(recordInfo.toMap()), this, mHttpStatusCallback);
+		http.postJson(reqUrl, mJsonHelper.map2Json(recordInfo.toMap()), this, mHttpStatusCallback, recordInfo.hashCode());
 		return 0;
 	}
 
@@ -84,26 +92,28 @@ public class PostAppRecord implements IPostAppRecord , HttpCallback{
 		mHttpStatusCallback = callback;
 	}
 
-
 	@Override
 	public void onReceive(String response) {
 		HashMap<String, String> map = mJsonHelper.json2Map(response);
-		if (map == null){
-			if (mHttpStatusCallback != null){
-				mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_FAILED);
+		if (map == null) {
+			if (mHttpStatusCallback != null) {
+				mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_FAILED,
+						recordInfo.hashCode());
 			}
-		}
-		else {
+		} else {
 			String status = map.get("status");
-			if (status != null && "SUCCEED".equals(status)){
-				if (mHttpStatusCallback != null){
-					mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_SUCCESS);
+			if (!TextUtils.isEmpty(status) && "SUCCEED".equals(status)) {
+				if (mHttpStatusCallback != null) {
+					mHttpStatusCallback.onStatus(
+							HttpStatusCallback.RESULT_SUCCESS,
+							recordInfo.hashCode());
 				}
-				
-			}
-			else{
-				if (mHttpStatusCallback != null){
-					mHttpStatusCallback.onStatus(HttpStatusCallback.RESULT_FAILED);
+
+			} else {
+				if (mHttpStatusCallback != null) {
+					mHttpStatusCallback.onStatus(
+							HttpStatusCallback.RESULT_FAILED,
+							recordInfo.hashCode());
 				}
 			}
 		}

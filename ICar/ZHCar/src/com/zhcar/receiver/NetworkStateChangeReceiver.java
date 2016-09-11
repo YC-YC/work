@@ -3,6 +3,7 @@
  */
 package com.zhcar.receiver;
 
+import com.zhcar.apprecord.RecordManager;
 import com.zhcar.data.GlobalData;
 import com.zhcar.utils.GPRSManager;
 import com.zhcar.utils.Utils;
@@ -28,11 +29,15 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
 		Log.i(TAG, "action = " + action);
 		if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)){
 			GPRSManager gprsManager = new GPRSManager(context);
-			if (gprsManager.isNetWorkValilable()){
+			if (gprsManager.isNetWorkValuable()){
 				Utils.sendBroadcast(context, GlobalData.ACTION_3G, GlobalData.KEY_3G_STATE, "on");
+//				Utils.ToastThread("网络已连接");
+				RecordManager.getInstance().onNetworkStateChange(true);
 			}
 			else{
 				Utils.sendBroadcast(context, GlobalData.ACTION_3G, GlobalData.KEY_3G_STATE, "off");
+//				Utils.ToastThread("网络已断开");
+				RecordManager.getInstance().onNetworkStateChange(false);
 			}
 		}
 	}

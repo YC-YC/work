@@ -16,13 +16,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Handler;
+import android.os.Looper;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.zhcar.R;
 import com.zhcar.base.BaseApplication;
 import com.zhcar.provider.CarProviderData;
+import com.zhcar.utils.Utils;
 
 
 /**
@@ -139,16 +142,16 @@ public class ReadExcelManager implements IUSBStateChange{
 							String MEID = sheet.getCell(0, i).getContents();
 //							Log.i(TAG, "get Cell 0 = " + MEID);
 							if (meid.equals(MEID)){
-								String AKEY = sheet.getCell(1, i).getContents();
-								String IMSI = sheet.getCell(2, i).getContents();
-								String USER = sheet.getCell(3, i).getContents();
-								String PASSWORD = sheet.getCell(4, i).getContents();
-								String ESN = sheet.getCell(5, i).getContents();
-								String MDN = sheet.getCell(6, i).getContents();
-								String ICCID = sheet.getCell(7, i).getContents();
+								String AKEY = sheet.getCell(1, i).getContents().trim();
+								String IMSI = sheet.getCell(2, i).getContents().trim();
+								String USER = sheet.getCell(3, i).getContents().trim();
+								String PASSWORD = sheet.getCell(4, i).getContents().trim();
+								String ESN = sheet.getCell(5, i).getContents().trim();
+								String MDN = sheet.getCell(6, i).getContents().trim();
+								String ICCID = sheet.getCell(7, i).getContents().trim();
 //								String PRLNAME = sheet.getCell(8, i).getContents();
-								String SN = sheet.getCell(9, i).getContents();
-								String SKEY = sheet.getCell(10, i).getContents();
+								String SN = sheet.getCell(9, i).getContents().trim();
+								String SKEY = sheet.getCell(10, i).getContents().trim();
 								
 								ContentValues values = new ContentValues();
 								values.put(CarProviderData.KEY_CARINFO_MEID, MEID);
@@ -164,11 +167,13 @@ public class ReadExcelManager implements IUSBStateChange{
 								Log.i(TAG, "read ok, values = " + values.toString());
 								updateCarInfo(values);
 //								Log.i(TAG, "read ok, update");
+								Utils.ToastThread(Utils.getResourceString(R.string.read_OK));
 								break;
 							}
 						}
 					}
 					book.close();
+					is.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
