@@ -12,11 +12,13 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.zhcar.R;
+import com.zhcar.base.BaseApplication;
 import com.zhcar.data.FlowInfoBean;
 import com.zhcar.data.GlobalData;
 import com.zhcar.provider.CarProviderData;
@@ -75,14 +77,7 @@ public class CarFlowManager {
 					GlobalData.flowInfo.setSurplusFlow(flowInfo.getSurplusFlow());
 					updateFlowInfoProvider();
 					Log.i(TAG, "getFlowInfo OK");
-					new Handler().post(new Runnable() {
-						
-						@Override
-						public void run() {
-							Log.i(TAG, "getFlowInfo postDelayed");
-							checkCarFlow();
-						}
-					});
+//					checkCarFlow();
 				}
 			}
 		});

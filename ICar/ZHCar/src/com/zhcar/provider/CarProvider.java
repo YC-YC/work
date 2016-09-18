@@ -228,7 +228,7 @@ public class CarProvider extends ContentProvider {
 		{
 			boolean isSame = checkTableIsSame(CarProviderData.FLOW_TABLE, values);
             count = db.update(CarProviderData.FLOW_TABLE, values, selection, selectionArgs);  
-            if (!isSame)
+//            if (!isSame)
             {
             	this.getContext().getContentResolver().notifyChange(uri, null);  
             }

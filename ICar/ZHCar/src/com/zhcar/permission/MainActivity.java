@@ -6,12 +6,14 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
@@ -217,9 +219,48 @@ public class MainActivity extends Activity {
 			sendBroadcast("com.zhonghong.zuiserver.BROADCAST", "CARRUN_INFO", bCarRun ? "1":"0");
 			Toast.makeText(this, bCarRun? "行车中":"行车停止", Toast.LENGTH_LONG).show();
 			break;
+		case R.id.getnetworktype:
+		TelephonyManager i = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//		i.listen(new PhoneStateListener(), events)
+		Toast.makeText(this, "网络类型为：" + i.getNetworkType() + " -- > " + getNetworkClass(i.getNetworkType()), Toast.LENGTH_LONG).show();
+		break;
 		default:
 			break;
 		}
+	}
+	
+	/** Unknown network class. {@hide} */
+	private static final int NETWORK_CLASS_UNKNOWN = 0;
+	/** Class of broadly defined "2G" networks. {@hide} */
+	private static final int NETWORK_CLASS_2_G = 1;
+	/** Class of broadly defined "3G" networks. {@hide} */
+	private static final int NETWORK_CLASS_3_G = 2;
+	/** Class of broadly defined "4G" networks. {@hide} */
+	private static final int NETWORK_CLASS_4_G = 3;
+	
+	private static int getNetworkClass(int networkType) {
+	    switch (networkType) {
+	        case TelephonyManager.NETWORK_TYPE_GPRS:
+	        case TelephonyManager.NETWORK_TYPE_EDGE:
+	        case TelephonyManager.NETWORK_TYPE_CDMA:
+	        case TelephonyManager.NETWORK_TYPE_1xRTT:
+	        case TelephonyManager.NETWORK_TYPE_IDEN:
+	    return NETWORK_CLASS_2_G;
+	        case TelephonyManager.NETWORK_TYPE_UMTS:
+	        case TelephonyManager.NETWORK_TYPE_EVDO_0:
+	        case TelephonyManager.NETWORK_TYPE_EVDO_A:
+	        case TelephonyManager.NETWORK_TYPE_HSDPA:
+	        case TelephonyManager.NETWORK_TYPE_HSUPA:
+	        case TelephonyManager.NETWORK_TYPE_HSPA:
+	        case TelephonyManager.NETWORK_TYPE_EVDO_B:
+	        case TelephonyManager.NETWORK_TYPE_EHRPD:
+	        case TelephonyManager.NETWORK_TYPE_HSPAP:
+	    return NETWORK_CLASS_3_G;
+	        case TelephonyManager.NETWORK_TYPE_LTE:
+	    return NETWORK_CLASS_4_G;
+	        default:
+	    return NETWORK_CLASS_UNKNOWN;
+	    }
 	}
 	
 	private void sendBroadcast(String action, String key, String val){

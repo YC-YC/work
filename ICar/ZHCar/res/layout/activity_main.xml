@@ -115,7 +115,13 @@
             android:layout_weight="1"
             android:onClick="doClick"
             android:text="网络状态" />
-        
+        <Button
+            android:id="@+id/getnetworktype"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="网络类型" />
         <Button
             android:id="@+id/getpermission"
             android:layout_width="0dp"
