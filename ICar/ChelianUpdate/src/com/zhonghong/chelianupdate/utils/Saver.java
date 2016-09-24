@@ -5,6 +5,7 @@ package com.zhonghong.chelianupdate.utils;
 
 import android.provider.Settings;
 
+import com.zhonghong.chelianupdate.base.AppConst;
 import com.zhonghong.chelianupdate.base.MyApp;
 import com.zhonghong.sdk.android.utils.PreferenceUtils;
 
@@ -67,4 +68,28 @@ public class Saver {
 		Settings.System.putString(MyApp.mContext.getContentResolver(), KEY_DOWNLOAD_STATE, state);
 //		PreferenceUtils.putString(KEY_DOWNLOAD_STATE, state);
 	}
+	
+	/** 环境状态 */
+	public static final String KEY_ENVIRONMENT = "environment";
+	/** 生产环境 */
+	private static final int ENVIRONMENT_PRODUCT = 0;
+	/** 测试环境 */
+	private static final int ENVIRONMENT_TEST = 1;
+	
+	  private static boolean isEnvironmentProduct()
+	  {
+	    int i = Settings.System.getInt(MyApp.mContext.getContentResolver(), KEY_ENVIRONMENT, ENVIRONMENT_PRODUCT);
+	    boolean bIsProduct = false;
+	    if (i == ENVIRONMENT_PRODUCT)
+	    	bIsProduct = true;
+	    return bIsProduct;
+	  }
+	  
+	  public static String getHostUrl()
+	  {
+	    if (isEnvironmentProduct()){
+	    	return AppConst.URL_HOST_PRODUCT;
+	    }
+	    return AppConst.URL_HOST_TEST;
+	  }
 }
