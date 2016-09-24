@@ -136,7 +136,7 @@ public class PermissionReceiver extends BroadcastReceiver {
 		try {
 			Log.i("Update","Success: "+appId);
 			HttpUtils http = new HttpUtils();
-			http.send(HttpRequest.HttpMethod.GET,InfoUtils.getUrlPart(AppConst.URL_HOST, AppConst.URL_REPORT_UPDATE_STATUS,appId,"SUCCEED"),
+			http.send(HttpRequest.HttpMethod.GET,InfoUtils.getUrlPart(Saver.getHostUrl(), AppConst.URL_REPORT_UPDATE_STATUS,appId,"SUCCEED"),
 					new RequestCallBack<String>() {
 						@Override
 						public void onSuccess(ResponseInfo<String> responseInfo) {
