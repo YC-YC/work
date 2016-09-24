@@ -217,7 +217,7 @@ public class DownloadDialog extends Dialog{
 	private void reportSuccess(String appId)
 	{
 		HttpUtils http=new HttpUtils();		
-		String url=InfoUtils.getUrlPart(AppConst.URL_HOST, AppConst.URL_REPORT_UPDATE_STATUS,appId,"DOWNLOAD_SUCCESS");
+		String url=InfoUtils.getUrlPart(Saver.getHostUrl(), AppConst.URL_REPORT_UPDATE_STATUS,appId,"DOWNLOAD_SUCCESS");
 		http.send(HttpRequest.HttpMethod.GET, url,
 				new RequestCallBack<String>() {
 					@Override
@@ -253,7 +253,7 @@ public class DownloadDialog extends Dialog{
 		try {
 			Log.i("Update","Cancel: "+appId);
 			HttpUtils http = new HttpUtils();
-			http.send(HttpRequest.HttpMethod.GET,InfoUtils.getUrlPart(AppConst.URL_HOST, AppConst.URL_REPORT_UPDATE_STATUS,appId,"CANCEL"),
+			http.send(HttpRequest.HttpMethod.GET,InfoUtils.getUrlPart(Saver.getHostUrl(), AppConst.URL_REPORT_UPDATE_STATUS,appId,"CANCEL"),
 					new RequestCallBack<String>() {
 						@Override
 						public void onSuccess(ResponseInfo<String> responseInfo) {
