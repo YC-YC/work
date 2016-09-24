@@ -27,12 +27,12 @@ import com.zhcar.utils.http.JsonHelper;
  */
 public class PostAppRecord implements IPostAppRecord , HttpCallback{
 
-	/**生产环境*/
-	private static final String APPRECORD_URL_PROCDUCT = "http://cowindev.timanetwork.com/app-use-record/internal/recordIntel/addRecord?";
-	/**测试环境*/
-	private static final String APPRECORD_URL_TEST = "http://cowinmguat.timasync.com/app-use-record/internal/recordIntel/addRecord?";
+//	/**生产环境*/
+//	private static final String APPRECORD_URL_PROCDUCT = "http://cowindev.timanetwork.com/app-use-record/internal/recordIntel/addRecord?";
+//	/**测试环境*/
+//	private static final String APPRECORD_URL_TEST = "http://cowinmguat.timasync.com/app-use-record/internal/recordIntel/addRecord?";
 	private static final String TAG = "PostAppRecord";
-	
+	private static final String URLResourcePart = "app-use-record/internal/recordIntel/addRecord";
 	private String mAppKey;
 	private String mSign;
 	private AppUseRecord recordInfo;
@@ -59,10 +59,9 @@ public class PostAppRecord implements IPostAppRecord , HttpCallback{
 	private String getSignStr(){
 		Map<String, String> params = new HashMap<String, String>();
         params.put("appkey", GlobalData.AppKey);
-        String urlResourcePart = "app-use-record/internal/recordIntel/addRecord";
         String sign = null;
         try {
-			sign = SignatureGenerator.generate(urlResourcePart, params, GlobalData.SecretKey);
+			sign = SignatureGenerator.generate(URLResourcePart, params, GlobalData.SecretKey);
         } catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -75,12 +74,13 @@ public class PostAppRecord implements IPostAppRecord , HttpCallback{
 		HttpUtils http = new HttpUtils();
 		String reqUrl = "";
 		if (Saver.isEnvironmentProduct()){
-			reqUrl = APPRECORD_URL_PROCDUCT;
+			reqUrl = GlobalData.URL_HOST_PROCDUCT;
 		}
 		else{
-			reqUrl = APPRECORD_URL_TEST;
+			reqUrl = GlobalData.URL_HOST_TEST;
 		}
-			reqUrl += ("appkey=" + mAppKey
+			reqUrl += (URLResourcePart 
+					+ "?appkey=" + mAppKey
 					+ "&sign=" + mSign);
 		
 		http.postJson(reqUrl, mJsonHelper.map2Json(recordInfo.toMap()), this, mHttpStatusCallback, recordInfo.hashCode());
