@@ -13,6 +13,7 @@ import android.util.Log;
 import com.taimi.utils.SignatureGenerator;
 import com.zhcar.data.FlowInfoBean;
 import com.zhcar.data.GlobalData;
+import com.zhcar.utils.Saver;
 import com.zhcar.utils.http.HttpCallback;
 import com.zhcar.utils.http.HttpStatusCallback;
 import com.zhcar.utils.http.HttpUtils;
@@ -25,8 +26,8 @@ import com.zhcar.utils.http.JsonHelper;
  */
 public class GetFlowLoc implements GetFlowAbs , HttpCallback{
 
-	private static final String GET_FLOW_URL = "http://cowinmguat.timasync.com/mno-service/mnoService/getCardFlowInfoByHmi?";
-
+//	private static final String GET_FLOW_URL = "http://cowinmguat.timasync.com/mno-service/mnoService/getCardFlowInfoByHmi?";
+	private static final String URLResourcePart = "mno-service/mnoService/getCardFlowInfoByHmi";
 	private static final String TAG = "GetFlowLoc";
 	
 	private String mAppKey;
@@ -57,10 +58,9 @@ public class GetFlowLoc implements GetFlowAbs , HttpCallback{
         params.put("iccid", iccid);
         params.put("token", token);
         params.put("appkey", GlobalData.AppKey);
-        String urlResourcePart = "mno-service/mnoService/getCardFlowInfoByHmi";
         String sign = null;
         try {
-			sign = SignatureGenerator.generate(urlResourcePart, params, GlobalData.SecretKey);
+			sign = SignatureGenerator.generate(URLResourcePart, params, GlobalData.SecretKey);
 //			Log.i(TAG, "generate signedStr = " + sign);
 			
         } catch (Exception e) {
@@ -73,11 +73,17 @@ public class GetFlowLoc implements GetFlowAbs , HttpCallback{
 	public int Refresh() {
 		HttpUtils http = new HttpUtils();
 		String reqUrl = "";
-			reqUrl = GET_FLOW_URL 
-					+ "appkey=" + mAppKey
-					+ "&sign=" + mSign
-					+ "&iccid=" + mIccid
-					+ "&token=" + mToken;
+		if (Saver.isEnvironmentProduct()){
+			reqUrl = GlobalData.URL_HOST_PROCDUCT;
+		}
+		else{
+			reqUrl = GlobalData.URL_HOST_TEST;
+		}
+		reqUrl += (URLResourcePart + "?" 
+				+ "appkey=" + mAppKey
+				+ "&sign=" + mSign
+				+ "&iccid=" + mIccid
+				+ "&token=" + mToken);
 		
 		http.get(reqUrl, this, mHttpStatusCallback);
 		return 0;
