@@ -16,33 +16,27 @@ public class Saver {
 
 	/** 环境状态 */
 	public static final String KEY_ENVIRONMENT = "environment";
-	/** 测试环境 */
-	public static final String ENVIRONMENT_TEST = "environment_test";
 	/** 生产环境 */
-	public static final String ENVIRONMENT_PRODUCT = "environment_product";
+	private static final int ENVIRONMENT_PRODUCT = 0;
+	/** 测试环境 */
+	  private static final int ENVIRONMENT_TEST = 1;
 
-	
-	public static void setEnvironment(String environment) {
-		Settings.System.putString(BaseApplication.getInstanse()
-				.getContentResolver(), KEY_ENVIRONMENT, environment);
-	}
-	
-	public static void setEnvironment(int environment) {
-		String env = ENVIRONMENT_TEST;
-		if (environment == GlobalData.ENV_PROCDUCT){
-			env = ENVIRONMENT_PRODUCT;
-		}
-		Settings.System.putString(BaseApplication.getInstanse()
-				.getContentResolver(), KEY_ENVIRONMENT, env);
-	}
+	  public static boolean isEnvironmentProduct()
+	  {
+	    int i = Settings.System.getInt(BaseApplication.getInstanse().getContentResolver(), KEY_ENVIRONMENT, ENVIRONMENT_PRODUCT);
+	    boolean bIsProduct = false;
+	    if (i == ENVIRONMENT_PRODUCT)
+	    	bIsProduct = true;
+	    return bIsProduct;
+	  }
 
-	public static String getEnvironMent() {
-		return Settings.System.getString(BaseApplication.getInstanse()
-				.getContentResolver(), KEY_ENVIRONMENT);
-	}
-	
-	public static boolean isEnvironmentProduct(){
-		String environMent = getEnvironMent();
-		return (environMent == null | ENVIRONMENT_PRODUCT.equals(environMent));
-	}
+	  public static void setEnvironment(boolean bIsTest)
+	  {
+	    if (!bIsTest)
+	    {
+	      Settings.System.putInt(BaseApplication.getInstanse().getContentResolver(), KEY_ENVIRONMENT, ENVIRONMENT_PRODUCT);
+	      return;
+	    }
+	    Settings.System.putInt(BaseApplication.getInstanse().getContentResolver(), KEY_ENVIRONMENT, ENVIRONMENT_TEST);
+	  }
 }
