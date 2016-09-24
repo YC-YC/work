@@ -29,7 +29,7 @@ public class ZUIReceiver extends BroadcastReceiver{
 		if(intent.getAction().equals("com.zhonghong.zuiserver.BROADCAST"))
 		{
 			mContext=context;
-			String extraString=intent.getStringExtra("CARRUN_INFO");
+			String extraString=intent.getStringExtra("car_speed");
 			if(extraString!=null){
 				handleCarRun(context, extraString);
 			}
@@ -74,7 +74,12 @@ public class ZUIReceiver extends BroadcastReceiver{
 	 */
 	private void handleCarRun(Context context, String speedStr) {
 		Log.i(TAG, "receiver carrun = " + speedStr);
-		if (speedStr != null && "1".equals(speedStr)){
+		int speed = 0;
+		try {
+			speed = Integer.parseInt(speedStr);
+		} catch (Exception e) {
+		}
+		if (speed > 0){
 			GlobalData.bCarRun = true;
 		}
 		else{
