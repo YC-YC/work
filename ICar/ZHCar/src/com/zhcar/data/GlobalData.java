@@ -18,6 +18,13 @@ public class GlobalData {
 	public static final String AppKey = "9909756346";
 	public static final String SecretKey = "9fd4b70a1892bec00906d5dedf5ebea6";
 
+	/**生产环境URL*/
+	public static final String URL_HOST_PROCDUCT = "http://cowinmg.timasync.com/";
+	/**测试环境URL*/
+	public static final String URL_HOST_TEST = "http://cowinmguat.timasync.com/";
+	/**是否是测试环境，测试环境与生产环境有区别是URL不一样*/
+	public static final boolean bIsEnvTest = true;
+	
 	/**流量信息*/
 	public static FlowInfoBean flowInfo = new FlowInfoBean();
 	
@@ -29,11 +36,5 @@ public class GlobalData {
 	public static final String KEY_3G_STATE = "state";
 	/**ARM拨打紧急联系人状态 on:arm拨打, off:arm不拨打，can拨打*/
 	public static final String KEY_3G_ECALL = "ecall";
-	/**测试环境*/
-	public static final int ENV_TEST = 0;
-	/**生产环境*/
-	public static final int ENV_PROCDUCT = 1;
-	/**环境配置*/
-	public static int environments = ENV_TEST;
 
 }
