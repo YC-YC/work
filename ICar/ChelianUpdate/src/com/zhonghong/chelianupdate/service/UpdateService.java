@@ -2,21 +2,19 @@ package com.zhonghong.chelianupdate.service;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+import android.util.Log;
 
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.zhonghong.chelianupdate.R;
-import com.zhonghong.chelianupdate.activity.UpdateActivity;
 import com.zhonghong.chelianupdate.base.AppConst;
-import com.zhonghong.chelianupdate.base.GlobalData;
-import com.zhonghong.chelianupdate.bean.CarInfo;
 import com.zhonghong.chelianupdate.bean.GroupVersionVo;
 import com.zhonghong.chelianupdate.bean.UpdateStatusInfo;
 import com.zhonghong.chelianupdate.bean.UpdateVo;
@@ -25,38 +23,19 @@ import com.zhonghong.chelianupdate.utils.FileUtil;
 import com.zhonghong.chelianupdate.utils.InfoUtils;
 import com.zhonghong.chelianupdate.utils.JSONParser;
 import com.zhonghong.chelianupdate.utils.Saver;
-import com.zhonghong.chelianupdate.utils.SignatureGenerator;
-import com.zhonghong.sdk.android.utils.ZToast;
-
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.PixelFormat;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.provider.Settings;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class UpdateService extends Service {
 
 	private static final String TAG = "Update";
-	private static final String URL_SOURCE_PART="update-center/getUpdateInfoByVin";
-	private static final String URL_REPORT_UPDATE_STATUS="update-center/reportUpdateStatus";
-	private static final String URL_HOST="http://cowinmguat.timasync.com/";
+//	private static final String URL_SOURCE_PART="update-center/getUpdateInfoByVin";
+//	private static final String URL_REPORT_UPDATE_STATUS="update-center/reportUpdateStatus";
+//	private static final String URL_HOST="http://cowinmguat.timasync.com/";
 	
 	private GroupVersionVo groupVersionVo;
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.i(TAG,"ServiceStart");
-		String checkUrl=InfoUtils.getUrlPart(URL_HOST, URL_SOURCE_PART);
+		String checkUrl=InfoUtils.getUrlPart(Saver.getHostUrl(), AppConst.URL_SOURCE_PART);
 		if(checkUrl!=null)
 		{
 			updateCheck(checkUrl);
@@ -173,7 +152,7 @@ public class UpdateService extends Service {
 		Log.i("Update","send pushed: "+appId);
 		HttpUtils http = new HttpUtils();
 		try {
-			http.send(HttpRequest.HttpMethod.GET,InfoUtils.getUrlPart(URL_HOST, URL_REPORT_UPDATE_STATUS,appId,"PUSHSUCCEED"),
+			http.send(HttpRequest.HttpMethod.GET,InfoUtils.getUrlPart(Saver.getHostUrl(), AppConst.URL_REPORT_UPDATE_STATUS,appId,"PUSHSUCCEED"),
 					new RequestCallBack<String>() {
 						@Override
 						public void onSuccess(ResponseInfo<String> responseInfo) {
