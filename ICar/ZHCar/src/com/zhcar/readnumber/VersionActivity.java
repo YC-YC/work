@@ -22,9 +22,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +29,8 @@ import android.widget.Toast;
 import com.zhcar.R;
 import com.zhcar.base.BaseApplication;
 import com.zhcar.base.UpdateUiBaseActivity;
-import com.zhcar.data.GlobalData;
 import com.zhcar.permission.MainActivity;
 import com.zhcar.provider.CarProviderData;
-import com.zhcar.utils.Saver;
 import com.zhcar.utils.UpdateUiManager;
 import com.zhcar.utils.UpdateUiManager.UpdateViewCallback;
 import com.zhcar.utils.Utils;
@@ -49,7 +44,6 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 
 	private static final String TAG = "VersionActivity";
 	private TextView mCurMEID;
-	private CheckBox mEnvProcduct;
 	private Map<Integer, String> versions = new HashMap<Integer, String>(){
 			{
 				put(R.id.version_meid, null);
@@ -96,58 +90,19 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 		setContentView(R.layout.activity_version);
 		getContentResolver().registerContentObserver(CarProviderData.URI_CARINFO, true, mCarInfoObserver);
 		mCurMEID = (TextView) findViewById(R.id.curmeid);
-		mEnvProcduct = (CheckBox) findViewById(R.id.env_procduct);
-//		mEnvProcduct.setOnCheckedChangeListener(checkedChangeListener);
-		mEnvProcduct.setOnClickListener(mClickListener);
 		
 		getVersion();
 		freshVersion();
 		setClick();
 	}
 	
-	private OnClickListener mClickListener = new OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.env_procduct:
-				if (Saver.isEnvironmentProduct()){
-					updateEnvironmentsToConfigProvider(GlobalData.ENV_TEST);
-				}
-				else{
-					updateEnvironmentsToConfigProvider(GlobalData.ENV_PROCDUCT);
-				}
-				break;
-			default:
-				break;
-			}
-		}
-	};
-	
-	private OnCheckedChangeListener checkedChangeListener = new OnCheckedChangeListener() {
-		
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			Log.i(TAG, "isChecked = " + isChecked);
-			if (isChecked){
-//				GlobalData.environments = GlobalData.ENV_PROCDUCT;
-				updateEnvironmentsToConfigProvider(GlobalData.ENV_PROCDUCT);
-			}
-			else{
-//				GlobalData.environments = GlobalData.ENV_DEVELOPMENT;
-				updateEnvironmentsToConfigProvider(GlobalData.ENV_TEST);
-			}
-//			UpdateUiManager.getInstances().callUpdate(UpdateUiManager.CMD_UPDATE_ENVIRONMENT, "");
-		}
-	};
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		mCurMEID.setText(((TelephonyManager) BaseApplication.getInstanse().getSystemService(Context.TELEPHONY_SERVICE))
 				.getDeviceId());
-		refreshEnvironmentState();
-		
+//		refreshEnvironmentState();
 	}
 	
 	
@@ -208,25 +163,6 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 		}
 	}
 	
-	/**
-	 * 更新环境配置
-	 */
-	private void refreshEnvironmentState(){
-		if (mEnvProcduct == null)
-			return;
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-//				Log.i(TAG, "GlobalData.environments = " + GlobalData.environments);
-				if (Saver.isEnvironmentProduct()){
-					mEnvProcduct.setChecked(true);
-				}
-				else{
-					mEnvProcduct.setChecked(false);
-				}
-			}
-		});
-	}
 	
 	/**
 	 * 获取五码信息
@@ -283,32 +219,32 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 		switch (v.getId()) {
 		case R.id.write_vin:
 			if (writeInfo(R.id.version_vin)){
-				Toast.makeText(this, getResources().getString(R.string.write_ok), 200).show();
+				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case R.id.write_esn:
 			if (writeInfo(R.id.version_esn)){
-				Toast.makeText(this, getResources().getString(R.string.write_ok), 200).show();
+				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case R.id.write_iccid:
 			if (writeInfo(R.id.version_iccid)){
-				Toast.makeText(this, getResources().getString(R.string.write_ok), 200).show();
+				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case R.id.write_imsi:
 			if (writeInfo(R.id.version_imsi)){
-				Toast.makeText(this, getResources().getString(R.string.write_ok), 200).show();
+				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case R.id.write_meid:
 			if (writeInfo(R.id.version_meid)){
-				Toast.makeText(this, getResources().getString(R.string.write_ok), 200).show();
+				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case R.id.write_sn:
 			if (writeInfo(R.id.version_sn)){
-				Toast.makeText(this, getResources().getString(R.string.write_ok), 200).show();
+				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
 			}
 			break;
 		default:
@@ -343,25 +279,6 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 		}
 	}
 	
-	/**
-	 * 更新生产环境到配置信息
-	 */
-	private void updateEnvironmentsToConfigProvider(int environments) {
-		ContentResolver resolver = getContentResolver();
-		ContentValues values = new ContentValues();
-		values.put(CarProviderData.KEY_CONFIG_ENVIRONMENTS, environments);
-		Cursor cursor = resolver.query(CarProviderData.URI_CONFIG, null, null, null, null);
-		if(cursor != null && cursor.moveToNext()){
-			int row = resolver.update(CarProviderData.URI_CONFIG, values, null, null);
-		}
-		else{
-			resolver.insert(CarProviderData.URI_CONFIG, values);
-		}
-		if (cursor != null){
-			cursor.close();
-			cursor = null;
-		}
-	}
 	
 	private UpdateViewCallback mUpdateViewCallback = new UpdateViewCallback() {
 		
@@ -369,7 +286,7 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 		public void onUpdate(int cmd, String val) {
 			switch (cmd) {
 			case UpdateUiManager.CMD_UPDATE_ENVIRONMENT:
-				refreshEnvironmentState();
+//				refreshEnvironmentState();
 				break;
 			}
 		}
