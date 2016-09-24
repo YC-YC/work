@@ -18,12 +18,6 @@
            android:onClick="doClick"
             />
 
-        <CheckBox
-            android:id="@+id/env_procduct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="生产环境" />
-
     </LinearLayout>
     
     <LinearLayout style="@style/FiveNumberItem" 
