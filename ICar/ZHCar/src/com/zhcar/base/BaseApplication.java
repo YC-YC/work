@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.Handler;
 import android.util.Log;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.yc.external.PostFromZUI;
 import com.zhcar.carflow.CarFlowManager;
 import com.zhcar.data.GlobalData;
@@ -32,6 +33,7 @@ public class BaseApplication extends Application {
 	public void onCreate() {
 		Log.i(TAG, "onCreate");
 		super.onCreate();
+		CrashReport.initCrashReport(this, "900055490", false);
 		instanse = this;
 		GlobalData.mContext = this;
 		mPostFromZUI = new PostFromZUI(this);
