@@ -18,6 +18,9 @@ public class GlobalData {
 	public static final String AppKey = "9909756346";
 	public static final String SecretKey = "9fd4b70a1892bec00906d5dedf5ebea6";
 
+	public static final String AppKeyProduct = "0559796315";
+	public static final String SecretKeyProduct = "cfcc221d052fb704a5e7c2f54af510c8";
+
 	/**生产环境URL*/
 	public static final String URL_HOST_PROCDUCT = "http://cowinmg.timasync.com/";
 	/**测试环境URL*/

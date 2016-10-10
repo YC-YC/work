@@ -51,17 +51,17 @@ public class PostAppRecord implements IPostAppRecord , HttpCallback{
 	@Override
 	public void SetInfo(AppUseRecord recordInfo) {
 		queryCarinfo();
-		this.mAppKey = GlobalData.AppKey;
+		this.mAppKey = Saver.getAppKey();
 		this.mSign = getSignStr();
 		this.recordInfo = recordInfo;
 	}
 
 	private String getSignStr(){
 		Map<String, String> params = new HashMap<String, String>();
-        params.put("appkey", GlobalData.AppKey);
+        params.put("appkey", Saver.getAppKey());
         String sign = null;
         try {
-			sign = SignatureGenerator.generate(URLResourcePart, params, GlobalData.SecretKey);
+			sign = SignatureGenerator.generate(URLResourcePart, params, Saver.getSecretKey());
         } catch (Exception e) {
 			e.printStackTrace();
 		}

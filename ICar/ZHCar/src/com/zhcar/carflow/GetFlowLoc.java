@@ -47,7 +47,7 @@ public class GetFlowLoc implements GetFlowAbs , HttpCallback{
 	
 	@Override
 	public void SetInfo(String iccid, String token) {
-		mAppKey = GlobalData.AppKey;
+		mAppKey = Saver.getAppKey();
 		mSign = getSignStr(iccid, token);
 		mIccid = iccid;
 		mToken = token;
@@ -57,10 +57,10 @@ public class GetFlowLoc implements GetFlowAbs , HttpCallback{
 		Map<String, String> params = new HashMap<String, String>();
         params.put("iccid", iccid);
         params.put("token", token);
-        params.put("appkey", GlobalData.AppKey);
+        params.put("appkey", Saver.getAppKey());
         String sign = null;
         try {
-			sign = SignatureGenerator.generate(URLResourcePart, params, GlobalData.SecretKey);
+			sign = SignatureGenerator.generate(URLResourcePart, params, Saver.getSecretKey());
 //			Log.i(TAG, "generate signedStr = " + sign);
 			
         } catch (Exception e) {

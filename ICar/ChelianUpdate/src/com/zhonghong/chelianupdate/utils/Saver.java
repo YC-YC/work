@@ -6,6 +6,7 @@ package com.zhonghong.chelianupdate.utils;
 import android.provider.Settings;
 
 import com.zhonghong.chelianupdate.base.AppConst;
+import com.zhonghong.chelianupdate.base.GlobalData;
 import com.zhonghong.chelianupdate.base.MyApp;
 import com.zhonghong.sdk.android.utils.PreferenceUtils;
 
@@ -91,5 +92,19 @@ public class Saver {
 	    	return AppConst.URL_HOST_PRODUCT;
 	    }
 	    return AppConst.URL_HOST_TEST;
+	  }
+	  
+	  public static String getAppKey(){
+		  if (isEnvironmentProduct()){
+		    	return GlobalData.AppKeyProduct;
+		    }
+		    return GlobalData.AppKey;
+	  }
+	  
+	  public static String getSecretKey(){
+		  if (isEnvironmentProduct()){
+		    	return GlobalData.SecretKeyProduct;
+		    }
+		    return GlobalData.SecretKey;
 	  }
 }

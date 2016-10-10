@@ -192,14 +192,14 @@ public class InfoUtils {
 			
 			String sign = null;
 			Map<String, String> params = new HashMap<String, String>();
-			params.put("appkey", GlobalData.AppKey);
+			params.put("appkey", Saver.getAppKey());
 			params.put("vin", carInfo.getVin());
 			params.put("token", carInfo.getToken());
 			params.put("appId",appId);
 			params.put("status",status);
 			try {
 				sign = SignatureGenerator.generate(requestSource, params,
-						GlobalData.SecretKey);
+						Saver.getSecretKey());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -210,7 +210,7 @@ public class InfoUtils {
 			
 			builder.append(host);
 			builder.append(requestSource);
-			builder.append("?appkey="+GlobalData.AppKey);
+			builder.append("?appkey="+Saver.getAppKey());
 			builder.append("&vin="+carInfo.getVin());
 			builder.append("&sign="+sign);
 			builder.append("&token="+carInfo.getToken());
@@ -242,12 +242,12 @@ public class InfoUtils {
 			
 			String sign = null;
 			Map<String, String> params = new HashMap<String, String>();
-			params.put("appkey", GlobalData.AppKey);
+			params.put("appkey", Saver.getAppKey());
 			params.put("vin", carInfo.getVin());
 			params.put("token", carInfo.getToken());
 			try {
 				sign = SignatureGenerator.generate(requestSource, params,
-						GlobalData.SecretKey);
+						Saver.getSecretKey());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -258,7 +258,7 @@ public class InfoUtils {
 			
 			builder.append(host);
 			builder.append(requestSource);
-			builder.append("?appkey="+GlobalData.AppKey);
+			builder.append("?appkey="+Saver.getAppKey());
 			builder.append("&vin="+carInfo.getVin());
 			builder.append("&sign="+sign);
 			builder.append("&token="+carInfo.getToken());

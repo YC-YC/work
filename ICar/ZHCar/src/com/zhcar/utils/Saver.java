@@ -3,10 +3,10 @@
  */
 package com.zhcar.utils;
 
+import android.provider.Settings;
+
 import com.zhcar.base.BaseApplication;
 import com.zhcar.data.GlobalData;
-
-import android.provider.Settings;
 
 /**
  * @author YC
@@ -38,5 +38,27 @@ public class Saver {
 	      return;
 	    }
 	    Settings.System.putInt(BaseApplication.getInstanse().getContentResolver(), KEY_ENVIRONMENT, ENVIRONMENT_TEST);
+	  }
+	  
+	  public static String getHostUrl()
+	  {
+	    if (isEnvironmentProduct()){
+	    	return GlobalData.URL_HOST_PROCDUCT;
+	    }
+	    return GlobalData.URL_HOST_TEST;
+	  }
+	  
+	  public static String getAppKey(){
+		  if (isEnvironmentProduct()){
+		    	return GlobalData.AppKeyProduct;
+		    }
+		    return GlobalData.AppKey;
+	  }
+	  
+	  public static String getSecretKey(){
+		  if (isEnvironmentProduct()){
+		    	return GlobalData.SecretKeyProduct;
+		    }
+		    return GlobalData.SecretKey;
 	  }
 }

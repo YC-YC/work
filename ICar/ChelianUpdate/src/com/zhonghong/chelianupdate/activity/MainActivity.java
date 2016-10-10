@@ -15,6 +15,7 @@ import com.zhonghong.chelianupdate.service.DownloadService;
 import com.zhonghong.chelianupdate.utils.DownloadManager;
 import com.zhonghong.chelianupdate.utils.InfoUtils;
 import com.zhonghong.chelianupdate.utils.JSONParser;
+import com.zhonghong.chelianupdate.utils.Saver;
 import com.zhonghong.chelianupdate.utils.SignatureGenerator;
 
 import com.lidroid.xutils.HttpUtils;
@@ -212,7 +213,7 @@ public class MainActivity extends Activity {
 		}
 		if(sign==null)
 			return ;
-		url=url+"?"+"appKey="+GlobalData.AppKey+"&sign="+sign+"&token="+token+"&vin="+vin+"&appId=mcu"+"&status="+status;
+		url=url+"?"+"appKey="+Saver.getAppKey()+"&sign="+sign+"&token="+token+"&vin="+vin+"&appId=mcu"+"&status="+status;
 		http.send(HttpRequest.HttpMethod.GET, url, new RequestCallBack<String>(){
 			@Override
 			public void onFailure(HttpException arg0, String arg1) {

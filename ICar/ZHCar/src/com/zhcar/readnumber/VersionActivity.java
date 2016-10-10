@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.zhcar.R;
 import com.zhcar.base.BaseApplication;
 import com.zhcar.base.UpdateUiBaseActivity;
+import com.zhcar.data.GlobalData;
 import com.zhcar.permission.MainActivity;
 import com.zhcar.provider.CarProviderData;
 import com.zhcar.utils.UpdateUiManager;
@@ -205,7 +206,7 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 	public void doClick(View view){
 		switch (view.getId()) {
 		case R.id.curmeid:
-			if (Utils.isClickTimes(5, true)){
+			if (GlobalData.bIsEnvTest && Utils.isClickTimes(5, true)){
 				startActivity(new Intent(this, MainActivity.class));
 			}
 			break;
