@@ -89,6 +89,17 @@ public class PhoneStateUtils {
 		}
 	}
 	
+	
+	  /*public static int IDLE = 0;
+	  public static int ACTIVE = 1;
+	  public static int HOLDING = 2;
+	  public static int DIALING = 3;
+	  public static int ALERTING = 4;
+	  public static int INCOMING = 5;
+	  public static int WAITING = 6;
+	  public static int DISCONNECTED = 7;
+	  public static int DISCONNECTING = 8;*/
+	
 	private Runnable mRunnable = new Runnable(){
 		@Override
 		public void run(){
