@@ -9,6 +9,7 @@ package com.zhonghong.sdk.android.utils;
 import java.util.Stack;
 
 import android.app.Activity;
+import android.util.Log;
 
 /**
  * 应用程序Activity管理类
@@ -57,8 +58,16 @@ public class AppManager {
 	     * 结束当前Activity（堆栈中最后一个压入的）
 	     */
 	    public void finishActivity() {
-	        Activity activity = activityStack.lastElement();
-	        finishActivity(activity);
+	    	if(activityStack != null && activityStack.size() > 0){
+	    		try {
+					Activity activity = activityStack.lastElement();
+					if(activity != null){
+						finishActivity(activity);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	    	}
 	    }
 
 	    /**

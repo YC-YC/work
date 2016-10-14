@@ -1,5 +1,6 @@
 # Built application files
 *.svn
+C11/
 ZHAIDLIB/
 AIDLClient/
 AIDLServer/

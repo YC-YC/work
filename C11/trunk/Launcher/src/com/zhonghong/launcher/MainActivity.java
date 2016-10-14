@@ -4,6 +4,7 @@ package com.zhonghong.launcher;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -102,7 +104,7 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 	private List<Fragment> mSubScreenFragments;
 	
 	/**时间widget*/
-	private TextView mTimeData, mTimeTime;
+	private TextView mTimeData, mTimeTime,mTimeAm;
 	
 	/**媒体信息widget*/
 	private PostFromMusic mPostFromMusic;
@@ -423,6 +425,8 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 		mTimeData.setTypeface(FontsUtils.getExpansivaTypeface(this));
 		mTimeTime = (TextView) findViewById(R.id.time_time);
 		mTimeTime.setTypeface(FontsUtils.getExpansivaTypeface(this));
+		mTimeAm= (TextView) findViewById(R.id.time_am);
+
 		refreshTimeView();
 		mHandler.postDelayed(new Runnable() {
 			@Override
@@ -577,7 +581,7 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 	/**
 	 * 刷新时间widget
 	 */
-	private void refreshTimeView(){
+/*	private void refreshTimeView(){
 		SimpleDateFormat formatter = new SimpleDateFormat ("yyyy.MM.dd-HH:mm");       
 		Date curDate = new Date(System.currentTimeMillis());//获取当前时间       
 		String str = formatter.format(curDate);
@@ -586,6 +590,41 @@ public class MainActivity extends UpdateUiBaseActivity implements OnClickListene
 			mTimeData.setText(strs[0]);
 		}
 		if (mTimeTime != null){
+			mTimeTime.setText(strs[1]);
+		}
+	}*/
+	
+	
+	/**
+	 * 刷新时间widget
+	 */
+	private void refreshTimeView() {
+
+		String hourFormat = Settings.System.getString(
+				getContentResolver(), Settings.System.TIME_12_24);
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd-HH:mm");
+		if (hourFormat != null && hourFormat.equals("12")) {
+			mTimeAm.setVisibility(View.VISIBLE);
+			formatter = new SimpleDateFormat("yyyy.MM.dd-hh:mm");
+			GregorianCalendar ca = new GregorianCalendar();
+			int am_pm = ca.get(GregorianCalendar.AM_PM);
+			if (am_pm == 1) {
+				mTimeAm.setText("下午");
+			} else {
+				mTimeAm.setText("上午");
+			}
+		}else{
+			mTimeAm.setVisibility(View.GONE);
+		}
+		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+		String str = formatter.format(curDate);
+
+		String[] strs = str.split("-");
+		if (mTimeData != null) {
+			mTimeData.setText(strs[0]);
+		}
+		if (mTimeTime != null) {
 			mTimeTime.setText(strs[1]);
 		}
 	}

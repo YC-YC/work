@@ -26,25 +26,24 @@ import android.graphics.RectF;
 public class BitmapUtils {
 	
 	/**
-	 * 获得圆角图片的方法
-	 * 
-	 * @param bitmap 原始图片
-	 * @return 处理后的圆角图片
+	 * 生成圆形图片
+	 * @param bitmap
+	 * @return
 	 */
 	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
 		int srcW = bitmap.getWidth();
 		int srcH = bitmap.getHeight();
 		if(srcW > srcH){
 			srcW = srcH;
-		}else {
+		}else{
 			srcH = srcW;
 		}
-
-		Bitmap output = Bitmap.createBitmap(srcW,srcH, Config.ARGB_8888);
+		Bitmap output = Bitmap.createBitmap(srcW, srcH/*bitmap.getWidth(), bitmap.getHeight()*/, Config.ARGB_8888);
 		Canvas canvas = new Canvas(output);
-		final int color = 0xff424242;
+
+		final int color = 0xff424242; //0xffffffff  0xff424242
 		final Paint paint = new Paint();
-		final Rect rect = new Rect(0, 0, srcW, srcH);
+		final Rect rect = new Rect(0, 0, srcW, srcH/*bitmap.getWidth(), bitmap.getHeight()*/);
 		final RectF rectF = new RectF(rect);
 		final float roundPx = bitmap.getWidth() / 2;
 
@@ -54,7 +53,8 @@ public class BitmapUtils {
 		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
 
 		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-		canvas.drawBitmap(bitmap, rect, rect, paint);
+		canvas.drawBitmap(bitmap, null, rect, paint);
+		//bitmap.recycle();
 		return output;
 	}
 }

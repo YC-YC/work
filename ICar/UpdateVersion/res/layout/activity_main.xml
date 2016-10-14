@@ -1,87 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="#000000"
-    >
-    
-    <TextView
-        android:id="@+id/text_imagef"
+    android:orientation="vertical" >
+ <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="20dip"
-         android:textColor="#FFFFFF"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="15dp"
-        android:text="@string/image_folder"
-        android:textSize="16sp" />
-    
-    <EditText
-        android:id="@+id/imagefolder"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_imagef"
-        android:editable="false"
-        android:padding="5dp"
-        android:textColor="#FFFFFF"
-        android:singleLine="true"
-        android:textSize="16sp" />
-          
-	<!-- android:entries="@+array/timeout_labels" -->
-     <LinearLayout android:orientation="horizontal" 
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content" 
-			android:id="@+id/id_button_start_exit"
-			android:layout_alignParentBottom="true">
-			<Button
-		    	android:id ="@+id/btn_start"
-		        android:layout_width ="wrap_content"
-		        android:layout_height ="wrap_content"
-		        android:textSize="14sp" 
-		        android:layout_weight="1"
-		        android:textColor="#FFFFFF"
-		        android:text="@string/start"
-		     />
-		     <Button
-		    	android:id = "@+id/btn_exit"
-		        android:layout_width ="wrap_content"
-		        android:layout_height ="wrap_content"
-		        android:textSize="14sp" 
-		        android:layout_weight="1"
-		        android:textColor="#FFFFFF"
-		        android:text="@string/exit"
-		     />
-      </LinearLayout>
+        android:orientation="vertical" >
 
-     <Button
-         android:id="@+id/btn_version"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignParentLeft="true"
-         android:layout_below="@+id/imagefolder"
-         android:layout_marginTop="10dp"
-         android:textColor="#FFFFFF"
-         android:text="@string/current_version" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="20dip"
+            android:text="当前状态："
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
 
-     <Button
-         android:id="@+id/btn_copy"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignLeft="@+id/text_imagef"
-         android:layout_below="@+id/btn_version"
-         android:layout_marginTop="90dp"
-         android:textColor="#FFFFFF"
-         android:text="@string/copyfile" />
+        <TextView
+            android:id="@+id/state"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+ </LinearLayout>
+    <!-- android:entries="@+array/timeout_labels" -->
 
-     <TextView
-         android:id="@+id/textcopy"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignLeft="@+id/btn_copy"
-         android:layout_below="@+id/btn_version"
-         android:layout_marginTop="48dp"
-         android:textSize="16sp"
-         android:textColor="#FFFFFF"
-         />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_version"
+            android:text="@string/current_version"
+            style="@style/BtnText"/>
+
+        <Button
+            android:id="@+id/btn_copy"
+            android:text="@string/copyfile"
+            style="@style/BtnText"/>
+
+        <Button
+            android:id="@+id/btn_start"
+            android:text="@string/start"
+            style="@style/BtnText"/>
+
+        <Button
+            android:id="@+id/btn_exit"
+            android:text="@string/exit"
+            style="@style/BtnText"/>
+    </LinearLayout>
+
 
 </RelativeLayout>

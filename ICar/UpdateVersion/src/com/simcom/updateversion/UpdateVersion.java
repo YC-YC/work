@@ -1,12 +1,17 @@
 package com.simcom.updateversion;
 
 import java.io.File;
+
+import com.simcom.updateversion.CommandExecution.CommandResult;
+
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Environment;
+import android.os.PowerManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,12 +24,18 @@ import android.os.Handler;
 
 public class UpdateVersion extends Activity {
 
+	private static final String UPDATE_FILE_NAME = "delta_1_2.delta";
+
+	private static final String TAG = "UpdateVersion";
+	
+	
 	private Button mBtnStart;
 	private Button mBtnExit;
 	private Button mBtnVersion;
 	private Button mBtnCopy;
-	private TextView mTextImage;
-	private TextView mTextCopy;
+	private TextView mState;
+//	private TextView mTextImage;
+//	private TextView mTextCopy;
 	static String sdcard_path;
 	Context mcontext;
 	ProgressDialog pd1;
@@ -39,14 +50,14 @@ public class UpdateVersion extends Activity {
 	static String Version;
 	int nReturn = 0;	
 	private final int DISMISS_PRO = 10;
-	//static String updateVersionFileFolder = "update_1111";
+	private final int REBOOT_SYSTEM = 11;
+	private String state;
 	int CopyfileFlag = 0;
 	static String updateVersionFileFolder = "sim6320_fota";
 	static String updateVersionFilePath = "/sim6320_fota";
 	static {
 		System.loadLibrary("updateversion");
 	}
-	//private final int DISMISS_PRO = 10;
 	public native int gProcessing();
 	public native int qset_Image_path(String Imagefilepath);
 	public native String qgetVersion();  
@@ -57,28 +68,43 @@ public class UpdateVersion extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mcontext = this;
-		mBtnStart = (Button) findViewById(R.id.btn_start);
-		mBtnStart.setOnClickListener(qdlButtonStart);
-
-		mBtnExit = (Button) findViewById(R.id.btn_exit);
-		mBtnExit.setOnClickListener(qdlButtonExit);
-        
-		mBtnExit = (Button) findViewById(R.id.btn_version);
-		mBtnExit.setOnClickListener(qdlButtonVersion);
+		initView();
 		
-		mBtnCopy = (Button) findViewById(R.id.btn_copy);
-		mBtnCopy.setOnClickListener(qdlButtonCopy);
+		/*String[] commands = new String[]{
+				"chmod 777 /dev/ttyUSB2",
+				"stop ril-daemon"
+		};*/
+//		CommandResult result = CommandExecution.execCommand("stop ril-daemon", false);
+//		Log.i(TAG, "exec result = " + result.);
 		
-		mTextImage = (TextView) findViewById(R.id.imagefolder);
-		mTextCopy = (TextView) findViewById(R.id.textcopy);
-		mTextCopy.setText("Before update version,file must be copyed to modem"+"\r\n"+
-						  "Please press copy button to copy file:");
-		pd1 = new ProgressDialog(mcontext);
-		
+//		String chmodArgs[] = {"chmod", "777" , "/dev/ttyUSB2"};
+//		String result = Utils.process(chmodArgs);
+//		Log.i(TAG, "chmodArgs rsult = " + result);
+		String stopRilArgs[] = {"stop", "ril-daemon"};
+		String result = Utils.process(stopRilArgs);
+		Log.i(TAG, "stopRilArgs rsult = " + result);
 		mHandlerMain = new MainHandler();
 		CopyfileFlag = 0;
 		nReturn =0;
-		String sDStateString = Environment.getExternalStorageState();
+		String updateFile = getUpdateFile();
+		if (!TextUtils.isEmpty(updateFile)){
+			state = "升级文件为：" + updateFile;
+			int indexOf = updateFile.lastIndexOf("/");
+			String folder = updateFile.substring(0, indexOf);
+			Log.i(TAG, "getFolder = " + folder);
+			if (qset_Image_path(folder) == 1){
+				state += "\r\n文件设置成功,请按Copy按键进行复制\r\n";
+			}
+			else{
+				state += "\r\n文件出错\r\n";
+			}
+		}
+		else{
+			state = "\r\n无升级文件\r\n";
+		}
+		
+		mState.setText(state);
+		/*String sDStateString = Environment.getExternalStorageState();
 		if (sDStateString.equals(Environment.MEDIA_MOUNTED)) {
 			try {
 				boolean fileExist = true;
@@ -120,7 +146,46 @@ public class UpdateVersion extends Activity {
 						Toast.LENGTH_LONG).show();
 
 			}
+		}*/
+	}
+	/**
+	 * 
+	 */
+	private void initView() {
+		mBtnStart = (Button) findViewById(R.id.btn_start);
+		mBtnStart.setOnClickListener(qdlButtonStart);
+
+		mBtnExit = (Button) findViewById(R.id.btn_exit);
+		mBtnExit.setOnClickListener(qdlButtonExit);
+        
+		mBtnVersion = (Button) findViewById(R.id.btn_version);
+		mBtnVersion.setOnClickListener(qdlButtonVersion);
+		
+		mBtnCopy = (Button) findViewById(R.id.btn_copy);
+		mBtnCopy.setOnClickListener(qdlButtonCopy);
+		
+		mState = (TextView) findViewById(R.id.state);
+//		mTextImage = (TextView) findViewById(R.id.imagefolder);
+//		mTextCopy = (TextView) findViewById(R.id.textcopy);
+//		mTextCopy.setText("Before update version,file must be copyed to modem"+"\r\n"+
+//						  "Please press copy button to copy file:");
+		pd1 = new ProgressDialog(mcontext);
+	}
+	
+	private String getUpdateFile(){
+		String path = "mnt/USB/" + UPDATE_FILE_NAME;
+		if (Utils.hasFileExits(path)){
+			return path;
 		}
+		path = "mnt/USB1/" + UPDATE_FILE_NAME;
+		if (Utils.hasFileExits(path)){
+			return path;
+		}
+		path = "mnt/USB2/" + UPDATE_FILE_NAME;
+		if (Utils.hasFileExits(path)){
+			return path;
+		}
+		return null;
 	}
 
 	protected void onStart() {
@@ -157,14 +222,19 @@ public class UpdateVersion extends Activity {
 
 			if (nReturn == 1) {
 				CopyfileFlag = 1;
-				Toast.makeText(mcontext, "Modem will be reset to update version!", Toast.LENGTH_LONG)
-				.show();
+				state += "\r\n机器将会重启进行升级...";
+				mState.setText(state);
+				 mHandlerMain.sendEmptyMessageDelayed(REBOOT_SYSTEM, 1*1000);
+//				Toast.makeText(mcontext, "Modem will be reset to update version!", Toast.LENGTH_LONG)
+//				.show();
 
 				// mHandlerMain.sendEmptyMessage(DISMISS_PRO);
 			} else {
 				CopyfileFlag = 0;
-				Toast.makeText(mcontext, "Update version falied!", Toast.LENGTH_LONG)
-				.show();
+				state += "\r\n更新失败！！！";
+				mState.setText(state);
+//				Toast.makeText(mcontext, "Update version falied!", Toast.LENGTH_LONG)
+//				.show();
 			}
 		}
 		// new DownloadThread().start();
@@ -176,20 +246,33 @@ public class UpdateVersion extends Activity {
 			case DISMISS_PRO: {
 				if (CopyfileFlag == 1) {
 					pd1.dismiss();
-					Toast.makeText(mcontext, "file copy sucess!!",
-							Toast.LENGTH_LONG).show();
+					state += "\r\n复制成功,请开始升级！";
+					mState.setText(state);
+//					Toast.makeText(mcontext, "file copy sucess!!",
+//							Toast.LENGTH_LONG).show();
 				} else {
-					Toast.makeText(mcontext, "file copy failed",
-							Toast.LENGTH_LONG).show();
+					state += "\r\n复制失败！！！";
+					mState.setText(state);
+//					Toast.makeText(mcontext, "file copy failed",
+//							Toast.LENGTH_LONG).show();
 					pd1.dismiss();
 				}
 				break;
 			}
+			case REBOOT_SYSTEM:
+				resetSystem();
+				break;
 			default:
 				break;
 			}
 		}
 	}
+	
+	private void resetSystem(){
+		PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		powerManager.reboot("upgrade reboot");
+	}
+	
 	
 	private Button.OnClickListener qdlButtonVersion = new Button.OnClickListener() {
 		public void onClick(View v) {

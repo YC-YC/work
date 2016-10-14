@@ -18,7 +18,7 @@
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 
 #define MAX_TRACE_LENGTH      (256)
-#define AUDIO_CMD_PORT "/dev/ttyUSB3"
+#define AUDIO_CMD_PORT "/dev/ttyUSB2"
 typedef unsigned int uint32;
 #define HANDLE        uint32
 #define TRUE          true
@@ -511,7 +511,7 @@ int setVersion() {
 		fseek(fp, result_temp * i, SEEK_SET);
 		//qdl_sleep(10);
 
-		result = fread(buffer, 1, result_temp, fp); // ·µ»ØÖµÊÇ¶ÁÈ¡µÄÄÚÈÝÊýÁ¿//maxx temp
+		result = fread(buffer, 1, result_temp, fp); // ï¿½ï¿½ï¿½ï¿½Öµï¿½Ç¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½//maxx temp
         LOGI("FILE fp=%d,errno=%d",fp,errno);
 		if (result != result_temp) {
 			LOGI("READ result_temp BTTE FAILED:%d,errno=%d",result,errno);
@@ -768,7 +768,8 @@ int qdlProcessing() {
 	return ret;
 }
 
-#ifndef JAVA_JNI
+//#ifndef JAVA_JNI
+#if 0
 int main(int argc, char *argv[]) {
 //maxx
 	//Processing(0);
