@@ -1,5 +1,4 @@
-package com.zhonghong.service
-
+package com.zhonghong.service;
 import com.zhonghong.service.IUpdateCallBack;
 
 interface IUpdate{
