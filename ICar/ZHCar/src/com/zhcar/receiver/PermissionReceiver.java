@@ -36,7 +36,7 @@ public class PermissionReceiver extends BroadcastReceiver {
 			String status = intent.getStringExtra("status");
 			if ("succeed".equals(status)){
 				Log.i(TAG, "Permission succeed");
-				Utils.ToastThread(Utils.getResourceString(R.string.permission_ok));
+//				Utils.ToastThread(Utils.getResourceString(R.string.permission_ok));
 				GlobalData.bPermissionStatus = true;
 //				setPermissionProvider(context, true);
 				checkCarFlow(context);

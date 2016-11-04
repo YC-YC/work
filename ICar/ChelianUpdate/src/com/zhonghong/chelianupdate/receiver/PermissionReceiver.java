@@ -95,7 +95,7 @@ public class PermissionReceiver extends BroadcastReceiver {
 					if(vo.getAppId().equals("can")&&!VersionUtils.isCANVersionValid(context, vo.getVersionCode())) {
 						continue;
 					}
-					if(vo.getAppId().equals("8836")&&!VersionUtils.is8836VersionValid(context, vo.getVersionCode())) {
+					if(vo.getAppId().equals(AppConst.APP_NAME_8836)&&!VersionUtils.is8836VersionValid(context, vo.getVersionCode())) {
 						continue;
 					}
 					if(vo.getAppId().equals("mcu")&&!VersionUtils.isMCUVersionValid(context, vo.getVersionCode())) {

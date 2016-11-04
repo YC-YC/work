@@ -88,6 +88,7 @@ public class DownloadDialog extends Dialog{
 	    	appNameTextViewList.get(i).setText(voList.get(i).getAppName());
 	    	appVersionTextViewList.get(i).setText(voList.get(i).getVersionCode());
 	    }
+	    sb.append(groupVersionVo.getDetail());
 	    txvUpdateInfo.setText(sb.toString());
 	    btnPositive.setOnClickListener(mPositiveButtonOnClickListener);
 	    btnNegative.setOnClickListener(mNegativeButtonOnClickListener);

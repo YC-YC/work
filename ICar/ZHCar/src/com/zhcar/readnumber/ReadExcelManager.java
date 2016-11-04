@@ -6,11 +6,16 @@ package com.zhcar.readnumber;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import jxl.Sheet;
 import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,6 +29,7 @@ import android.widget.Toast;
 
 import com.zhcar.R;
 import com.zhcar.base.BaseApplication;
+import com.zhcar.data.GlobalData;
 import com.zhcar.provider.CarProviderData;
 import com.zhcar.utils.Utils;
 
@@ -168,6 +174,10 @@ public class ReadExcelManager implements IUSBStateChange{
 								updateCarInfo(values);
 //								Log.i(TAG, "read ok, update");
 								Utils.ToastThread(Utils.getResourceString(R.string.read_OK));
+								Utils.sendBroadcast(BaseApplication.getInstanse(), GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_UPDATE_FIVE_NUMBER, "true");
+								File file = new File(path);
+								updateXls(file.getParent(), SN, MEID);
+								
 								break;
 							}
 						}
@@ -201,5 +211,79 @@ public class ReadExcelManager implements IUSBStateChange{
 			cursor.close();
 			cursor = null;
 		}
+	}
+	
+private boolean updateXls(String root, String sn, String meid){
+		
+		File file = new File(root, getCurDate()+".xls");
+		Workbook workbook = null;
+		WritableWorkbook book = null;
+		try {
+			if (!file.exists()){
+				book = Workbook.createWorkbook(file);
+			}
+			else{
+				workbook = Workbook.getWorkbook(file);
+				book = Workbook.createWorkbook(file, workbook);
+			}
+			WritableSheet sheet = null;
+			try {
+				sheet = book.getSheet(0);
+				Log.i(TAG, "getSheet");
+			} catch (IndexOutOfBoundsException e) {
+				Log.i(TAG, "createSheet");
+				sheet = book.createSheet("MEID-SN表", 0);
+			}
+			int Rows = sheet.getRows();
+			Log.i(TAG, "Sheet Row = " + Rows);
+			boolean bExist = false;
+			for (int i = 0; i < Rows; i++){
+				String MEID = sheet.getCell(0, i).getContents();
+				if (meid.equals(MEID)){
+					Log.i(TAG, "exit meid");
+					Utils.ToastThread("已经存在于Excle表");
+					bExist = true;
+				}
+			}
+			if (!bExist){
+				Log.i(TAG, "write sn = " + sn + ", meid = " + meid);
+				sheet.addCell(new Label(0, Rows, meid));
+				sheet.addCell(new Label(1, Rows, sn));
+				sheet.addCell(new Label(2, Rows, getCurTime()));
+				Log.i(TAG, "write ok");
+				Utils.ToastThread("更新到Excle表");
+			}
+			book.write();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally{
+			if (workbook != null){
+				workbook.close();
+			}
+			if (book != null){
+				try {
+					book.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+
+	private String getCurTime(){
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+		String str = formatter.format(curDate);
+		return str;
+	}
+
+	private String getCurDate(){
+		SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
+		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+		String str = formatter.format(curDate);
+		return str;
 	}
 }

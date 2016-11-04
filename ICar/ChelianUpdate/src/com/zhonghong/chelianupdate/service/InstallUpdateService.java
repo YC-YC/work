@@ -25,10 +25,10 @@ public class InstallUpdateService extends Service{
 	private final String TAG="Update";
 	
 	private List<UpdateVo> voList;
-	private final String APP_NAME_AIR="air";
-	private final String APP_NAME_CAN="can";
-	private final String APP_NAME_8836="8836";
-	private final String APP_NAME_MCU="mcu";
+//	private final String APP_NAME_AIR="air";
+//	private final String APP_NAME_CAN="can";
+//	private final String APP_NAME_8836="app8836";
+//	private final String APP_NAME_MCU="mcu";
 	
 	private final String SO_CANUPGRADE = "libCanUpgrade.so";
 	private final String DATA_CANUPGRADE = "ZH_PUBLIC_APPCANUPGRADE_10";
@@ -37,7 +37,7 @@ public class InstallUpdateService extends Service{
 	private final String DATA_AIRUPGRADE = "ZH_PUBLIC_APPAIRUPGRADE_10";
 	
 	private final String SO_8836UPGRADE = "libAppUpdate8836.so";
-	private final String DATA_8836UPGRADE = "ZH_PUBLIC_APPCANUPGRADE_10";
+	private final String DATA_8836UPGRADE = "ZH_PUBLIC_APPUPDATE8836_10";
 	
 	private final String SO_MCUUPGRADE = "libAppUpdateMcu.so";
 	private final String DATA_MCUUPGRADE = "ZH_PUBLIC_APPUPDATEMCU_10";
@@ -93,7 +93,7 @@ public class InstallUpdateService extends Service{
 		if(file.exists())
 		{
 			Log.i(TAG,"Updatebbbbbb"+"wwww"+appId);
-			if(appId.equals("air"))
+			if(appId.equals(AppConst.APP_NAME_AIR))
 			{
 				if(findNext(appId)!=-1)
 				{
@@ -105,7 +105,7 @@ public class InstallUpdateService extends Service{
 				}
 					
 			}
-			else if(appId.equals("can"))
+			else if(appId.equals(AppConst.APP_NAME_CAN))
 			{
 				if(findNext(appId)!=-1)
 				{
@@ -116,7 +116,7 @@ public class InstallUpdateService extends Service{
 					openZuiApp(this, SO_CANUPGRADE, DATA_CANUPGRADE, filePath);
 				}	
 			}
-			else if(appId.equals("8836"))
+			else if(appId.equals(AppConst.APP_NAME_8836))
 			{
 				if(findNext(appId)!=-1)
 				{
@@ -127,7 +127,7 @@ public class InstallUpdateService extends Service{
 					openZuiApp(this, SO_8836UPGRADE, DATA_8836UPGRADE, filePath);
 				}
 			}
-			else if(appId.equals("mcu"))
+			else if(appId.equals(AppConst.APP_NAME_MCU))
 			{
 				openZuiApp(this, SO_MCUUPGRADE, DATA_MCUUPGRADE,filePath);
 			}
@@ -162,13 +162,13 @@ public class InstallUpdateService extends Service{
 			{
 				if(updateAir.equals("failed"))
 				{
-					handleFail(APP_NAME_AIR);
+					handleFail(AppConst.APP_NAME_AIR);
 				}
 				else
 				{
-					int next=findNext(APP_NAME_AIR);
+					int next=findNext(AppConst.APP_NAME_AIR);
 					if(next==-1)
-						finishInstall(APP_NAME_AIR);
+						finishInstall(AppConst.APP_NAME_AIR);
 					else
 						update(voList.get(next).getAppId(),AppConst.DOWNLOAD_TARGET+voList.get(next).getFileName());
 					return;
@@ -179,13 +179,13 @@ public class InstallUpdateService extends Service{
 				Log.i(TAG,"can");
 				if(updateCan.equals("failed"))
 				{
-					handleFail(APP_NAME_CAN);
+					handleFail(AppConst.APP_NAME_CAN);
 				}
 				else
 				{
-					int next=findNext(APP_NAME_CAN);
+					int next=findNext(AppConst.APP_NAME_CAN);
 					if(next==-1)
-						finishInstall(APP_NAME_CAN);
+						finishInstall(AppConst.APP_NAME_CAN);
 					else
 					{
 						update(voList.get(next).getAppId(),AppConst.DOWNLOAD_TARGET+voList.get(next).getFileName());
@@ -198,13 +198,13 @@ public class InstallUpdateService extends Service{
 				Log.i(TAG,"8836");
 				if(update8836.equals("failed"))
 				{
-					handleFail(APP_NAME_8836);
+					handleFail(AppConst.APP_NAME_8836);
 				}
 				else
 				{
-					int next=findNext(APP_NAME_8836);
+					int next=findNext(AppConst.APP_NAME_8836);
 					if(next==-1)
-						finishInstall(APP_NAME_8836);
+						finishInstall(AppConst.APP_NAME_8836);
 					else
 						update(voList.get(next).getAppId(),AppConst.DOWNLOAD_TARGET+voList.get(next).getFileName());
 					return;
@@ -216,10 +216,10 @@ public class InstallUpdateService extends Service{
 				if(updateMcu.equals("failed"))
 				{
 					Log.i(TAG,"mcu fail");
-					handleFail(APP_NAME_MCU);
+					handleFail(AppConst.APP_NAME_MCU);
 				}
 			}
-			finishInstall(APP_NAME_MCU);
+			finishInstall(AppConst.APP_NAME_MCU);
 		}	
 	}
 
@@ -246,7 +246,7 @@ public class InstallUpdateService extends Service{
 	
 	private void finishInstall(String step)
 	{
-		if(step.equals(APP_NAME_AIR)||step.equals(APP_NAME_CAN))
+		if(step.equals(AppConst.APP_NAME_AIR)||step.equals(AppConst.APP_NAME_CAN))
 		{
 			//resetSystem();
 		}

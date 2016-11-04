@@ -32,12 +32,19 @@ public class GlobalData {
 	public static FlowInfoBean flowInfo = new FlowInfoBean();
 	
 	/**发送3G相关信息的ACTION*/
-	public static final String ACTION_3G = "com.zhcar.ACTION_CONTROL";
+	public static final String ACTION_ZHCAR_TO_ZUI = "com.zhcar.ACTION_CONTROL";
 	/**需不需要ARM拨号, on:ARM拨号, off:ARM不需要拨号*/
 	public static final String KEY_3G_CONTROL = "control";
 	/**3G拨号状态 on:已连接, off:断开*/
 	public static final String KEY_3G_STATE = "state";
 	/**ARM拨打紧急联系人状态 on:arm拨打, off:arm不拨打，can拨打*/
 	public static final String KEY_3G_ECALL = "ecall";
+	
+	/**更新VIN码*/
+	public static final String KEY_UPDATE_VIN = "update_vin";
+	/**更新五码*/
+	public static final String KEY_UPDATE_FIVE_NUMBER = "update_five_number";
+	
+	
 
 }

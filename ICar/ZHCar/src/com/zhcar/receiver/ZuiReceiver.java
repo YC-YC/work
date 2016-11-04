@@ -53,12 +53,12 @@ public class ZuiReceiver extends BroadcastReceiver {
 				if (!gprsManager.isEnable()){
 					gprsManager.turnOn();
 				}
-				Utils.sendBroadcast(context, GlobalData.ACTION_3G, GlobalData.KEY_3G_CONTROL , "on");
+				Utils.sendBroadcast(context, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_3G_CONTROL , "on");
 				if (gprsManager.isNetWorkValuable()){
-					Utils.sendBroadcast(context, GlobalData.ACTION_3G, GlobalData.KEY_3G_STATE, "on");
+					Utils.sendBroadcast(context, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_3G_STATE, "on");
 				}
 				else{
-					Utils.sendBroadcast(context, GlobalData.ACTION_3G, GlobalData.KEY_3G_STATE, "off");
+					Utils.sendBroadcast(context, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_3G_STATE, "off");
 				}
 			}
 		}

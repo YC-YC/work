@@ -88,7 +88,7 @@ public class BootReceiver extends BroadcastReceiver{
 			{
 				continue;
 			}
-			if(vo.getAppId().equals("8836")&&!VersionUtils.is8836VersionValid(context, vo.getVersionCode()))
+			if(vo.getAppId().equals(AppConst.APP_NAME_8836)&&!VersionUtils.is8836VersionValid(context, vo.getVersionCode()))
 			{
 				continue;
 			}

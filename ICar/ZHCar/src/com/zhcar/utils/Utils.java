@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 /**
@@ -78,6 +79,25 @@ public class Utils {
 	 */
 	public static boolean isEmpty(String string) {
 		return ((string == null) || (string.length() == 0));
+	}
+	
+	/**
+	 * 大写字母及数字
+	 * @param string
+	 * @return
+	 */
+	public static boolean isUperAndNumber(String string){
+		if (TextUtils.isEmpty(string)){
+			return false;
+		}
+		int stringLen = string.length();
+		for (int i = 0; i < stringLen; i++){
+			char charAt = string.charAt(i);
+			if (!((charAt >= '0' && charAt <= '9') || (charAt >= 'A' && charAt <= 'Z'))){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public static String getResourceString(int id){

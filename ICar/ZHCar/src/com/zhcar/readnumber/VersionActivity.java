@@ -200,7 +200,7 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 	}
 	
 	private String getInputText(int id){
-		return ((EditText) findViewById(id)).getText().toString();
+		return ((EditText) findViewById(id)).getText().toString().trim();
 	}
 	
 	public void doClick(View view){
@@ -221,31 +221,38 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 		case R.id.write_vin:
 			if (writeInfo(R.id.version_vin)){
 				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
+				Utils.sendBroadcast(this, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_UPDATE_VIN, "true");
 			}
 			break;
 		case R.id.write_esn:
 			if (writeInfo(R.id.version_esn)){
 				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
+				Utils.sendBroadcast(this, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_UPDATE_FIVE_NUMBER, "true");
 			}
 			break;
 		case R.id.write_iccid:
 			if (writeInfo(R.id.version_iccid)){
 				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
+				Utils.sendBroadcast(this, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_UPDATE_FIVE_NUMBER, "true");
 			}
 			break;
 		case R.id.write_imsi:
 			if (writeInfo(R.id.version_imsi)){
 				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
+				Utils.sendBroadcast(this, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_UPDATE_FIVE_NUMBER, "true");
+				
 			}
 			break;
 		case R.id.write_meid:
 			if (writeInfo(R.id.version_meid)){
 				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
+				Utils.sendBroadcast(this, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_UPDATE_FIVE_NUMBER, "true");
 			}
 			break;
 		case R.id.write_sn:
 			if (writeInfo(R.id.version_sn)){
 				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
+				Utils.sendBroadcast(this, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_UPDATE_FIVE_NUMBER, "true");
 			}
 			break;
 		default:
@@ -257,12 +264,24 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 		String inputText = getInputText(id);
 		if (!TextUtils.isEmpty(inputText) 
 				&& !inputText.equals(versions.get(id))){
+			if (id == R.id.version_vin){
+				if (!isVINLegal(inputText)){
+					return false;
+				}
+			}
 			versions.put(id, inputText);
 			updateCarInfo(carInfoMaps.get(id), inputText);
 			return true;
 		}
 		return false;
 	}
+	
+	private boolean isVINLegal(String vin){
+		return (vin.length() == 17 
+				&& vin.startsWith("LV")
+				&& Utils.isUperAndNumber(vin));
+	}
+	
 	private void updateCarInfo(String key, String value) {
 		ContentResolver resolver = getContentResolver();
 		ContentValues values = new ContentValues();

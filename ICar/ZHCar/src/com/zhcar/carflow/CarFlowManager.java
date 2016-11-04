@@ -183,7 +183,7 @@ public class CarFlowManager {
 					if (gprsManager.isEnable()){
 						gprsManager.turnOff();
 					}
-					Utils.sendBroadcast(mContext, GlobalData.ACTION_3G, GlobalData.KEY_3G_CONTROL, "off");
+					Utils.sendBroadcast(mContext, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_3G_CONTROL, "off");
 					DialogManager.getInstance().showNormalDialog(mContext, R.layout.dialog_noflow);
 				}
 				else{

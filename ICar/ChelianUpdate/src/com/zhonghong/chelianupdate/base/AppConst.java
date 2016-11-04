@@ -16,4 +16,13 @@ public class AppConst {
 	/**测试环境*/
 	public static final String URL_HOST_TEST = "http://cowinmguat.timasync.com/";
 	
+	
+	//private static final String APP_NAME_OS="os";
+	public static final String APP_NAME_AIR="air";
+	public static final String APP_NAME_ANDROID="android";
+		//private static final String APP_NAME_APP="app";
+	public static final String APP_NAME_MCU="mcu";
+	public static final String APP_NAME_8836="app8836";
+	public static final String APP_ID_8836="app8836";
+	public static final String APP_NAME_CAN="can";
 }

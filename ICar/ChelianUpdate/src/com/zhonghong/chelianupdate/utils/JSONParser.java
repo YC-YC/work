@@ -5,6 +5,7 @@ import android.content.Context;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.zhonghong.chelianupdate.base.AppConst;
 import com.zhonghong.chelianupdate.bean.GroupVersionVo;
 import com.zhonghong.chelianupdate.bean.UpdateStatusInfo;
 import com.zhonghong.chelianupdate.bean.UpdateVo;
@@ -12,13 +13,13 @@ import com.zhonghong.chelianupdate.bean.UpdateVo;
 
 public class JSONParser {
 	
-	//private static final String APP_NAME_OS="os";
-	private static final String APP_NAME_AIR="air";
-	private static final String APP_NAME_ANDROID="android";
-	//private static final String APP_NAME_APP="app";
-	private static final String APP_NAME_MCU="mcu";
-	private static final String APP_NAME_8836="8836";
-	private static final String APP_NAME_CAN="can";
+//	//private static final String APP_NAME_OS="os";
+//	private static final String APP_NAME_AIR="air";
+//	private static final String APP_NAME_ANDROID="android";
+//	//private static final String APP_NAME_APP="app";
+//	private static final String APP_NAME_MCU="mcu";
+//	private static final String APP_NAME_8836="app8386";
+//	private static final String APP_NAME_CAN="can";
 	
 	private String jsonString;	//JSON字符串
 	private UpdateStatusInfo statusInfo;		//JSON字符串是否有效
@@ -111,18 +112,18 @@ public class JSONParser {
 		
 		
 		//因为需求中不包含Android的升级，所以这里不把Android加入到groupVersionVo中
-		UpdateVo air=getUpdateVo(resultObject, APP_NAME_AIR);
-		UpdateVo can=getUpdateVo(resultObject,APP_NAME_CAN);
-		UpdateVo mo8836=getUpdateVo(resultObject,APP_NAME_8836);
-		UpdateVo mcu=getUpdateVo(resultObject, APP_NAME_MCU);
+		UpdateVo air=getUpdateVo(resultObject, AppConst.APP_NAME_AIR);
+		UpdateVo can=getUpdateVo(resultObject,AppConst.APP_NAME_CAN);
+		UpdateVo mo8836=getUpdateVo(resultObject,AppConst.APP_NAME_8836);
+		UpdateVo mcu=getUpdateVo(resultObject, AppConst.APP_NAME_MCU);
 			
-		if(groupVersionVo.containsUpdate(APP_NAME_AIR)&&air!=null)
+		if(groupVersionVo.containsUpdate(AppConst.APP_NAME_AIR)&&air!=null)
 			groupVersionVo.setAir(VersionUtils.isAIRVersionValid(context, air.getVersionCode())?air:null);
-		if(groupVersionVo.containsUpdate(APP_NAME_CAN)&&can!=null)
+		if(groupVersionVo.containsUpdate(AppConst.APP_NAME_CAN)&&can!=null)
 			groupVersionVo.setCan(VersionUtils.isCANVersionValid(context, can.getVersionCode())?can:null);
-		if(groupVersionVo.containsUpdate(APP_NAME_8836)&&mo8836!=null)
+		if(groupVersionVo.containsUpdate(AppConst.APP_NAME_8836)&&mo8836!=null)
 			groupVersionVo.setMo8836(VersionUtils.is8836VersionValid(context, mo8836.getVersionCode())?mo8836:null);
-		if(groupVersionVo.containsUpdate(APP_NAME_MCU)&&mcu!=null)
+		if(groupVersionVo.containsUpdate(AppConst.APP_NAME_MCU)&&mcu!=null)
 			groupVersionVo.setMcu(VersionUtils.isMCUVersionValid(context, mcu.getVersionCode())?mcu:null);
 
 		return groupVersionVo;
@@ -155,11 +156,11 @@ public class JSONParser {
 		groupVersionVo.setDetail(resultObject.getString("detail"));
 		groupVersionVo.setVersionCode(resultObject.getString("versionCode"));
 		groupVersionVo.setCreatedTime(resultObject.getString("createdTime"));
-		groupVersionVo.setAir(getUpdateVo(resultObject, APP_NAME_AIR));
-		groupVersionVo.setAndroid(getUpdateVo(resultObject, APP_NAME_ANDROID));
-		groupVersionVo.setMcu(getUpdateVo(resultObject, APP_NAME_MCU));
-		groupVersionVo.setCan(getUpdateVo(resultObject, APP_NAME_CAN));
-		groupVersionVo.setMo8836(getUpdateVo(resultObject, APP_NAME_8836));
+		groupVersionVo.setAir(getUpdateVo(resultObject, AppConst.APP_NAME_AIR));
+		groupVersionVo.setAndroid(getUpdateVo(resultObject, AppConst.APP_NAME_ANDROID));
+		groupVersionVo.setMcu(getUpdateVo(resultObject, AppConst.APP_NAME_MCU));
+		groupVersionVo.setCan(getUpdateVo(resultObject, AppConst.APP_NAME_CAN));
+		groupVersionVo.setMo8836(getUpdateVo(resultObject, AppConst.APP_NAME_8836));
 		
 		return groupVersionVo;
 	}

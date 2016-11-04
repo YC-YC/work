@@ -69,7 +69,7 @@ public class ECallManager {
 	 */
 	public void startECall(){
 		
-		Utils.sendBroadcast(BaseApplication.getInstanse(), GlobalData.ACTION_3G, GlobalData.KEY_3G_ECALL, "on");
+		Utils.sendBroadcast(BaseApplication.getInstanse(), GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_3G_ECALL, "on");
 		if (queryEmergencyNum()){
 			Log.i(TAG, "startECall");
 			registerPhoneStateReceiver();

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zhonghong.chelianupdate.base.AppConst;
+
 
 public class GroupVersionVo implements Serializable{
 
@@ -103,23 +105,23 @@ public class GroupVersionVo implements Serializable{
 	}
 	public boolean containsUpdate(String voType)
 	{
-		if(voType=="android"&&type.contains("1"))
+		if(voType==AppConst.APP_NAME_ANDROID &&type.contains("1"))
 		{
 			return true;
 		}
-		if(voType=="mcu"&&type.contains("2"))
+		if(voType==AppConst.APP_NAME_MCU&&type.contains("2"))
 		{
 			return true;
 		}
-		if(voType=="air"&&type.contains("3"))
+		if(voType==AppConst.APP_NAME_AIR&&type.contains("3"))
 		{
 			return true;
 		}
-		if(voType=="can"&&type.contains("4"))
+		if(voType==AppConst.APP_NAME_CAN&&type.contains("4"))
 		{
 			return true;
 		}
-		if(voType=="8836"&&type.contains("5"))
+		if(voType==AppConst.APP_NAME_8836&&type.contains("5"))
 		{
 			return true;
 		}

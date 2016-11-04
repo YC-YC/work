@@ -22,7 +22,7 @@
         android:layout_width="520dp"
         android:layout_height="wrap_content"
         android:textSize="26sp"
-        android:text="发布说明："
+        android:text="发布说明"
         android:layout_below="@+id/txv_title"
         android:layout_centerHorizontal="true"
 	    android:id="@+id/txv_update_info"
@@ -35,9 +35,9 @@
         android:layout_height="wrap_content"
         android:singleLine="false"
         android:textSize="26sp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:layout_alignLeft="@+id/txv_update_info"
-        android:layout_below="@+id/txv_title"/>
+        android:layout_below="@+id/txv_update_info"/>
 	<TextView
 	    android:id="@+id/txv_update_info_app_name02"
         android:layout_width="wrap_content"

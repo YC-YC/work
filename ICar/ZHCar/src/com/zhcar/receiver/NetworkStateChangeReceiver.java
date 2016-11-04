@@ -30,13 +30,13 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
 		if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)){
 			GPRSManager gprsManager = new GPRSManager(context);
 			if (gprsManager.isNetWorkValuable()){
-				Utils.sendBroadcast(context, GlobalData.ACTION_3G, GlobalData.KEY_3G_STATE, "on");
+				Utils.sendBroadcast(context, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_3G_STATE, "on");
 //				Utils.ToastThread("网络已连接");
 				Log.i(TAG, "网络已连");
 				RecordManager.getInstance().onNetworkStateChange(true);
 			}
 			else{
-				Utils.sendBroadcast(context, GlobalData.ACTION_3G, GlobalData.KEY_3G_STATE, "off");
+				Utils.sendBroadcast(context, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_3G_STATE, "off");
 //				Utils.ToastThread("网络已断开");
 				Log.i(TAG, "网络已断开");
 				RecordManager.getInstance().onNetworkStateChange(false);
