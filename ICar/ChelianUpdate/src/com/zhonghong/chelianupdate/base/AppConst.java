@@ -14,8 +14,8 @@ public class AppConst {
 	/**生产环境*/
 	public static final String URL_HOST_PRODUCT = "http://cowinmg.timasync.com/";
 	/**测试环境*/
-	public static final String URL_HOST_TEST = "http://cowinmguat.timasync.com/";
-	
+//	public static final String URL_HOST_TEST = "http://cowinmguat.timasync.com/";
+	public static final String URL_HOST_TEST = "http://cowinmguat.icartsp.com/";
 	
 	//private static final String APP_NAME_OS="os";
 	public static final String APP_NAME_AIR="air";

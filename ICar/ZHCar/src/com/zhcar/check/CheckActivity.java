@@ -91,7 +91,6 @@ public class CheckActivity extends UpdateUiBaseActivity {
 			mHealthProgressBar.setProgress(mScore);
 			refreshCheckedTips();
 		}
-		mHandler.postDelayed(mFinishRunnable, 15*1000);
 	}
 	
 	@Override
@@ -110,7 +109,7 @@ public class CheckActivity extends UpdateUiBaseActivity {
 		mLayoutChecking = (LinearLayout) findViewById(R.id.layout_checking);
 		mLayoutChecked = (LinearLayout) findViewById(R.id.layout_checked);
 		mLayoutWhole = (LinearLayout) findViewById(R.id.layout_whole);
-		mLayoutWhole.setOnTouchListener(mTouchListener);
+		mLayoutChecked.setOnTouchListener(mTouchListener);
 		mCarType = (ImageView) findViewById(R.id.cartype);
 		mHealthProgressBar = (HealthProgressBar) findViewById(R.id.healthprogressbar);
 		mCheckedTips = (TextView) findViewById(R.id.checked_tips);
@@ -148,6 +147,7 @@ public class CheckActivity extends UpdateUiBaseActivity {
 		else{
 			mLayoutChecking.setVisibility(View.GONE);
 			mLayoutChecked.setVisibility(View.VISIBLE);
+			mHandler.postDelayed(mFinishRunnable, 15*1000);
 		}
 	}
 	

@@ -24,7 +24,8 @@ public class GlobalData {
 	/**生产环境URL*/
 	public static final String URL_HOST_PROCDUCT = "http://cowinmg.timasync.com/";
 	/**测试环境URL*/
-	public static final String URL_HOST_TEST = "http://cowinmguat.timasync.com/";
+//	public static final String URL_HOST_TEST = "http://cowinmguat.timasync.com/";
+	public static final String URL_HOST_TEST = "http://cowinmguat.icartsp.com/";
 	/**是否是测试环境，测试环境与生产环境有区别是URL不一样*/
 	public static final boolean bIsEnvTest = true;
 	

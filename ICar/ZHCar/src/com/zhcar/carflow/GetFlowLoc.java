@@ -123,6 +123,7 @@ public class GetFlowLoc implements GetFlowAbs , HttpCallback{
 					}
 				} catch (Exception e) {
 				}
+				
 //				mFlowInfoBean.setUseFlow(map.get("useFlow"));
 //				mFlowInfoBean.setSurplusFlow(map.get("surplusFlow"));
 //				mFlowInfoBean.setCurrFlowTotal(map.get("currFlowTotal"));
