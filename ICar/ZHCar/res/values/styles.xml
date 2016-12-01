@@ -30,11 +30,11 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginTop">10dp</item>
     </style>
     
      <style name="FiveNumberTitle">
-        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_width">150dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">right</item>
         <item name="android:layout_marginLeft">100dp</item>
@@ -44,7 +44,7 @@
     
      <style name="FiveNumberContent">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">500dp</item>
+        <item name="android:layout_width">580dp</item>
         <item name="android:gravity">left</item>
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:textSize">30sp</item>

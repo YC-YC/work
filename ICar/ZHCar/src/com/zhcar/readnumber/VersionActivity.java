@@ -53,6 +53,7 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 				put(R.id.version_iccid, null);
 				put(R.id.version_sn, null);
 				put(R.id.version_vin, null);
+				put(R.id.version_skey, null);
 			}
 	};
 	
@@ -65,6 +66,7 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 			add(R.id.write_iccid);
 			add(R.id.write_sn);
 			add(R.id.write_vin);
+			add(R.id.write_skey);
 		}
 	};
 	
@@ -82,6 +84,7 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 			put(R.id.version_iccid, CarProviderData.KEY_CARINFO_ICCID);
 			put(R.id.version_sn, CarProviderData.KEY_CARINFO_SN);
 			put(R.id.version_vin, CarProviderData.KEY_CARINFO_VIN);
+			put(R.id.version_skey, CarProviderData.KEY_CARINFO_SKEY);
 		}
 	};
 	
@@ -178,12 +181,14 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 			String ICCID = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_CARINFO_ICCID));
 			String SN = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_CARINFO_SN));
 			String VIN = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_CARINFO_VIN));
+			String SKEY = cursor.getString(cursor.getColumnIndex(CarProviderData.KEY_CARINFO_SKEY));
 			versions.put(R.id.version_meid, MEID);
 			versions.put(R.id.version_imsi, IMSI);
 			versions.put(R.id.version_esn, ESN);
 			versions.put(R.id.version_iccid, ICCID);
 			versions.put(R.id.version_sn, SN);
 			versions.put(R.id.version_vin, VIN);
+			versions.put(R.id.version_skey, SKEY);
 		}
 
 		if (cursor != null){
@@ -253,6 +258,12 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 			if (writeInfo(R.id.version_sn)){
 				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
 				Utils.sendBroadcast(this, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_UPDATE_FIVE_NUMBER, "true");
+			}
+			break;
+		case R.id.write_skey:
+			if (writeInfo(R.id.version_skey)){
+				Toast.makeText(this, getResources().getString(R.string.write_ok), Toast.LENGTH_SHORT).show();
+				Utils.sendBroadcast(this, GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_UPDATE_SKEY, "true");
 			}
 			break;
 		default:

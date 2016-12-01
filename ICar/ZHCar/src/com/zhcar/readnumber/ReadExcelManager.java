@@ -175,6 +175,7 @@ public class ReadExcelManager implements IUSBStateChange{
 //								Log.i(TAG, "read ok, update");
 								Utils.ToastThread(Utils.getResourceString(R.string.read_OK));
 								Utils.sendBroadcast(BaseApplication.getInstanse(), GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_UPDATE_FIVE_NUMBER, "true");
+								Utils.sendBroadcast(BaseApplication.getInstanse(), GlobalData.ACTION_ZHCAR_TO_ZUI, GlobalData.KEY_UPDATE_SKEY, "true");
 								File file = new File(path);
 								updateXls(file.getParent(), SN, MEID);
 								
