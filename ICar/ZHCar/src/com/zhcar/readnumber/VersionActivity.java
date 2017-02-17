@@ -289,7 +289,7 @@ public class VersionActivity extends UpdateUiBaseActivity implements OnClickList
 	
 	private boolean isVINLegal(String vin){
 		return (vin.length() == 17 
-				&& vin.startsWith("LV")
+//				&& vin.startsWith("LV")
 				&& Utils.isUperAndNumber(vin));
 	}
 	

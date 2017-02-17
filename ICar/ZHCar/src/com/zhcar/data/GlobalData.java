@@ -22,7 +22,8 @@ public class GlobalData {
 	public static final String SecretKeyProduct = "cfcc221d052fb704a5e7c2f54af510c8";
 
 	/**生产环境URL*/
-	public static final String URL_HOST_PROCDUCT = "http://cowinmg.timasync.com/";
+//	public static final String URL_HOST_PROCDUCT = "http://cowinmg.timasync.com/";
+	public static final String URL_HOST_PROCDUCT = "http://cowinmg.icartsp.com/";
 	/**测试环境URL*/
 //	public static final String URL_HOST_TEST = "http://cowinmguat.timasync.com/";
 	public static final String URL_HOST_TEST = "http://cowinmguat.icartsp.com/";
@@ -43,6 +44,8 @@ public class GlobalData {
 	
 	/**更新VIN码*/
 	public static final String KEY_UPDATE_VIN = "update_vin";
+	/**更新SKEY码*/
+	public static final String KEY_UPDATE_SKEY = "update_skey";
 	/**更新五码*/
 	public static final String KEY_UPDATE_FIVE_NUMBER = "update_five_number";
 	
