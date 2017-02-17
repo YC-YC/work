@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout style="@style/FiveNumberItem" >
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="当前MEID:" />
+
+        <TextView
+            android:id="@+id/curmeid"
+            style="@style/FiveNumberContent"
+           android:textColor="@color/white"
+           android:clickable="true"
+           android:onClick="doClick"
+            />
+
+    </LinearLayout>
+    
+    <LinearLayout style="@style/FiveNumberItem" 
+        android:layout_marginTop="20dp">
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="MEID:" />
+
+        <EditText
+            android:id="@+id/version_meid"
+            style="@style/FiveNumberContent"
+            />
+        <Button
+			android:id="@+id/write_meid"
+			style="@style/FiveNumberWrite"
+			/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/FiveNumberItem">
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="IMSI:" />
+
+        <EditText
+            android:id="@+id/version_imsi"
+            style="@style/FiveNumberContent"
+            />
+        <Button
+			android:id="@+id/write_imsi"
+			style="@style/FiveNumberWrite"
+			/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/FiveNumberItem">
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="ESN:" />
+
+        <EditText
+            android:id="@+id/version_esn"
+            style="@style/FiveNumberContent"
+            />
+        <Button
+			android:id="@+id/write_esn"
+			style="@style/FiveNumberWrite"
+			/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/FiveNumberItem">
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="ICCID:" />
+
+        <EditText
+            android:id="@+id/version_iccid"
+            style="@style/FiveNumberContent"
+            />
+        <Button
+			android:id="@+id/write_iccid"
+			style="@style/FiveNumberWrite"
+			/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/FiveNumberItem">
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="SN:" />
+
+        <EditText
+            android:id="@+id/version_sn"
+            style="@style/FiveNumberContent"
+            />
+        <Button
+			android:id="@+id/write_sn"
+			style="@style/FiveNumberWrite"
+			/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/FiveNumberItem">
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="VIN:" />
+
+        <EditText
+            android:id="@+id/version_vin"
+            style="@style/FiveNumberContent"/>
+        <Button
+			android:id="@+id/write_vin"
+			style="@style/FiveNumberWrite"
+			/>
+    </LinearLayout>
+    <LinearLayout
+        style="@style/FiveNumberItem">
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="SKEY:" />
+
+        <EditText
+            android:id="@+id/version_skey"
+            style="@style/FiveNumberContent"/>
+        <Button
+			android:id="@+id/write_skey"
+			style="@style/FiveNumberWrite"
+			/>
+    </LinearLayout>
+<LinearLayout
+        style="@style/FiveNumberItem">
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:textColor="@color/red"
+            android:text="非测试人员不要随意修改，否则后果自负" />
+    </LinearLayout>
+</LinearLayout>

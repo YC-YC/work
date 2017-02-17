@@ -1,0 +1,190 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/query"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="查询" />
+        <Button
+            android:id="@+id/insert"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="插入" />
+        <Button
+            android:id="@+id/update"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="更新电话信息" />
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="删除" />
+        <Button
+            android:id="@+id/showdialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="显示对话框" />
+        <Button
+            android:id="@+id/shownoflowdialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="显示无流量对话框" />
+    </LinearLayout>
+
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/getflow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="获取流量" />
+        <Button
+            android:id="@+id/postrecord"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="上传使用情况" />
+        <Button
+            android:id="@+id/switch_gprs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="开关数据流量" />
+        <Button
+            android:id="@+id/getimei"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="获取IMEI" />
+        <Button
+            android:id="@+id/callemergency"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="拨打紧急联系人" />
+        <Button
+            android:id="@+id/openversion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="打开五码版本" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/getnetwork"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="网络状态" />
+        <Button
+            android:id="@+id/getnetworktype"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="网络类型" />
+        <Button
+            android:id="@+id/getpermission"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="鉴权结果" />
+    </LinearLayout>
+    
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+	
+         <EditText 
+             android:id="@+id/inputnum"
+              android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text=""/>
+        <Button
+            android:id="@+id/dial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="拨打" />
+        <Button
+            android:id="@+id/hangup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="挂断" />
+        <EditText 
+             android:id="@+id/inputdialdtmfnum"
+              android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text=""/>
+        <Button
+            android:id="@+id/dialdtmf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="转拨" />
+    </LinearLayout>
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+		<Button
+            android:id="@+id/sendpermissionbroadcast"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="鉴权广播" />
+        <Button
+            android:id="@+id/sendcarrunbroadcast"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="发送车速广播" />
+    </LinearLayout>
+</LinearLayout>

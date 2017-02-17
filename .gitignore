@@ -1,6 +1,9 @@
 # Built application files
 *.svn
-C11/
+C11/branches/liyao/MultiWindowLauncher
+C11/branches/liyao
+C11/branches/test
+C11/branches/usb
 ZHAIDLIB/
 AIDLClient/
 AIDLServer/
@@ -12,6 +15,9 @@ ZHExpandApps/
 ZHSettings/
 ZHAppSdkSample/
 ZHBluetoothPhone/
+C11/trunk
+C11/doc
+C11/tags
 
 # Built application files
 *.apk
@@ -97,3 +103,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+C11/trunk/ZHAppSdk/.classpath

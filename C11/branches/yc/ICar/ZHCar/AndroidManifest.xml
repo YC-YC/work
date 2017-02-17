@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zhcar"
+    android:versionCode="1"
+    android:versionName="1.0" 
+    android:sharedUserId="android.uid.system"
+    >
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- bugly权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name="com.zhcar.base.BaseApplication"
+        android:allowBackup="false"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Black.NoTitleBar" >
+
+        
+        <activity
+            android:name="com.zhcar.permission.MainActivity"
+            android:label="@string/app_name" 
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+               <!--  <category android:name="android.intent.category.LAUNCHER" /> -->
+            </intent-filter>
+        </activity>
+       
+        <activity
+            android:name="com.zhcar.icall.ICallActivity"
+            android:label="@string/call_service"
+            android:launchMode="singleInstance" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" >
+                </action>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.zhcar.check.CheckActivity"
+            android:label="@string/app_check"
+            android:launchMode="singleInstance" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" >
+                </action>
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.zhcar.readnumber.VersionActivity"
+            android:label="@string/app_version"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:launchMode="singleInstance" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" >
+                </action>
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            </intent-filter>
+        </activity>
+        <!-- 蓝牙状态广播 -->
+        <receiver android:name="com.zhcar.receiver.BtStateReceiver" >
+            <intent-filter>
+                <action android:name="com.zhonghong.bluetooth.BROADCAST_BT_DEVICE_STATE" >
+                </action>
+                <action android:name="com.zhonghong.bluetooth.BROADCAST_CALLSTATE" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <!-- 鉴权结果广播 -->
+        <receiver android:name="com.zhcar.receiver.PermissionReceiver" >
+            <intent-filter>
+                <action android:name="com.tima.Permission" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <!-- 原生3、4G通话状态广播 -->
+        <receiver android:name="com.zhcar.receiver.PhoneReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" >
+                </action>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <!-- 设备状态广播 -->
+        <receiver
+            android:name="com.zhcar.receiver.USBStateReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_MOUNTED" >
+                </action>
+                <action android:name="android.intent.action.MEDIA_EJECT" >
+                </action>
+                <data android:scheme="file" />
+            </intent-filter>
+        </receiver>
+        
+        <receiver android:name="com.zhcar.receiver.BootAndShutdownReceiver">
+            <intent-filter >
+                <action android:name="android.intent.action.BOOT_COMPLETED">
+                </action>
+                <action android:name="android.intent.action.ACTION_SHUTDOWN">
+                </action>
+            </intent-filter>
+        </receiver>
+        
+        <!-- ZUI广播 -->
+        <receiver android:name="com.zhcar.receiver.ZuiReceiver" >
+            <intent-filter>
+                <action android:name="com.zhonghong.zuiserver.BROADCAST" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <!-- 网络状态广播 -->
+        <receiver android:name="com.zhcar.receiver.NetworkStateChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" >
+                </action>
+            </intent-filter>
+        </receiver>
+        
+        <!-- 外部aidl service 不能修改任何关键字 -->
+        <service android:name="com.yc.external.AidlService" >
+            <intent-filter>
+                <action android:name="com.yc.external.AidlService" >
+                </action>
+            </intent-filter>
+        </service>
+
+        <!-- 自定义ContentProvider -->
+        <provider
+            android:name="com.zhcar.provider.CarProvider"
+            android:authorities="cn.com.semisky.carProvider"
+            android:exported="true" >
+        </provider>
+    </application>
+
+</manifest>

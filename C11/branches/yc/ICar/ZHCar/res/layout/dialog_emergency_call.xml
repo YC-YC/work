@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="560dp"
+    android:layout_height="264dp"
+    android:background="@drawable/carflow_bg"
+    android:fitsSystemWindows="false"
+    android:gravity="center_horizontal"
+    android:layout_gravity="center"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="@string/calling_emergency"
+        android:textColor="@color/white"
+        android:textSize="29sp" />
+    <TextView
+        android:id="@+id/emergency_call_tips"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="29sp" />
+	<View android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <Button
+        android:id="@+id/handup"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+         android:gravity="center"
+        android:text="挂断" />
+
+</LinearLayout>

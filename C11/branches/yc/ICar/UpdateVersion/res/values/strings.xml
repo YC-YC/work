@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="app_name">UpdateVersion</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="update_tool">Module Software Update tool</string>
+    <string name="image_folder">The file which update version required need to be in the following folder:</string>
+    <string name="browse">search download path</string>
+    <string name="progress">progress:</string>
+    <string name="ok">OK</string>
+    <string name="cancel">cancel</string>
+	<string name="start">download</string>
+	<string name="exit">exit</string>
+	<string name="judge">check download path</string>
+	<string name="current_version">current version</string>
+	<string name="copyfile">copy update file</string>
+</resources>

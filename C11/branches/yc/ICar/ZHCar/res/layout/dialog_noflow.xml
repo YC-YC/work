@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="560dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/noflow_bg"
+    android:fitsSystemWindows="false"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp" 
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/noflow_warning"
+            android:gravity="center_vertical"
+            android:text="@string/noflow_tip_title"
+            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            android:textSize="32sp" />
+        <View android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/normal_dialog_cancle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="right"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/noflow_cancle_selector"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="620dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="60dp"
+        android:layout_gravity="left"
+        android:textColor="@color/white"
+        android:textSize="32sp" 
+        android:text="@string/noflow_tip_content1"/>
+    
+    <TextView
+        android:layout_width="620dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="60dp"
+        android:layout_gravity="left"
+        android:textColor="@color/white"
+        android:textSize="32sp" 
+        android:text="@string/noflow_tip_content2"/>
+
+</LinearLayout>

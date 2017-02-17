@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout style="@style/FiveNumberItem" >
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="MEID:" />
+
+        <TextView
+            style="@style/FiveNumberContent"
+            android:text="1234567898" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/FiveNumberItem"
+        android:layout_marginTop="20dp" >
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="IMSI:" />
+
+        <TextView
+            style="@style/FiveNumberContent"
+            android:text="1234567898" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/FiveNumberItem"
+        android:layout_marginTop="20dp" >
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="ESN:" />
+
+        <TextView
+            style="@style/FiveNumberContent"
+            android:text="1234567898" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/FiveNumberItem"
+        android:layout_marginTop="20dp" >
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="MDN:" />
+
+        <TextView
+            style="@style/FiveNumberContent"
+            android:text="1234567898" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/FiveNumberItem"
+        android:layout_marginTop="20dp" >
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="ICCID:" />
+
+        <TextView
+            style="@style/FiveNumberContent"
+            android:text="1234567898" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/FiveNumberItem"
+        android:layout_marginTop="20dp" >
+
+        <TextView
+            style="@style/FiveNumberTitle"
+            android:text="SN:" />
+
+        <TextView
+            style="@style/FiveNumberContent"
+            android:text="1234567898" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res/com.zhcar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <com.zhcar.widget.HealthProgressBar
+        android:id="@+id/healthprogressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:max="100"
+        android:progress="0"
+        custom:content_margintitle="10dp"
+        custom:content_text_color="#FFFFFF"
+        custom:content_text_size="55sp"
+        custom:radiu="200dp"
+        custom:reach_bar_color1="#00FF00"
+        custom:reach_bar_color2="#FFFF00"
+        custom:reach_bar_color3="#FF0000"
+        custom:reach_bar_width="20dp"
+        custom:small_circle_color="#FFFFFF"
+        custom:small_circle_radius="180dp"
+        custom:small_circle_width="6dp"
+        custom:startangle="135"
+        custom:title="@string/healthy_title"
+        custom:title_margintop="150dp"
+        custom:title_text_color="#FFFFFF"
+        custom:title_text_size="40sp"
+        custom:totalangle="270"
+        custom:unit="@string/healthy_unit"
+        custom:unreach_bar_color="#FFFFFF"
+        custom:unreach_bar_width="10dp" />
+
+    <TextView 
+        android:id="@+id/checked_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/chech_tip_bg"
+        android:text="@string/checked_tips_warn"
+        android:textSize="40sp"/>
+</LinearLayout>

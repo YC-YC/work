@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 获得焦点时的颜色 -->
+    <item android:state_focused="true">
+        <color android:color="#0d898d"/>
+    </item>
+    <!-- 点击时的颜色 -->
+    <item android:state_pressed="true">
+        <color android:color="#0d898d"/>
+    </item>
+    <item android:state_enabled="false">
+        <color android:color="#aaaaaa"/>
+    </item>
+    <!-- 默认的颜色 -->
+    <item>
+        <color android:color="#ffffff"/>
+    </item>
+</selector>

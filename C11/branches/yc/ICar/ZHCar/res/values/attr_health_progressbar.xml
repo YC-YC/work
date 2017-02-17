@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="unreach_bar_color" format="color" />
+    <attr name="unreach_bar_width" format="dimension" />
+    <!-- 渐变值 -->
+    <attr name="reach_bar_color1" format="color" />
+    <attr name="reach_bar_color2" format="color" />
+    <attr name="reach_bar_color3" format="color" />
+    <attr name="reach_bar_width" format="dimension" />
+    <attr name="title_text_color" format="color" />
+    <attr name="title_text_size" format="dimension" />
+    <attr name="content_text_color" format="color" />
+    <attr name="content_text_size" format="dimension" />
+    <attr name="title_margintop" format="dimension" />
+    <attr name="content_margintitle" format="dimension" />
+    <attr name="title" format="string" />
+    <attr name="unit" format="string" />
+    <attr name="totalangle" format="integer" />
+    <attr name="startangle" format="integer" />
+    <attr name="radiu" format="dimension" />
+    <attr name="small_circle_radius" format="dimension" />
+    <attr name="small_circle_color" format="color" />
+	<attr name="small_circle_width" format="dimension" />
+    <declare-styleable name="HealthPorgressBar">
+        <attr name="unreach_bar_color" />
+        <attr name="unreach_bar_width" />
+        <attr name="reach_bar_color1" />
+        <attr name="reach_bar_color2" />
+        <attr name="reach_bar_color3" />
+        <attr name="reach_bar_width" />
+        <attr name="title_text_color" />
+        <attr name="title_text_size" />
+        <attr name="content_text_color" />
+        <attr name="content_text_size" />
+        <attr name="title_margintop" />
+        <attr name="content_margintitle"/>
+        <attr name="title" />
+        <attr name="unit" />
+        <attr name="radiu" />
+        <attr name="totalangle" />
+        <attr name="startangle" />
+        <attr name="small_circle_radius" />
+        <attr name="small_circle_color" />
+        <attr name="small_circle_width"/>
+    </declare-styleable>
+
+</resources>

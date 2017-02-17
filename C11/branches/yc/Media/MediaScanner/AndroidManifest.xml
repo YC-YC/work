@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zhonghong.mediascanner"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="19" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    
+
+    <application
+        android:name="com.zhonghong.mediascanner.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:persistent="true"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <receiver
+            android:name="com.zhonghong.mediascanner.receiver.ScannerReceiver"
+            android:exported="false" >
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.MEDIA_MOUNTED" >
+                </action>
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" >
+                </action>
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED">
+                </action>
+            </intent-filter>
+        </receiver>
+        
+        <service android:name="com.zhonghong.mediascanner.service.ScannerService" >
+            <intent-filter>
+                <action android:name="com.zhonghong.mediascanner.service.ScannerService.ACTION" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

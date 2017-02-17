@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/start_at_service"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="doClick"
+        android:text="启动自动化测试服务" />
+
+    <Button
+        android:id="@+id/start_at"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="doClick"
+        android:text="发送开始测试广播" />
+
+    <Button
+        android:id="@+id/end_at"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="doClick"
+        android:text="发送结束测试广播" />
+
+</LinearLayout>

@@ -1,0 +1,190 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/queryflowinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="查询流量" />
+        <Button
+            android:id="@+id/updateflowinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="更新流量" />
+        <Button
+            android:id="@+id/queryphoneinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="查询号码信息" />
+        <Button
+            android:id="@+id/updatephoneinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="更新号码信息" />
+        <Button
+            android:id="@+id/querycarinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="查询车辆信息" />
+        <Button
+            android:id="@+id/updatecarinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="更新车辆信息" />
+        <Button
+            android:id="@+id/postappinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="上传信息" />
+        <Button
+            android:id="@+id/postappinfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="上传信息" />
+    </LinearLayout>
+
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/opencheck"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="打开检测界面" />
+        <Button
+            android:id="@+id/dial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="拨打" />
+        <Button
+            android:id="@+id/hangup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="挂断" />
+    </LinearLayout>
+    
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.example.tt.MarQueeTextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+             android:focusable="true"
+             android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:text="adbdfasidjfoisajfodsaijfoiajfkl13546545" />
+    </LinearLayout>
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.example.tt.MarQueeTextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+             android:focusable="true"
+             android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:text="adbdfasidjfoisajfodsaijfoiajfkl13546545" />
+    </LinearLayout>
+    
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/upgrade_can"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="测试升级Can" />
+        <Button
+            android:id="@+id/upgrade_iar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="测试升级Air" />
+        <Button
+            android:id="@+id/upgrade_8836"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="测试升级8836" />
+        <Button
+            android:id="@+id/upgrade_mcu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="测试升级mcu" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/test_regex"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="正则表达式测试" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/sendpermissionbroadcast"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="鉴权广播" />
+         <Button
+            android:id="@+id/sendcarrunbroadcast"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="doClick"
+            android:text="车速广播" />
+    </LinearLayout>
+</LinearLayout>
